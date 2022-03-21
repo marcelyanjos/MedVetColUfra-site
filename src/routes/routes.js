@@ -9,8 +9,8 @@ import Home from '../pages/home';
 
 const Router = (
   <Routes>
-    <Route index element={<Home />}/>
-    <Route path="adocao" element={<Adocao/>}/>
+    <Route path="home" element={<Home />}/>
+    <Route path="adocao" element={<Adocao />}/>
   </Routes>
 
 )

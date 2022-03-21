@@ -66,26 +66,37 @@ const AppBar = styled(MuiAppBar, {
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 3),marginBottom:30,
+  padding: theme.spacing(0, 3),marginBottom:25,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
 
+const routes = [{
+name:"Home",
+// path:"/main",
+element:<Home/>,
+},
+{name:"Adoção",
+path:"/adocao",
+element:<Adocao/>,
+}
+
+]
 const switchRoutes = (
   <Routes>
     {/* {routes.map((route) => {
-      return ( */}
-        {/* <Route
-          index={route.component([0])}
+      return (
+        <Route
+          index={route[0]}
           path={route.path}
-          element={<route.component/>}
+          element={<route.element />}
           key={route.name}
         />
       );
     })} */}
-    <Route index element={<Home />}/>
-    <Route path="/" element={<Adocao />} />
+    <Route element={<Home />} />
+    <Route index element={<Adocao />} />
   </Routes>
 );
 
@@ -146,9 +157,7 @@ export default function Header() {
         </DrawerHeader>
         <Divider />
         <List>
-          <Link to='/main'>Home</Link>
-          <Link to='/adocao'>Pedidos de Adoção</Link>
-
+          <Link to={'/adocao'} >Adocao</Link>
         </List>
         <Divider />
         {/* <List>
@@ -169,7 +178,7 @@ export default function Header() {
         <DrawerHeader />
         {switchRoutes}
         {/* <h1 style={{paddingTop:30}}>Header</h1> */}
-        </Main>
+         </Main>
     </Box>
   );
 }

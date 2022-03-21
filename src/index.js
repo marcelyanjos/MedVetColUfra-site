@@ -4,6 +4,7 @@ import './index.css';
 import Routes from './routes/index'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './assets/fonts/static/Fredoka/Fredoka-Regular.ttf';
 
 ReactDOM.render(
     <Routes />,
