@@ -4,9 +4,8 @@ import { Box, Grid, Container, Typography } from '@mui/material';
 import Page from '../components/Page';
 import {
   AppTasks,
-  AppNewUsers,
+  AppCaes,
   AppBugReports,
-  AppItemOrders,
   AppNewsUpdate,
   AppWeeklySales,
   AppOrderTimeline,
@@ -15,7 +14,9 @@ import {
   AppTrafficBySite,
   AppCurrentSubject,
   AppConversionRates,
-  AppDonations
+  AppDonations,
+  AppLineBar,
+  AppGatos
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -28,23 +29,23 @@ export default function DashboardApp() {
           <Typography variant="h4">Olá, "nome"</Typography>
         </Box>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
+          {/* <Grid item xs={12} sm={6} md={4}>
             <AppWeeklySales />
+          </Grid> */}
+          <Grid item xs={12} sm={6} md={4}>
+            <AppGatos />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <AppItemOrders />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppBugReports />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <AppNewUsers />
+            <AppCaes />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <AppDonations />
           </Grid>
+          {/* <Grid item xs={12} sm={6} md={4}>
+            <AppBugReports />
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={12}>
             <AppWebsiteVisits />
           </Grid>
 
@@ -53,6 +54,10 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
+            <AppLineBar />
+          </Grid>
+
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates />
           </Grid>
 
@@ -74,7 +79,7 @@ export default function DashboardApp() {
 
           <Grid item xs={12} md={6} lg={8}>
             <AppTasks />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

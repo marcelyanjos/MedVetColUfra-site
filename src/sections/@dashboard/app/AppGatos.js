@@ -12,8 +12,8 @@ const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(5, 0),
-  color: theme.palette.chart.violet[0],
-  backgroundColor: theme.palette.chart.blue[2]
+  color: theme.palette.chart.blue[3],
+  backgroundColor: theme.palette.chart.blue[0]
 }));
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -25,23 +25,22 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   height: theme.spacing(8),
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
-  color: theme.palette.error.dark,
-  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.error.dark, 0)} 0%, ${alpha(
-    theme.palette.error.dark,
+  color: theme.palette.warning.dark,
+  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.warning.dark, 0)} 0%, ${alpha(
+    theme.palette.warning.dark,
     0.24
   )} 100%)`
 }));
 
 // ----------------------------------------------------------------------
 
-const totalMedicamentosEstoque = 237;
-const totalDoacoes = 45;
-
-export default function AppDonations() {
+const totalGatospAdocao = 86;
+const totalGatosAdotados = 45;
+export default function AppGatos() {
   return (
     <RootStyle>
       {/* <IconWrapperStyle>
-        <Iconify icon="ant-design:bug-filled" width={24} height={24} />
+        <Iconify icon="ant-design:windows-filled" width={24} height={24} />
       </IconWrapperStyle> */}
       <Typography
         sx={{
@@ -54,9 +53,9 @@ export default function AppDonations() {
         }}
       >
         <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-          Medicamentos em estoque
+          Gatos Adotados
         </Typography>
-        <Typography variant="h3">{fShortenNumber(totalMedicamentosEstoque)}</Typography>
+        <Typography variant="h3">{fShortenNumber(totalGatosAdotados)}</Typography>
       </Typography>
       <Typography
         sx={{
@@ -69,9 +68,9 @@ export default function AppDonations() {
         }}
       >
         <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-          Doações
+          Gatos para Adoção
         </Typography>
-        <Typography variant="h3">{fShortenNumber(totalDoacoes)}</Typography>
+        <Typography variant="h3">{fShortenNumber(totalGatospAdocao)}</Typography>
       </Typography>
     </RootStyle>
   );

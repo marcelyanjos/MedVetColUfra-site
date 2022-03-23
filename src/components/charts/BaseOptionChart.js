@@ -61,6 +61,7 @@ export function BaseOptionChartStyle() {
   );
 }
 
+// barChart
 export default function BaseOptionChart() {
   const theme = useTheme();
 
@@ -80,11 +81,12 @@ export default function BaseOptionChart() {
   return {
     // Colors
     colors: [
-      theme.palette.primary.main,
-      theme.palette.chart.yellow[0],
+      // theme.palette.primary.main,
+      // theme.palette.chart.yellow[0],
+      theme.palette.chart.blue[2],
       theme.palette.chart.blue[0],
       theme.palette.chart.violet[0],
-      theme.palette.chart.green[0],
+      // theme.palette.chart.green[0],
       theme.palette.chart.red[0]
     ],
 

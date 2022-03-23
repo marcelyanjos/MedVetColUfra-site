@@ -8,28 +8,28 @@ import { BaseOptionChart } from '../../../components/charts';
 // ----------------------------------------------------------------------
 
 const CHART_DATA = [
+  //   {
+  //     name: 'Team A',
+  //     type: 'column',
+  //     data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+  //   },
   {
-    name: 'Cães Adotados',
-    type: 'column',
-    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
-  },
-  {
-    name: 'Gatos Adotados',
-    type: 'column',
+    name: 'Team B',
+    type: 'area',
     data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
   },
   {
-    name: 'Medicamentos doados',
-    type: 'column',
+    name: 'Team C',
+    type: 'line',
     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
   }
 ];
 
 export default function AppWebsiteVisits() {
   const chartOptions = merge(BaseOptionChart(), {
-    stroke: { width: [0, 0, 0] },
-    plotOptions: { bar: { columnWidth: '25%', borderRadius: 4 } },
-    fill: { type: ['solid', 'solid', 'solid'] },
+    stroke: { width: [2, 2] },
+    plotOptions: { bar: { columnWidth: '11%', borderRadius: 4 } },
+    fill: { type: ['solid', 'solid'] },
     labels: [
       '01/01/2003',
       '02/01/2003',
@@ -50,7 +50,7 @@ export default function AppWebsiteVisits() {
       y: {
         formatter: (y) => {
           if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)}`;
+            return `${y.toFixed(0)} visits`;
           }
           return y;
         }
@@ -60,10 +60,7 @@ export default function AppWebsiteVisits() {
 
   return (
     <Card>
-      <CardHeader
-        title="Demanda Anual"
-        // subheader="(+43%) than last year"
-      />
+      <CardHeader title="Cadastros" subheader="Cadastros nas plataformas" />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
       </Box>

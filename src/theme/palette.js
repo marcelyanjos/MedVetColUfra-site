@@ -86,9 +86,9 @@ const GRADIENTS = {
 };
 
 const CHART_COLORS = {
-  violet: ['#826AF9', '#9E86FF', '#D0AEFF', '#F7D2FF'],
-  blue: ['#2D99FF', '#83CFFF', '#A5F3FF', '#CCFAFF'],
-  green: ['#2CD9C5', '#60F1C8', '#A4F7CC', '#C0F2DC'],
+  violet: ['#65789B', '#1D65E0', '#649DFF', '#C0CBE9'],
+  blue: ['#5B8FF9', '#125FFA', '#B3CAFF', '#EBEDFB'],
+  green: ['#61DDAA', '#2CFAA4', '#B3FFDA', '#E7FAEE'],
   yellow: ['#FFE700', '#FFEF5A', '#FFF7AE', '#FFF3D6'],
   red: ['#FF6C40', '#FF8F6D', '#FFBD98', '#FFF2D4']
 };
