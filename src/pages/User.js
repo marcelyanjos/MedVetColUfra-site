@@ -132,13 +132,15 @@ export default function User() {
 
   return (
     <Page title="User | Minimal-UI">
-      <Container>
+      <Container maxWidth="x1">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Animais do Canil/Gatil
           </Typography>
           <Button
-            variant="contained"
+            sx={{ color: '#62B6E4' }}
+            variant="outlined"
+            color="secondary"
             component={RouterLink}
             to="#"
             startIcon={<Iconify icon="eva:plus-fill" />}
@@ -184,6 +186,7 @@ export default function User() {
                         >
                           <TableCell padding="checkbox">
                             <Checkbox
+                              color="secondary"
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, name)}
                             />

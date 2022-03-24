@@ -5,18 +5,16 @@ import Page from '../components/Page';
 import {
   AppTasks,
   AppCaes,
-  AppBugReports,
   AppNewsUpdate,
-  AppWeeklySales,
   AppOrderTimeline,
-  AppCurrentVisits,
   AppWebsiteVisits,
   AppTrafficBySite,
   AppCurrentSubject,
   AppConversionRates,
   AppDonations,
   AppLineBar,
-  AppGatos
+  AppGatos,
+  AppPie
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -29,9 +27,6 @@ export default function DashboardApp() {
           <Typography variant="h4">Olá, "nome"</Typography>
         </Box>
         <Grid container spacing={3}>
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <AppWeeklySales />
-          </Grid> */}
           <Grid item xs={12} sm={6} md={4}>
             <AppGatos />
           </Grid>
@@ -41,16 +36,13 @@ export default function DashboardApp() {
           <Grid item xs={12} sm={6} md={4}>
             <AppDonations />
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <AppBugReports />
-          </Grid> */}
 
           <Grid item xs={12} md={6} lg={12}>
             <AppWebsiteVisits />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits />
+            <AppPie />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

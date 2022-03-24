@@ -48,7 +48,7 @@ export default function EcommerceShop() {
 
   return (
     <Page title="Dashboard: Products | Minimal-UI">
-      <Container>
+      <Container maxWidth="x1">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Products
         </Typography>
