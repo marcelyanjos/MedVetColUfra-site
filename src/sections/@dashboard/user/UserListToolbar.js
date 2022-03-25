@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@mui/material/styles';
@@ -11,7 +12,6 @@ import {
 } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -22,7 +22,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
+  width: 300,
+  height: 35,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter
@@ -48,39 +49,39 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
       sx={{
         ...(numSelected > 0 && {
           color: '#637381',
-          bgcolor: 'secondary.lighter'
+          bgcolor: '#97d5f7'
         })
       }}
     >
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
         </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="bx:filter-alt" />
-          </IconButton>
-        </Tooltip>
-      )}
-      {numSelected > 0 ? (
+      ) : ( */}
+      <Tooltip title="Filter list">
+        <IconButton>
+          <Iconify icon="bx:filter-alt" />
+        </IconButton>
+      </Tooltip>
+      {/* )} */}
+      {/* {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
         </Typography>
-      ) : (
-        <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search user..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
-            </InputAdornment>
-          }
-        />
-      )}
+      ) : ( */}
+      <SearchStyle
+        value={filterName}
+        onChange={onFilterName}
+        placeholder="Search user..."
+        startAdornment={
+          <InputAdornment position="start">
+            <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled' }} />
+          </InputAdornment>
+        }
+      />
+      {/* )} */}
     </RootStyle>
   );
 }

@@ -20,7 +20,7 @@ export default function UserListHead({
   orderBy,
   rowCount,
   headLabel,
-  numSelected,
+  // numSelected,
   onRequestSort,
   onSelectAllClick
 }) {
@@ -32,12 +32,12 @@ export default function UserListHead({
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             color="secondary"
-          />
+          /> */}
         </TableCell>
         {headLabel.map((headCell) => (
           <TableCell

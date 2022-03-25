@@ -22,9 +22,9 @@ import {
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import ModalUser from '../sections/@dashboard/user/ModalUser';
 //
 import USERLIST from '../_mocks_/user';
 
@@ -137,8 +137,8 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Animais do Canil/Gatil
           </Typography>
-          <Button
-            sx={{ color: '#62B6E4' }}
+          {/* <Button
+            sx={{ color: '#62B6E4', border: '1.5px solid' }}
             variant="outlined"
             color="secondary"
             component={RouterLink}
@@ -146,7 +146,8 @@ export default function User() {
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New User
-          </Button>
+          </Button> */}
+          <ModalUser />
         </Stack>
 
         <Card>
@@ -156,7 +157,7 @@ export default function User() {
             onFilterName={handleFilterByName}
           />
 
-          <Scrollbar>
+          <Scrollbar sx={{ marginTop: -3 }}>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
@@ -185,11 +186,11 @@ export default function User() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell padding="checkbox">
-                            <Checkbox
+                            {/* <Checkbox
                               color="secondary"
                               checked={isItemSelected}
                               onChange={(event) => handleClick(event, name)}
-                            />
+                            /> */}
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
