@@ -11,7 +11,7 @@ UserPostsSort.propTypes = {
 
 export default function UserPostsSort({ options, onSort, value }) {
   return (
-    <TextField sx={{ width: '95%' }} select size="small" value={value} onChange={onSort}>
+    <TextField sx={{ width: '100%' }} select size="small" value={value} onChange={onSort}>
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>
           {option.label}
