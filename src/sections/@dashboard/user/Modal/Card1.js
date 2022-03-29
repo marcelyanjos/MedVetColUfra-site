@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField } from '@mui/material';
+import { TextField, Grid } from '@mui/material';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,12 +11,12 @@ import Checkbox from '@mui/material/Checkbox';
 import UserPostsSort from '../UserPostsSort';
 
 const card1 = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
+  // display: 'flex',
+  // flexDirection: 'column',
+  // justifyContent: 'space-between',
   //   position: 'absolute',
   //   alignItems: 'center',
-  width: '49.5%',
+  // width: '49.5%',
   height: '100%',
   border: '1px solid #CFD0D7',
   borderRadius: '4px',
@@ -57,17 +57,20 @@ export default function Card1() {
     setChecked(newChecked);
   };
   return (
-    <Box sx={card1}>
-      <Box>
+    // <Box sx={card1}>
+    <Grid xs={42} sm={5.95} ls={12} sx={card1} container>
+      <Grid item xs={12} sm={6} lg={12}>
+        {/* <Box> */}
         <Typography>Nome</Typography>
         <TextField fullWidth size="small" autoComplete="username" type="text" />
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ width: '49%' }}>
+        {/* </Box> */}
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography>Especie</Typography>
           <UserPostsSort options={SPECIE_OPTIONS} />
-        </Box>
-        <Box sx={{ width: '49%' }}>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography>Idade</Typography>
           <TextField
             sx={{
@@ -77,32 +80,27 @@ export default function Card1() {
             autoComplete="username"
             type="text"
           />
-        </Box>
-      </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ width: '49%' }}>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography>Sexo</Typography>
           <UserPostsSort options={SEXO_OPTIONS} />
-        </Box>
-        <Box sx={{ width: '49%' }}>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
           <Typography>Especial</Typography>
           <UserPostsSort options={ESPECIAL_OPTIONS} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
       <Box>
-        <Typography>Especial</Typography>
-        <List
-          sx={{
-            width: '60%',
-            display: 'flex',
-            bgcolor: 'background.paper'
-          }}
-        >
+        <Typography>Caracteristicas</Typography>
+        <Grid container spacing={1}>
           {data.map((data) => {
             const labelId = data.label;
 
             return (
-              <ListItem key={data} disablePadding>
+              // <ListItem key={data} disablePadding>
+              <Grid key={data} item xs={6} sm={6} md={2.4}>
                 <ListItemButton role={undefined} onClick={handleToggle(data.value)} dense>
                   <ListItemIcon>
                     <Checkbox
@@ -115,15 +113,22 @@ export default function Card1() {
                   </ListItemIcon>
                   <ListItemText id={data.value} primary={data.label} />
                 </ListItemButton>
-              </ListItem>
+              </Grid>
+              // </ListItem>
             );
           })}
-        </List>
+        </Grid>
       </Box>
-      <Box>
+      <Grid container spacing={1}>
         <Typography>Descrição</Typography>
-        <TextField fullWidth id="outlined-multiline-static" multiline rows={13} />
-      </Box>
-    </Box>
+        <TextField
+          fullWidth
+          id="outlined-multiline-flexible"
+          multiline
+          rows={13}
+          sx={{ marginBottom: 2 }}
+        />
+      </Grid>
+    </Grid>
   );
 }

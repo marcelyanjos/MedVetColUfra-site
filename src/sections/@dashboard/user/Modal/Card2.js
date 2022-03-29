@@ -1,19 +1,12 @@
 // colocar if e else para adicionar mais imagens, caso imagem adicionada >0 e <5
 // colocar if e else text caso quantidades de imagens >5
 // colocar wrap
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Iconify from '../../../../components/Iconify';
 
 const card2 = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignContent: 'center',
-  //   position: 'absolute',
-  alignItems: 'center',
-  width: '49.5%',
   height: '100%',
   border: '1px solid #CFD0D7',
   borderRadius: '4px',
@@ -129,29 +122,55 @@ function DropzoneComponent(props) {
         justifyContent: 'center'
       }}
     >
-      <div
-        key={file.name}
-        style={{
-          display: 'flex',
-          width: '100%',
-          alignContent: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: '#E3ECFF',
-          borderRadius: 5
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', margin: 8 }}>
-          <Iconify icon="codicon:symbol-file" sx={{ fontSize: 42 }} />
-          <p>{file.name}</p>
-        </div>
-        <IconButton
-          onClick={() => {
-            remove(file.name);
+      {files.length < 2 ? (
+        <div
+          key={file.name}
+          style={{
+            display: 'flex',
+            width: '100%',
+            alignContent: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#E3ECFF',
+            borderRadius: 5
           }}
         >
-          <Iconify icon="ei:trash" sx={{ fontSize: 30, color: '#EB5757' }} />
-        </IconButton>
-      </div>
+          <div style={{ display: 'flex', alignItems: 'center', margin: 8 }}>
+            <Iconify icon="codicon:symbol-file" sx={{ fontSize: 42 }} />
+            <p>{file.name}</p>
+          </div>
+          <IconButton
+            onClick={() => {
+              remove(file.name);
+            }}
+          >
+            <Iconify icon="ei:trash" sx={{ fontSize: 30, color: '#EB5757' }} />
+          </IconButton>
+        </div>
+      ) : (
+        <div
+          key={file.name}
+          style={{
+            display: 'flex',
+            width: '100%',
+            alignContent: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#E3ECFF',
+            borderRadius: 5
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8, marginRight: 8 }}>
+            <Iconify icon="codicon:symbol-file" sx={{ fontSize: 42 }} />
+            <p>{file.name}</p>
+          </div>
+          <IconButton
+            onClick={() => {
+              remove(file.name);
+            }}
+          >
+            <Iconify icon="ei:trash" sx={{ fontSize: 30, color: '#EB5757' }} />
+          </IconButton>
+        </div>
+      )}
     </div>
   ));
 
@@ -164,7 +183,7 @@ function DropzoneComponent(props) {
   );
 
   return (
-    <div style={card2}>
+    <Grid xs={42} sm={5.95} ls={12} sx={card2} container>
       <div
         style={{
           height: '98%',
@@ -185,7 +204,7 @@ function DropzoneComponent(props) {
         </div>
         <aside>{fileArchive}</aside>
       </div>
-    </div>
+    </Grid>
   );
 }
 

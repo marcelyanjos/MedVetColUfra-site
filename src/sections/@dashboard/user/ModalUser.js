@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
@@ -9,18 +10,6 @@ import Iconify from '../../../components/Iconify';
 import Card1 from './Modal/Card1';
 import Card2 from './Modal/Card2';
 
-const card2 = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  //   position: 'absolute',
-  //   alignItems: 'center',
-  width: '49.5%',
-  height: '100%',
-  border: '1px solid #CFD0D7',
-  borderRadius: '4px',
-  p: 2
-};
 const style = {
   display: 'flex',
   flexDirection: 'column',
@@ -29,22 +18,36 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  overflow: 'auto',
   width: '85%',
+  minHeight: 920,
   height: '90%',
   bgcolor: 'background.paper',
   borderRadius: 1,
   boxShadow: 24,
-  p: 3
+  p: 3,
+  '&::-webkit-scrollbar': {
+    width: 10,
+    border: '1px outset'
+  },
+  '&::-webkit-scrollbar-track': {
+    // boxShadow: 'inset 0 0 5px grey',
+    borderRadius: 10
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: 'rgba(179, 232, 255, 0.5)',
+    borderRadius: 10
+  }
 };
 const box = {
-  display: 'flex',
-  position: 'absolute',
-  alignItems: 'center',
-  width: '100%',
+  // display: 'flex',
+  // position: 'absolute',
+  // alignItems: 'center',
+  // width: '100%',
   height: '95%',
   justifyContent: 'space-between',
   //   border: '1px solid #CFD0D7',
-  p: 6
+  p: 2
 };
 
 export default function ModalUser() {
@@ -75,15 +78,15 @@ export default function ModalUser() {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Grid xs={42} sm={11.5} ls={12} sx={style}>
             <Typography variant="h4" gutterBottom>
               Adicionar animal
             </Typography>
-            <Box sx={box}>
+            <Grid sx={box} container>
               <Card1 />
               <Card2 />
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
         </Fade>
       </Modal>
     </div>
