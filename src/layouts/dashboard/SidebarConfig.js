@@ -22,6 +22,11 @@ const sidebarConfig = [
     icon: getIcon('eva:shopping-bag-fill')
   },
   {
+    title: 'Medicamentos',
+    path: '/dashboard/medicine',
+    icon: getIcon('eva:alert-triangle-fill')
+  },
+  {
     title: 'blog',
     path: '/dashboard/blog',
     icon: getIcon('eva:file-text-fill')

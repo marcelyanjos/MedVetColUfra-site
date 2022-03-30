@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-import FilterUser from './FilterUser';
+import FilterUser from './FilterMedicine';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -38,13 +38,13 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-UserListToolbar.propTypes = {
+MedicineListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function MedicineListToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <RootStyle
       sx={{
