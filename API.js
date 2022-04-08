@@ -33,7 +33,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const db = require('./Queries')
-const port = 3000
+const port = 3001
 
 app.use(bodyParser.json())
 app.use(
@@ -51,6 +51,11 @@ app.get('/usuarios/:id', db.getUserById)
 app.post('/usuarios', db.createUser)
 app.put('/usuarios/:id', db.updateUser)
 app.delete('/usarios/:id', db.deleteUser)
+
+app.get('/pets',db.getPets)
+app.get('/pets/:id',db.getPetsById)
+app.put('/pets/:id',db.updatePet)
+app.delete('/pets/:id',db.deletePet)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
