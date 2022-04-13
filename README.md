@@ -134,3 +134,9 @@
 
 # Routes
 pages division
+
+
+# ISSUES
+modal animais: tamanho de input descrição não responsivo
+criar chamada edit de animais
+conseguir exibir imagem(em bytea) do banco no front
