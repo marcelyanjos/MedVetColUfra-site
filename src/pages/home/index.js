@@ -1,117 +1,45 @@
-import React from 'react'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, ResponsiveContainer } from 'recharts';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import BarGraph from './Components/bar';
-import PieGraph from './Components/pie';
-import { dataLine } from './Components/data'
-import { useStyles } from './styles'
-
+import React from "react";
+import { Box, Grid, Container, Typography } from '@mui/material';
+import {Link} from 'react-router-dom'
+import Card1 from './Cards/Card1';
+import Card2 from './Cards/Card2';
+import Card3 from './Cards/Card3';
+import Bar from './Charts/Bar';
+import Pie from './Charts/Pie';
+import Line from './Charts/Line';
 export default function Home() {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <div className={classes.container}>
-        <div style={{ width: '95.5%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box className={classes.box}>
-            <Card variant="none" style={{ backgroundColor: '#E4F2FA' }}>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between', height: 40 }}>
-                <Typography sx={{ fontSize: 20, color: '#5677B6', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  Cães para adoção
-                </Typography><Typography sx={{ fontSize: 20, color: '#5677B6', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  86
-                </Typography>
-              </CardContent>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  Cães adotados
-                </Typography>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  45
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-
-          <Box className={classes.box}>
-            <Card variant="none" style={{ backgroundColor: '#B0CBF4' }}>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between', height: 40 }}>
-                <Typography sx={{ fontSize: 20, color: '#294B8E', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  Gatos para adoção
-                </Typography>
-                <Typography sx={{ fontSize: 20, color: '#294B8E', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  86
-                </Typography>
-              </CardContent>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  Gatos adotados
-                </Typography>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  45
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-
-          <Box className={classes.box}>
-            <Card variant="none" style={{ backgroundColor: '#8AB4F2' }}>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between', height: 40 }}>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  Medicamentos em estoque
-                </Typography><Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-                  237
-                </Typography>
-              </CardContent>
-              <CardContent style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  Doações
-                </Typography>
-                <Typography sx={{ fontSize: 20, color: '#383838', fontWeight: 'bold' }} component="div">
-                  28
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        </div>
-      </div>
-
-
-      <BarGraph />
-      <div className={classes.container2}>
-        <PieGraph />
-        <div className={classes.linechart}>
-          <Typography>Usuários cadastrados</Typography>
-          <ResponsiveContainer>
-            <LineChart data={dataLine}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className={classes.linechart}>
-          <Typography>Gatos Adortados</Typography>
-          <ResponsiveContainer>
-            <LineChart data={dataLine}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-      </div>
+    <div>
+       <Container maxWidth="x1">
+        <Box sx={{ pb: 5 }}>
+          <Typography fontFamily={'Public Sans'} fontWeight={700} color='#212B36' variant="h5">Olá, "nome"</Typography>
+        </Box>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card1 />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card2 />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card3 />
+          </Grid>
+          <Grid item xs={12} md={12} lg={12}>
+            <Bar />
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <Pie />
+          </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <Line />
+          </Grid>
+        </Grid>
+      </Container>
+      {/* <nav>
+        <Link to="/"> Home </Link>
+        <Link to="/about"> About </Link>
+        <Link to="/profile"> Profile </Link>
+      </nav> */}
     </div>
-  )
+  );
 }
