@@ -1,7 +1,7 @@
 import React from 'react'
 import Home from '../pages/home'
-import About from "../pages/AdoptionList";
-import Profile from "../pages/MedicationList"
+import Animais from "../pages/AdoptionList";
+import Medicamentos from "../pages/MedicationList"
 import {ReactComponent as HomeIcon} from '../assets/Home_light.svg'
 import {ReactComponent as MedicationIcon} from '../assets/Medication_light.svg'
 import {ReactComponent as Adoption} from '../assets/Paw_light.svg'
@@ -12,14 +12,14 @@ const routes = [
     link:'app',
 },
 {
-    nome:'Medication',
+    nome:'Medicamentos em estoque',
     icon:<MedicationIcon />,
-    link:'profile',
+    link:'medicamentos',
 },
 {
-    nome:'Adoption',
+    nome:'Animais do Canil/Gatil',
     icon:<Adoption />,
-    link:'about',
+    link:'animais',
 },
 ]
 export default routes;

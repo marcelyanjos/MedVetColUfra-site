@@ -79,7 +79,7 @@ export default function ModalUser() {
         <Fade in={open}>
           <Grid xs={42} sm={11.5} ls={12} sx={style}>
             <Typography variant="h4">
-              Adicionar animal
+              Adicionar medicamento
             </Typography>
             <Grid sx={box} container>
               <Card1 />

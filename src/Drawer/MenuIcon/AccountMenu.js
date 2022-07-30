@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -80,10 +81,11 @@ export default function AccountMenu() {
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemIcon>
+        <Link to="/" ><ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Logout</Link>
+          
         </MenuItem>
       </Menu>
     </React.Fragment>

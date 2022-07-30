@@ -9,7 +9,7 @@ import Pie from './Charts/Pie';
 import Line from './Charts/Line';
 export default function Home() {
   return (
-    <div>
+    <div style={{marginBottom:10}}>
        <Container maxWidth="x1">
         <Box sx={{ pb: 5 }}>
           <Typography fontFamily={'Public Sans'} fontWeight={700} color='#212B36' variant="h5">Olá, "nome"</Typography>
@@ -37,8 +37,8 @@ export default function Home() {
       </Container>
       {/* <nav>
         <Link to="/"> Home </Link>
-        <Link to="/about"> About </Link>
-        <Link to="/profile"> Profile </Link>
+        <Link to="/animais"> Animais </Link>
+        <Link to="/medicamentos"> Medicamentos </Link>
       </nav> */}
     </div>
   );

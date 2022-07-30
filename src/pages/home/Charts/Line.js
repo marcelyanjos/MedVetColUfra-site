@@ -112,7 +112,7 @@ export default function App() {
         Cadastros na plataforma
       </Typography>
       <Box dir="ltr">
-        <Chart options={options} series={LINE_DATA} type="line" height={364} />
+        <Chart options={options} series={LINE_DATA} type="line" height={320} />
       </Box>
     </Card>
   );
