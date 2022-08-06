@@ -11,7 +11,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -56,6 +56,12 @@ export default function AccountMenu() {
               ml: -0.5,
               mr: 1,
             },
+            '& .css-98g8xu-MuiSvgIcon-root':{
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
             '&:before': {
               content: '""',
               display: 'block',
@@ -73,20 +79,20 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <Link to="perfil" style={{textDecoration:"none", color:"black"}}>
         <MenuItem>
           <Avatar /> Profile
         </MenuItem>
+        </Link>
         <MenuItem>
-          <HomeRoundedIcon fontSize="large" /> My account
+          <HomeRoundedIcon fontSize="large" color="disabled"/> Home
         </MenuItem>
         <Divider />
-        <MenuItem>
-        <Link to="/" ><ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout</Link>
+        <Link to="/" style={{textDecoration:"none", color:"black"}}><MenuItem>
+          <ExitToAppIcon fontSize="large" color="disabled"/>
+          Logout
           
-        </MenuItem>
+        </MenuItem></Link>
       </Menu>
     </React.Fragment>
   );

@@ -59,7 +59,7 @@ export default function Card3() {
           fontWeight={600}
           sx={{ opacity: 0.72 }}
         >
-          Doações
+          Outras Doações
         </Typography>
         <Typography variant="h4" fontFamily={"Public Sans"} fontWeight={700}>
           {totalDoacoes}

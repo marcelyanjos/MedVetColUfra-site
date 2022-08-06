@@ -1,16 +1,24 @@
 ## ajeitar
-  1. Acrescentar linha antes de legends de pie chart
-  2. Ajeitar estilo de datalabel(percentual) de pie chart
-  3. Criar mask para preço em add medicamento
-  4. Associar id a modal para edição de itens
-  5. Criar tabela "Doações agendadas"
-  6. Criar tabela "Pedido de adoções"
-  7. Criar tabela "Itens doados"
-  8. Criar tabela "Usuários"
-  9. Criar pagina de Login e Sign In
-  10. Criar pagina "Error"
+  1. Criar mask para preço em add medicamento
+  2. Associar id a modal para edição de itens
+  3. Criar tabela "Doações agendadas"
+  4. Criar tabela "Pedido de adoções"
+  5. Criar tabela "Itens doados"
+  6. Criar tabela "Usuários"
+  7. Colocar estilo em menu caso "is in page"
+  8. Criar pagina "Error"
 
 ## implementar
 Criar backend
 Testar integração
 Tentar colocar CMS
+
+## formulario de adoção (site)
+# do adotante
+1. Nome, dt_nasc, endereço
+2. Animal(id, nome, idade, foto ...)
+3. Respostas (animais em casa, ambiente, tempo disponivel e outros)
+# do empregado
+1. Situação (aprovado ou reprovado)
+2. Justificativa (caso de reprovação)
+3. id user_empregado
