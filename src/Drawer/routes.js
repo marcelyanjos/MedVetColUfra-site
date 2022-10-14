@@ -1,3 +1,4 @@
+// Rotas estilizadas para menu
 import React from 'react'
 import Home from '../pages/home'
 import Animais from "../pages/AdoptionList";

@@ -6,6 +6,7 @@ import { ReactComponent as FormBadge } from "../../assets/Badge/formBadge_icon.s
 import { ReactComponent as MedicationBadge } from "../../assets/Badge/medicationBadge_icon.svg";
 import { ReactComponent as PetBadge } from "../../assets/Badge/petBadge_icon.svg";
 import { ReactComponent as UserBadge } from "../../assets/Badge/userBadge_icon.svg";
+import styles from './style'
 
 export default function Card3() {
   return (
@@ -15,11 +16,7 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
         >
           <Tooltip title="editar artigos">
             <ArticleBadge style={{ width: 86, height: 86 }} />
@@ -29,11 +26,8 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
+
         >
           <Tooltip title="adicionar novas doações">
             <DonationBadge style={{ width: 86, height: 86 }} />
@@ -43,11 +37,8 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
+
         >
           <Tooltip title="editar informações de animais">
             <PetBadge style={{ width: 86, height: 86 }} />
@@ -57,11 +48,8 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
+
         >
           <Tooltip title="editar usuários">
             <UserBadge style={{ width: 86, height: 86 }} />
@@ -71,11 +59,8 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
+
         >
           <Tooltip title="ver/editar formularios de adoção">
             <FormBadge style={{ width: 86, height: 86 }} />
@@ -85,11 +70,8 @@ export default function Card3() {
           item
           xs={6}
           md={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          sx={styles.grid3}
+
         >
           <Tooltip title="adicionar medicamentos">
             <MedicationBadge style={{ width: 86, height: 86 }} />

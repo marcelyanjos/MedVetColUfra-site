@@ -18,6 +18,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
+import styles from './styles'
 
 export default function SignIn() {
   const [values, setValues] = React.useState({
@@ -44,47 +45,13 @@ export default function SignIn() {
 
   return (
     <div
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        display: "flex",
-        flexWrap: "wrap-reverse",
-        minWidth: 300,
-        minHeight: "100vh",
-        // flexDirection: "row",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#cfeffd",
-      }}
+      style={styles.root}
     >
       <Paper
-        style={{
-          borderRadius: 16,
-          boxShadow: "0px 2px 10px 4px rgba(0,0,0,0.1)",
-          backgroundColor: "rgba(255,255,255,0.4)",
-          width: "30%",
-          flex:0.6,
-          minWidth: 320,
-          //commit
-          // minHeight: "40vh",
-          mb: 1,
-          height: "50%",
-          display: "flex",
-          //   flexWrap:'wrap-reverse',
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={styles.paper}
       >
         <div
-          style={{
-            // minHeight: "50vh",
-            height: "100%",
-            width: "100%",
-            padding:20,
-            display: "flex",
-            flexDirection: "column",
-            // justifyContent: "space-between",
-          }}
+          style={styles.card}
         >
           <Typography
             sx={{ fontSize: 26, fontWeight: "bold", fontFamily: "Public Sans" }}
@@ -182,15 +149,7 @@ export default function SignIn() {
         </div>
       </Paper>
       <div
-        style={{
-          minWidth: 100,
-          minHeight: 20,
-          //   width: "45%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        style={styles.flex2}
       >
         <Typography
           sx={{ fontSize: 36, fontWeight: "bold", fontFamily: "Public Sans" }}

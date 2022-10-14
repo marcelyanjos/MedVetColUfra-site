@@ -13,6 +13,7 @@ import {
   randomCreatedDate,
   randomUpdatedDate,
 } from "@mui/x-data-grid-generator";
+import styles from './style';
 
 const initialRows = [
   {
@@ -197,13 +198,7 @@ export default function ColumnTypesGrid() {
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
       <Paper
-        sx={{
-          width: "100%",
-          mb: 2,
-          borderRadius: 4,
-          boxShadow: "0px 1px 3px 0px rgba(65,65, 65, 0.1)",
-          padding: 1,
-        }}
+        sx={styles.paper}
       >
         <DataGrid
           columns={columns}

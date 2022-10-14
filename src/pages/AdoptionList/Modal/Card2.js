@@ -46,6 +46,7 @@ const rejectStyle = {
 function DropzoneComponent(props) {
   const [files, setFiles] = useState([]);
 
+  // Ver imagem anexada
   const onDrop = useCallback((acceptedFiles) => {
     setFiles(
       acceptedFiles.map((file) =>
@@ -56,12 +57,14 @@ function DropzoneComponent(props) {
     );
   }, []);
 
+  // Excluir imagem da fila
   const remove = (file) => {
     const newFiles = [...files]; // make a var for the new array
     newFiles.splice(file, 1); // remove the file from the array
     setFiles(newFiles); // update the state
   };
 
+  // Tipos e quantidade de imagens aceitas no Drag 'n' Drops
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     onDrop,
     accept: 'image/jpeg, image/png, image/jpg',
@@ -80,6 +83,7 @@ function DropzoneComponent(props) {
     isDragAccept
   );
 
+  // Mapa para renderizar tamanho exibido em caso de quantidade de imagens
   const thumbs = files.map((file) => (
     <div
       key={file.name}
@@ -114,6 +118,7 @@ function DropzoneComponent(props) {
     </div>
   ));
 
+  // Mapa de lista de nome de imagens renderizando caso quantidade
   const fileArchive = files.map((file) => (
     <div
       key={file.name}
@@ -196,6 +201,7 @@ function DropzoneComponent(props) {
           justifyContent: 'space-around'
         }}
       >
+        {/* Drag 'n' Drops or manual*/}
         <aside>{thumbs}</aside>
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />

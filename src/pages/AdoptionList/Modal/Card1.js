@@ -8,7 +8,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import UserPostsSort from '../UserPostsSort';
+import UserPostsSort from './UserPostsSort';
 
 const card1 = {
   // display: 'flex',

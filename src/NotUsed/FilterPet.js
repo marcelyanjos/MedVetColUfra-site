@@ -1,4 +1,3 @@
-// Não usado
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { Divider, IconButton, Typography } from '@mui/material';

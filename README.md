@@ -7,6 +7,7 @@
   6. Criar tabela "Usuários"
   7. Colocar estilo em menu caso "is in page"
   8. Criar pagina "Error"
+  9. Criar if else para permissões com mudança de cor dos icones
 
 ## implementar
 Criar backend
@@ -22,3 +23,7 @@ Tentar colocar CMS
 1. Situação (aprovado ou reprovado)
 2. Justificativa (caso de reprovação)
 3. id user_empregado
+
+
+## feito
+1. estilização animais do canil (adoptionList)

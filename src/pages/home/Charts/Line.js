@@ -1,6 +1,7 @@
 import Chart from "react-apexcharts";
 import { Card, Typography, Box } from "@mui/material";
 import { LINE_DATA } from "./data";
+import styles from '../style';
 
 var pt = require("apexcharts/dist/locales/pt.json")
 
@@ -89,12 +90,7 @@ const options = {
 export default function App() {
   return (
     <Card
-      sx={{
-        // minWidth: 275,
-        borderRadius: 4,
-        boxShadow: "0px 1px 3px 0px rgba(65,65, 65, 0.1)",
-        padding: 3,
-      }}
+      sx={styles.chart_card}
     >
       <Typography
         fontFamily={"Public Sans"}
@@ -107,7 +103,7 @@ export default function App() {
         variant="subtitle2"
         fontFamily={"Public Sans"}
         fontWeight={500}
-        sx={{color: "#87919c", mb: 2 }}
+        sx={styles.chart_subtitle2}
       >
         Cadastros na plataforma
       </Typography>

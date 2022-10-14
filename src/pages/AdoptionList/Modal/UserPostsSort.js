@@ -1,8 +1,6 @@
+// Radio Button
 import PropTypes from 'prop-types';
-// material
 import { MenuItem, TextField } from '@mui/material';
-
-// ----------------------------------------------------------------------
 
 UserPostsSort.propTypes = {
   options: PropTypes.array,

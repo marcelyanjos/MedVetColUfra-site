@@ -1,6 +1,7 @@
 import Chart from "react-apexcharts";
 import { Card, Typography, Box } from "@mui/material";
 import { BAR_DATA } from "./data";
+import styles from '../style';
 
 var pt = require("apexcharts/dist/locales/pt.json")
 
@@ -111,17 +112,12 @@ const options = {
 export default function App() {
   return (
     <Card
-      sx={{
-        // minWidth: 275,
-        borderRadius: 4,
-        boxShadow: "0px 1px 3px 0px rgba(65,65, 65, 0.1)",
-        padding: 3,
-      }}
+      sx={styles.chart_card}
     >
       <Typography
         fontFamily={"Public Sans"}
         fontWeight={700}
-        sx={{ fontSize: 18, color: "#212B36", mb: 2 }}
+        sx={styles.chart_barTypography}
       >
         Adoções e Doações
       </Typography>
