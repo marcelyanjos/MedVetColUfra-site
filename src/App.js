@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import Animais from "./pages/AdoptionList";
 import Perfil from "./pages/Profile";
 import Medicamentos from "./pages/MedicationList";
+import Article from "./pages/Articles";
 import Drawer from "./Drawer";
 // import ErrorPage from "./Pages/ErrorPage";
 
@@ -26,6 +27,7 @@ function App() {
           <Route index path="app" element={<Home />} />
           <Route path="medicamentos" element={<Medicamentos />} />
           <Route path="animais" element={<Animais />} />
+          <Route path="artigos" element={<Article />} />
           <Route path="perfil" element={<Perfil />} />
           {/* <Route path="*" element={<ErrorPage />} /> */}
         </Route>
