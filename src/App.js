@@ -12,6 +12,8 @@ import Animais from "./pages/AdoptionList";
 import Perfil from "./pages/Profile";
 import Medicamentos from "./pages/MedicationList";
 import Article from "./pages/Articles";
+import ArticleTable from "./pages/Articles/table";
+import Editor from "./pages/Articles/editor";
 import Drawer from "./Drawer";
 // import ErrorPage from "./Pages/ErrorPage";
 
@@ -27,7 +29,10 @@ function App() {
           <Route index path="app" element={<Home />} />
           <Route path="medicamentos" element={<Medicamentos />} />
           <Route path="animais" element={<Animais />} />
-          <Route path="artigos" element={<Article />} />
+          <Route path="artigos" element={<Article />}>
+            <Route index element={<ArticleTable />} />
+            <Route path="new" element={<Editor />} />
+          </Route>
           <Route path="perfil" element={<Perfil />} />
           {/* <Route path="*" element={<ErrorPage />} /> */}
         </Route>
