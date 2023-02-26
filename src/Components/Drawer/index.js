@@ -1,246 +1,217 @@
-//Menu Lateral e Topo de pagina
-import React, { useState } from "react";
-import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import Avatar from "@mui/material/Avatar";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Link, Outlet } from "react-router-dom";
-import AccountMenu from "./MenuIcon/AccountMenu";
-import profile from "../../pages/Dashboard/Profile/mockup";
-import routes from "./routes";
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Outlet } from "react-router-dom";
+import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
+import theme from "./theme";
+import styles from "./styles";
+import Footer from "../Footer";
+// import routes from '../../App'
 
-const drawerWidth = 320;
+// const drawerWidth = 240;
+const navItems = ["Institucional", "Quero Adotar", "Quero Doar", "Eventos", "Blog"];
 
-//Estilo do Body
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme }) => ({
-    backgroundColor: "#F9FAFB",
-    flexGrow: 1,
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(4),
-    // paddingBottom: theme.spacing(4),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: 0,
-    // marginLeft: `-${drawerWidth}px`,
-    // ...(open && {
-    //   transition: theme.transitions.create("margin", {
-    //     easing: theme.transitions.easing.easeOut,
-    //     duration: theme.transitions.duration.enteringScreen,
-    //   }),
-    //   marginLeft: 0,
-    // }),
-  })
-);
+function DrawerAppBar(props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-//Estilo do topo
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  // ...(open && {
-  //   width: `calc(100% - ${drawerWidth}px)`,
-  //   marginLeft: `${drawerWidth}px`,
-  //   transition: theme.transitions.create(["margin", "width"], {
-  //     easing: theme.transitions.easing.easeOut,
-  //     duration: theme.transitions.duration.enteringScreen,
-  //   }),
-  // }),
-}));
-
-//Menu Lateral
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: "flex-end",
-}));
-
-export default function PersistentDrawerLeft() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [isPage, setIsPage] = React.useState();
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        sx={{
-          backgroundColor: "rgba(179, 232, 255, 0.6)",
-          backdropFilter: "blur(6px)",
-          WebkitBackdropFilter: "blur(6px)",
-        }}
-        elevation={0}
-        position="fixed"
-        open={open}
-      >
-        {/* Corpo da barra de principal */}
-        <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ color: "#212b36", mr: 2 }}
-          >
-            <MenuRoundedIcon sx={{ fontSize: 25 }} />
-          </IconButton>
-          <Typography
-            sx={{
-              color: "#212B36",
-              fontSize: 35,
-              fontFamily: "Public Sans",
-              fontWeight: "500",
-            }}
-            noWrap
-            component="div"
-          >
-            Pet Ufra
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <AccountMenu />
-        </Toolbar>
-        {/* Fim da barra principal */}
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            // backgroundColor:"#cfeffd",
-            boxSizing: "border-box",
-          },
-        }}
-        // variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        {/* Corpo do Menu Lateral */}
-        <DrawerHeader>
-          <Typography
-            sx={{
-              color: "#74C1EB",
-              fontSize: 30,
-              fontFamily: "Public Sans",
-              fontWeight: "500",
-              width:'85%',
-              // display:'flex',
-              alignItems:'start'
-            }}
-          >
-            Pet Ufra
-          </Typography>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <div
+  const drawer = (
+    <Box sx={styles.drawer}>
+      <div style={styles.close}>
+        <Button
           style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: 8,
+            color: "#102582",
+            backgroundColor: "transparent",
           }}
+          onClick={handleDrawerToggle}
         >
-         
-          <Avatar
-            alt={profile.name + profile.surname}
-            sx={{ width: 200, height: 200 }}
-            src={profile.src}
-          />
-          <Typography sx={{color:"#74C1EB", fontSize:28}}>{profile.name+' '+profile.surname}</Typography>
-          <Typography sx={{color:"#74C1EB"}}>{profile.username}</Typography>
-        </div>
-        <Divider />
-
-          {/* Lista de menus paginas */}
-        {routes.map((item) => (
-          <List sx={{ padding: 0, ml: 2 }}>
-            <ListItem key={item.nome} disablePadding>
+          <CloseIcon fontSize="large" />
+        </Button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            color: "#102582",
+            fontSize: 35,
+            fontFamily: "Public Sans",
+            fontWeight: "bold",
+            pb:4
+          }}
+          noWrap
+          component="div"
+        >
+          PetUfra
+        </Typography>
+        <List sx={{ mt: -1, mb: -1 }}>
+          {navItems.map((item) => (
+            <ListItem key={item} disablePadding>
               <ListItemButton
-                to={item.link}
-                style={{
-                  height:45,
-                  marginTop:5,
-                  backgroundColor:
-                    "/admin/dashboard/" + item.link == window.location.pathname
-                      ? "rgba(179, 232, 255, 0.6)"
-                      : "white",
-                  marginLeft: "/admin/dashboard/" + item.link == window.location.pathname
-                  ? 0
-                  : 20,
-                  borderRadius: 4,
+                sx={{
+                  color: "#102582",
+                  "&&:hover": {
+                    backgroundColor: "transparent",
+                  },
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    stroke:'#74c1eb',
-                      // "/dashboard/" + item.link == window.location.pathname
-                      //   ? "#7bace8"
-                      //   : "#666666",
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
                 <ListItemText
-                  sx={{
-                    color:'#74c1eb'
-                      // "/dashboard/" + item.link == window.location.pathname
-                      //   ? "#7bace8"
-                      //   : "#666666",
+                  primary={item}
+                  primaryTypographyProps={{
+                    fontSize: "18px",
+                    textAlign: "center",
+                    fontFamily: "Open Sans, sans-serif",
                   }}
-                  primary={item.nome}
-                  primaryTypographyProps={{ fontSize: '100%' }}
                 />
               </ListItemButton>
             </ListItem>
-          </List>
-        ))}
-        {/* Fim do menu lateral */}
-      </Drawer>
+          ))}
+        </List>
+        <div style={{ display: "flex", paddingTop:10 }}>
+        <IconButton
+                sx={styles.medias}
+                aria-label="facebook"
+                href="https://pt-br.facebook.com/diomakethechange/"
+              >
+                <FacebookIcon width='32px' height='32px'/>
+              </IconButton>
+          <IconButton
+            sx={styles.medias}
+            aria-label="instagram"
+            href="https://www.instagram.com/dio_makethechange/"
+          >
+            <InstagramIcon fontSize="large"/>
+          </IconButton>
+        </div>
+      </div>
+    </Box>
+  );
 
-      {/* Body */}
-      <Main open={open}>
-        <DrawerHeader />
-        {/* Outlet necessário para abrir as paginas junto do menu (integrador) */}
-        <Outlet />
-      </Main>
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <Box theme={theme} sx={{ display: "flex" }}>
+      <AppBar position="absolute" component="nav" style={styles.appbar}>
+        <Toolbar
+          style={{
+            padding: "0 12px 0 12px",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <div
+            component="div"
+            style={{ flexGrow: 0.8, display: "flex", alignItems: "flex-start" }}
+          >
+            <Typography
+              sx={{
+                color: "#102582",
+                fontSize: 35,
+                fontFamily: "Public Sans",
+                fontWeight: "bold",
+              }}
+              noWrap
+              component="div"
+            >
+              Pet Ufra
+            </Typography>
+          </div>
+          <IconButton
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerToggle}
+            sx={{
+              color:'#102582',
+              [theme.breakpoints.up("lg")]: {
+                display: "none",
+              },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box
+            sx={{
+              [theme.breakpoints.down("lg")]: {
+                display: "none",
+              },
+              [theme.breakpoints.up("lg")]: {
+                display: "flex",
+              },
+            }}
+          >
+            <Button href="/" sx={styles.button}>
+              Institucional
+            </Button>
+            <Button sx={styles.button}>Quero Adotar</Button>
+            <Button sx={styles.button}>Quero Doar</Button>
+            <Button sx={styles.button}>Eventos</Button>
+            <Button sx={styles.button}>Blog</Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sx: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: "100%",
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box sx={{ pt: 9, width: "100%", height: "100%" }}>
+        {/* <Toolbar /> */}
+        <Box sx={{ p: 2 }}>
+          <Outlet />
+        </Box>
+
+        <Footer />
+      </Box>
     </Box>
   );
 }
+
+DrawerAppBar.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
+
+export default DrawerAppBar;

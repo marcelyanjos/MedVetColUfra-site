@@ -18,18 +18,19 @@ import {
   Drawer,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
-import { Home, UserLogin } from "./pages/Institucional/routes";
+import { Header, Home, UserLogin } from "./pages/Institucional/routes";
 // import ErrorPage from "./Pages/ErrorPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route index path="login" element={<UserLogin />} />
-
+        <Route path="/" element={<Navigate to="" />} />
+        <Route path="/" element={<Header />}>
+          <Route index path="" element={<Home />} />
+        </Route>
         {/* Admin */}
-        <Route path="admin" element={<Navigate to="login" />}/>
+        <Route path="admin" element={<Navigate to="login" />} />
         <Route path="admin" element={<Dashboard />}>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
