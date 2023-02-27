@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Paper,
-  Card,
-  Typography,
-  Link,
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Card, Typography, Link, IconButton } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
 import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
@@ -17,22 +10,7 @@ export default function Footer() {
     <Card sx={styles.body} theme={theme}>
       <Card sx={styles.card}>
         <Card sx={styles.left}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              boxShadow: "none",
-              bgcolor: "transparent",
-              [theme.breakpoints.up("lg")]: {
-                margin: "1rem 2rem",
-              },
-              [theme.breakpoints.down("lg")]: {
-                display: "flex",
-                alignItems: "center",
-                margin: "1rem 0px",
-              },
-            }}
-          >
+          <Card sx={styles.bodyLeft}>
             <Typography
               sx={{
                 color: "#102582",
@@ -53,22 +31,7 @@ export default function Footer() {
               Outros Serviços
             </Link>
           </Card>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              boxShadow: "none",
-              bgcolor: "transparent",
-              [theme.breakpoints.up("lg")]: {
-                margin: "1rem 2rem",
-              },
-              [theme.breakpoints.down("lg")]: {
-                display: "flex",
-                alignItems: "center",
-                margin: "1rem 0px",
-              },
-            }}
-          >
+          <Card sx={styles.bodyLeft}>
             <Typography
               sx={{
                 color: "#102582",
@@ -94,31 +57,24 @@ export default function Footer() {
           </Card>
         </Card>
         <Card sx={styles.right}>
-        <Logo style={{ height:'150px'}}/>
-        <Card
-          sx={{
-            boxShadow: "none",
-            bgcolor: "transparent",
-            padding: 0,
-            display: "flex",
-          }}
-        >
-              <IconButton
-                sx={styles.medias}
-                aria-label="facebook"
-                href="https://pt-br.facebook.com/diomakethechange/"
-              >
-                <FacebookIcon width='16px' height='16px'/>
-              </IconButton>
-          <IconButton
-            sx={styles.medias}
-            aria-label="instagram"
-            href="https://www.instagram.com/dio_makethechange/"
-          >
-            <InstagramIcon width='16px' height='16px'/>
-          </IconButton>
+          <Logo style={{ height: "150px" }} />
+          <Card sx={styles.bodyRight}>
+            <IconButton
+              sx={styles.medias}
+              aria-label="facebook"
+              href="https://web.facebook.com/canilgatildaufra/?locale=pt_BR&_rdc=1&_rdr"
+            >
+              <FacebookIcon width="16px" height="16px" />
+            </IconButton>
+            <IconButton
+              sx={styles.medias}
+              aria-label="instagram"
+              href="https://www.instagram.com/dio_makethechange/"
+            >
+              <InstagramIcon width="16px" height="16px" />
+            </IconButton>
+          </Card>
         </Card>
-      </Card>
       </Card>
     </Card>
   );

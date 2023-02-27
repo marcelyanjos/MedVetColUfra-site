@@ -24,7 +24,13 @@ import Footer from "../Footer";
 // import routes from '../../App'
 
 // const drawerWidth = 240;
-const navItems = ["Institucional", "Quero Adotar", "Quero Doar", "Eventos", "Blog"];
+const navItems = [
+  "Institucional",
+  "Quero Adotar",
+  "Quero Doar",
+  "Eventos",
+  "Blog",
+];
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -34,8 +40,9 @@ function DrawerAppBar(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  // Menu Lateral
   const drawer = (
-    <Box sx={styles.drawer}>
+    <Box sx={styles.drawerBody}>
       <div style={styles.close}>
         <Button
           style={{
@@ -55,17 +62,7 @@ function DrawerAppBar(props) {
           alignItems: "center",
         }}
       >
-        <Typography
-          sx={{
-            color: "#102582",
-            fontSize: 35,
-            fontFamily: "Public Sans",
-            fontWeight: "bold",
-            pb:4
-          }}
-          noWrap
-          component="div"
-        >
+        <Typography sx={styles.drawerLogo} noWrap component="div">
           PetUfra
         </Typography>
         <List sx={{ mt: -1, mb: -1 }}>
@@ -91,20 +88,20 @@ function DrawerAppBar(props) {
             </ListItem>
           ))}
         </List>
-        <div style={{ display: "flex", paddingTop:10 }}>
-        <IconButton
-                sx={styles.medias}
-                aria-label="facebook"
-                href="https://pt-br.facebook.com/diomakethechange/"
-              >
-                <FacebookIcon width='32px' height='32px'/>
-              </IconButton>
+        <div style={{ display: "flex", paddingTop: 10 }}>
+          <IconButton
+            sx={styles.medias}
+            aria-label="facebook"
+            href="https://pt-br.facebook.com/diomakethechange/"
+          >
+            <FacebookIcon width="32px" height="32px" />
+          </IconButton>
           <IconButton
             sx={styles.medias}
             aria-label="instagram"
             href="https://www.instagram.com/dio_makethechange/"
           >
-            <InstagramIcon fontSize="large"/>
+            <InstagramIcon fontSize="large" />
           </IconButton>
         </div>
       </div>
@@ -117,36 +114,21 @@ function DrawerAppBar(props) {
   return (
     <Box theme={theme} sx={{ display: "flex" }}>
       <AppBar position="absolute" component="nav" style={styles.appbar}>
-        <Toolbar
-          style={{
-            padding: "0 12px 0 12px",
-            display: "flex",
-            justifyContent: "space-around",
-          }}
-        >
-          <div
+        <Toolbar sx={styles.toolbar}>
+          <Box
             component="div"
             style={{ flexGrow: 0.8, display: "flex", alignItems: "flex-start" }}
           >
-            <Typography
-              sx={{
-                color: "#102582",
-                fontSize: 35,
-                fontFamily: "Public Sans",
-                fontWeight: "bold",
-              }}
-              noWrap
-              component="div"
-            >
+            <Typography sx={styles.appbarLogo} noWrap component="div">
               Pet Ufra
             </Typography>
-          </div>
+          </Box>
           <IconButton
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerToggle}
             sx={{
-              color:'#102582',
+              color: "#102582",
               [theme.breakpoints.up("lg")]: {
                 display: "none",
               },
@@ -196,7 +178,7 @@ function DrawerAppBar(props) {
       </Box>
       <Box sx={{ pt: 9, width: "100%", height: "100%" }}>
         {/* <Toolbar /> */}
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ pt: 1,width: "100%", height: "100%" }}>
           <Outlet />
         </Box>
 

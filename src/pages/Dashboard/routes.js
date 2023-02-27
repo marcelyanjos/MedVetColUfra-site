@@ -8,7 +8,7 @@ import artigos from "./Artigos";
 import artigosTabela from "./Artigos/table";
 import editor from "./Artigos/editor";
 // import drawer from "../../Drawer";
-import drawer from '../../Components/MenuIcon'
+import drawer from '../../Components/DrawerAdmin'
 
 const SignUp = signUp;
 const Login = login;

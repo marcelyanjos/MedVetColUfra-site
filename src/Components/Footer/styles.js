@@ -2,7 +2,7 @@ import theme from "../Drawer/theme";
 const styles = {
   body: {
     bgcolor: "#b7dbe8",
-    boxShadow:'none',
+    boxShadow: "none",
     borderRadius: 0,
     p: "1rem",
   },
@@ -36,6 +36,20 @@ const styles = {
       justifyContent: "space-between",
     },
   },
+  bodyLeft: {
+    display: "flex",
+    flexDirection: "column",
+    boxShadow: "none",
+    bgcolor: "transparent",
+    [theme.breakpoints.up("lg")]: {
+      margin: "1rem 2rem",
+    },
+    [theme.breakpoints.down("lg")]: {
+      display: "flex",
+      alignItems: "center",
+      margin: "1rem 0px",
+    },
+  },
   right: {
     color: "#fafafa",
     boxShadow: "none",
@@ -43,6 +57,12 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  bodyRight: {
+    boxShadow: "none",
+    bgcolor: "transparent",
+    padding: 0,
+    display: "flex",
   },
   link: {
     m: 0,
@@ -54,27 +74,9 @@ const styles = {
     color: "#102582",
     textDecoration: "none",
     cursor: "pointer",
-    '&:hover':{
-      color:'#0f31d1'
-    }
-  },
-  button: {
-    fontFamily: "Open Sans",
-    bgcolor: "#fafafa",
-    width: "11rem",
-    padding: "0.5rem",
-    margin: "1rem",
-    borderRadius: 50,
-    color: "#1e192c",
     "&:hover": {
-      bgcolor: "#fafafa",
-      color: "#8647ad",
+      color: "#0f31d1",
     },
-  },
-  buttonIcon: {
-    margin: "0.5rem",
-    width: "2rem",
-    height: "2rem",
   },
   medias: {
     color: "#102582",
@@ -86,7 +88,7 @@ const styles = {
     "&:hover": {
       color: "#0f31d1",
       border: "1px solid #0f31d1",
-      bgcolor:'transparent'
+      bgcolor: "transparent",
     },
   },
 };
