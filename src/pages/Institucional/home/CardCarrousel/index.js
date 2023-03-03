@@ -1,5 +1,5 @@
 import { Box, Typography, Card, Button } from "@mui/material";
-import initialRows from "../../../Dashboard/AdoptionList/mockup_adoption";
+import initialRows from "../../../../mockup/adoption";
 import React, { useRef } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -14,8 +14,8 @@ export default function CardCarrousel() {
   };
 
   return (
-    <Box sx={{ height: "500px", width: "100%", bgcolor: "#5B8FF9" }}>
-      <Box sx={{ p: 2 }}>
+    <Box sx={{ height: "480px", width: "100%", bgcolor: "#5B8FF9" }}>
+      <Box sx={{ p: 2, pl:4, pr:4 }}>
         <Box sx={{ display: "flex" }}>
           <Typography
             sx={{ flex: 1, color: "#f1f1f1", fontWeight: "bold", fontSize: 26 }}
@@ -36,7 +36,7 @@ export default function CardCarrousel() {
         <Box
           ref={ref}
           sx={{
-            height: "380px",
+            height: "390px",
             width: "100%",
             display: "flex",
             "-ms-overflow-style": "none",
@@ -48,7 +48,7 @@ export default function CardCarrousel() {
           {/* max 6 items */}
           {initialRows.slice(0, 6).map((i, index) => {
             return (
-              <Card key={index} sx={{ mr: 1, minWidth: "300px" }}>
+              <Card key={index} elevation={4}  sx={{ mr: 1, height: "380px", minWidth: "300px" }}>
                 <img
                   src={i.image}
                   style={{ objectFit: "contain", height: "320px" }}

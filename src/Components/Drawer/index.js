@@ -152,7 +152,9 @@ function DrawerAppBar(props) {
             <Button sx={styles.button}>Quero Adotar</Button>
             <Button sx={styles.button}>Quero Doar</Button>
             <Button sx={styles.button}>Eventos</Button>
-            <Button sx={styles.button}>Blog</Button>
+            <Button sx={styles.button} href="blog">
+              Blog
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
@@ -176,9 +178,9 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box sx={{ pt: 9, width: "100%", height: "100%" }}>
+      <Box sx={{ pt: 7.5, width: "100%", height: "100%" }}>
         {/* <Toolbar /> */}
-        <Box sx={{ pt: 1,width: "100%", height: "100%" }}>
+        <Box sx={{ width: "100%", height: "100%" }}>
           <Outlet />
         </Box>
 

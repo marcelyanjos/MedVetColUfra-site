@@ -6,7 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import EventIcon from "@mui/icons-material/Event";
 import { ReactComponent as StethoscopeIcon } from "../../../assets/stethoscope_icon.svg";
 import styles from "./style";
-import profile from "./mockup";
+import profile from "../../../mockup/profile";
 
 export default function Card1() {
   return (

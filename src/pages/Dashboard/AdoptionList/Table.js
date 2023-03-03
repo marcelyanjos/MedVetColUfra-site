@@ -14,7 +14,7 @@ import {
   randomUpdatedDate,
 } from "@mui/x-data-grid-generator";
 import styles from "./style";
-import initialRows from './mockup_adoption';
+import initialRows from '../../../mockup/adoption';
 
 export default function ColumnTypesGrid() {
   const [pageSize, setPageSize] = React.useState(5);

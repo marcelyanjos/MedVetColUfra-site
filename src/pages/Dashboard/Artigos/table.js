@@ -15,7 +15,7 @@ import {
 } from "@mui/x-data-grid-generator";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./style";
-import initialRows from "./mockup_article";
+import initialRows from "../../../mockup/article";
 
 export default function ColumnTypesGrid() {
   const [pageSize, setPageSize] = React.useState(5);

@@ -22,7 +22,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Outlet } from "react-router-dom";
 import AccountMenu from "./AccountMenu";
-import profile from "../../pages/Dashboard/Profile/mockup";
+import profile from "../../mockup/profile";
 import styles from "./styles";
 import routes from "./routes";
 
