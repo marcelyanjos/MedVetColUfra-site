@@ -18,7 +18,7 @@ import {
   Drawer,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
-import { Header, Home, UserLogin, Blog } from "./pages/Institucional/routes";
+import { Header, Home,Institucional, Blog } from "./pages/Default/routes";
 // import ErrorPage from "./Pages/ErrorPage";
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
         <Route path="/" element={<Navigate to="" />} />
         <Route path="/" element={<Header />}>
           <Route index path="" element={<Home />} />
+          <Route index path="institucional" element={<Institucional />} />
           <Route index path="blog" element={<Blog />} />
         </Route>
         {/* Admin */}

@@ -20,7 +20,7 @@ const Slider = () => {
   const reel = window.innerWidth / 5 + "%";
   console.log("reel", reel);
   return (
-    <Box sx={{width:'100%', pt:2, pb:1}}>
+    <Box sx={{width:'100%', pt:2, pb:1, display:'flex', justifyContent:'center', minHeight:'150px'}}>
       <div style={{ maxHeight: "400px", width: "95%" }}>
         <div style={styles.slider}>
           <KeyboardArrowLeftIcon style={styles.leftarrow} onClick={prevSlide} />

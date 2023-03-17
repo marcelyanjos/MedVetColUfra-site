@@ -6,6 +6,7 @@ import {
   Button,
   Drawer,
   IconButton,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -25,11 +26,11 @@ import Footer from "../Footer";
 
 // const drawerWidth = 240;
 const navItems = [
-  "Institucional",
-  "Quero Adotar",
-  "Quero Doar",
-  "Eventos",
-  "Blog",
+  { titulo: "Institucional", route: "institucional" },
+  { titulo: "Quero Adotar", route: "" },
+  { titulo: "Quero Doar", route: "" },
+  { titulo: "Eventos", route: "" },
+  { titulo: "Blog", route: "blog" },
 ];
 
 function DrawerAppBar(props) {
@@ -62,13 +63,14 @@ function DrawerAppBar(props) {
           alignItems: "center",
         }}
       >
-        <Typography sx={styles.drawerLogo} noWrap component="div">
+        <Link href="/" sx={styles.drawerLogo} noWrap>
           PetUfra
-        </Typography>
+        </Link>
         <List sx={{ mt: -1, mb: -1 }}>
           {navItems.map((item) => (
             <ListItem key={item} disablePadding>
               <ListItemButton
+                href={item.route}
                 sx={{
                   color: "#102582",
                   "&&:hover": {
@@ -77,7 +79,7 @@ function DrawerAppBar(props) {
                 }}
               >
                 <ListItemText
-                  primary={item}
+                  primary={item.titulo}
                   primaryTypographyProps={{
                     fontSize: "18px",
                     textAlign: "center",
@@ -119,9 +121,9 @@ function DrawerAppBar(props) {
             component="div"
             style={{ flexGrow: 0.8, display: "flex", alignItems: "flex-start" }}
           >
-            <Typography sx={styles.appbarLogo} noWrap component="div">
+            <Link href="/" sx={styles.appbarLogo} noWrap>
               Pet Ufra
-            </Typography>
+            </Link>
           </Box>
           <IconButton
             aria-label="open drawer"
@@ -129,6 +131,7 @@ function DrawerAppBar(props) {
             onClick={handleDrawerToggle}
             sx={{
               color: "#102582",
+              mr: { sm: "-5%" },
               [theme.breakpoints.up("lg")]: {
                 display: "none",
               },
@@ -143,10 +146,11 @@ function DrawerAppBar(props) {
               },
               [theme.breakpoints.up("lg")]: {
                 display: "flex",
+                mr: "-3%",
               },
             }}
           >
-            <Button href="/" sx={styles.button}>
+            <Button href="institucional" sx={styles.button}>
               Institucional
             </Button>
             <Button sx={styles.button}>Quero Adotar</Button>

@@ -1,6 +1,8 @@
+import theme from "./theme";
 const styles = {
   appbar: {
     boxShadow: "none",
+    p: 0,
     backgroundColor: "rgba(179, 232, 255, 0.6)",
     // height: "300px",
     height: "60px",
@@ -8,13 +10,15 @@ const styles = {
     justifyContent: "center",
   },
   appbarLogo: {
+    textDecoration:'none',
+     ml: {sm: "-4%" },
     color: "#102582",
     fontSize: 35,
     fontFamily: "Public Sans",
     fontWeight: "bold",
   },
   toolbar: {
-    padding: "0 12px 0 12px",
+    p: 0,
     display: "flex",
     justifyContent: "space-around",
   },
@@ -31,8 +35,9 @@ const styles = {
     justifyContent: "end",
   },
   drawerLogo: {
+    textDecoration:'none',
     color: "#102582",
-    fontSize: 35,
+    fontSize: 36,
     fontFamily: "Public Sans",
     fontWeight: "bold",
     pb: 4,

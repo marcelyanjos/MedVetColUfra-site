@@ -44,6 +44,7 @@ const data = [
     O mercado que negocia a vida dos pets pode ser muito cruel com eles, infelizmente. Na maioria das vezes, os criadores (donos das fábricas de filhotes) exploram os animais de raça forçando que eles se reproduzem incessantemente para gerar os filhotes que são comercializados.
     
     Na maioria dos casos, nesses criadouros, os animais não recebem nenhum atendimento médico e vivem em ambiente com pouca ou nenhuma higiene, submetidos a situações degradantes. Ao adotar, você não corre o risco de financiar este tipo de crueldade.`,
+    datapub:'01/01/2023'
   },
   {
     id:2,
@@ -120,8 +121,9 @@ O bem-estar físico e mental compõem os cuidados com cachorros que todo tutor d
 
 Para cuidar da saúde mental do pet, é importante entender o comportamento do animal e organizar a rotina para que ele se sinta bem e tenha suas necessidades atendidas. Por exemplo, animais agitados precisam de exercício e atenção. Isso pode ser compreendido com passeios longos, dias em creches ou escolinhas, momentos de brincadeira antes do período sozinho e brinquedos interativos.
 
-Os brinquedos interativos têm o intuito de entreter o pet enquanto o tutor não está em casa ou não pode brincar. Além de distrair, eles colaboram para a prática de atividade física do seu pet.`
-  },
+Os brinquedos interativos têm o intuito de entreter o pet enquanto o tutor não está em casa ou não pode brincar. Além de distrair, eles colaboram para a prática de atividade física do seu pet.`,
+datapub:'14/01/2023'  
+},
   {
     id:3,
     titulo:'Cuidados essenciais para você viajar com seu pet',
@@ -193,7 +195,8 @@ Rota aérea
 
 No caso das viagens de avião, é importante entrar em contato com a companhia aérea para saber quais são as exigências para o transporte do pet, visto que cada companhia tem o seu protocolo de transporte animal.
 
-De acordo com Fleming, caso o tutor pretenda fazer uma viagem internacional com o pet, é importante verificar as exigências do país de destino e das empresas aéreas.`
+De acordo com Fleming, caso o tutor pretenda fazer uma viagem internacional com o pet, é importante verificar as exigências do país de destino e das empresas aéreas.`,
+datapub:'26/02/2023'
 },
 {id:4,
 titulo:'Vacinação de cães e gatos: o que é preciso saber',
@@ -253,6 +256,8 @@ V5 (Quíntupla):
 
 Antirrábica:
 
-– Idem à Raiva Canina`}
+– Idem à Raiva Canina`,
+datapub:'14/02/2023'
+}
 ];
 export default data;
