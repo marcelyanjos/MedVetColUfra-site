@@ -12,12 +12,7 @@ export default function Footer() {
         <Card sx={styles.left}>
           <Card sx={styles.bodyLeft}>
             <Typography
-              sx={{
-                color: "#102582",
-                fontSize: "1.2em",
-                fontWeight: "bold",
-                margin: "0.6em 0px",
-              }}
+              sx={styles.title}
             >
               Institucional
             </Typography>
@@ -33,12 +28,7 @@ export default function Footer() {
           </Card>
           <Card sx={styles.bodyLeft}>
             <Typography
-              sx={{
-                color: "#102582",
-                fontSize: "1.2em",
-                fontWeight: "bold",
-                margin: "0.6em 0px",
-              }}
+               sx={styles.title}
             >
               Informações
             </Typography>

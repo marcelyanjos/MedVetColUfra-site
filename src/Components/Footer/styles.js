@@ -1,7 +1,10 @@
 import theme from "../Drawer/theme";
+import colors from '../../colors'
+
 const styles = {
   body: {
-    bgcolor: "#b7dbe8",
+    width:'auto',
+    bgcolor: colors.green[3],
     boxShadow: "none",
     borderRadius: 0,
     p: "1rem",
@@ -35,6 +38,12 @@ const styles = {
       // alignItems: "center",
       justifyContent: "space-between",
     },
+  },
+  title:{
+    color: colors.green[10],
+    fontSize: "1.2em",
+    fontWeight: "bold",
+    margin: "0.6em 0px",
   },
   bodyLeft: {
     display: "flex",
@@ -71,23 +80,23 @@ const styles = {
     fontSize: "1rem",
     fontFamily: "Open Sans, sans-serif",
     fontWeight: "500",
-    color: "#102582",
+    color: colors.green[10],
     textDecoration: "none",
     cursor: "pointer",
     "&:hover": {
-      color: "#0f31d1",
+      color: colors.green[10],
     },
   },
   medias: {
-    color: "#102582",
+    color: colors.green[10],
     width: "2.5rem",
     height: "2.5rem",
     margin: "0.5rem",
     padding: "0.5rem",
-    border: "1px solid #102582",
+    border: `1px solid ${colors.green[10]}`,
     "&:hover": {
-      color: "#0f31d1",
-      border: "1px solid #0f31d1",
+      color: colors.green[7],
+      border: `1px solid ${colors.green[7]}`,
       bgcolor: "transparent",
     },
   },

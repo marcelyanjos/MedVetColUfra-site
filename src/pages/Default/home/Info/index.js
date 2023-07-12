@@ -68,6 +68,8 @@ export default function Info() {
           Adote não compre!
         </Typography>
         <Typography
+          component={"span"}
+          variant={"body2"}
           sx={{
             [theme.breakpoints.up("md")]: {
               width: "90%",

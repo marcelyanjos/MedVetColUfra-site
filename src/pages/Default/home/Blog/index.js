@@ -28,10 +28,14 @@ export default function Blog() {
                   display: "flex",
                   alignItems: "center",
                   flexDirection: "column",
-                  [theme.breakpoints.down("sm")]: { minWidth: "205px",width:'100%', mb: 2 },
+                  [theme.breakpoints.down("sm")]: {
+                    minWidth: "205px",
+                    width: "100%",
+                    mb: 2,
+                  },
                   [theme.breakpoints.down("sd")]: {
                     minWidth: "205px",
-                    width:'100%',
+                    width: "100%",
                     mb: 2,
                   },
                   [theme.breakpoints.up("sd")]: {
@@ -47,17 +51,22 @@ export default function Blog() {
               >
                 <Box
                   sx={{
-                    display:'flex', justifyContent:'center',
-                      width: "100%",
-                      height: "260px",
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                    height: "260px",
                   }}
                 >
                   <img
                     src={i.image}
-                    style={{width:"100%", objectFit: "cover" }}
+                    style={{ width: "100%", objectFit: "cover" }}
                   />
                 </Box>
-                <Typography sx={{ pl: 3, pr: 3, pt: 1, pb: 1 }}>
+                <Typography
+                  component={"span"}
+                  variant={"body2"}
+                  sx={{ pl: 3, pr: 3, pt: 1, pb: 1 }}
+                >
                   <Typography
                     sx={{
                       color: "#5B8FF9",

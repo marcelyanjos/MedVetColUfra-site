@@ -7,6 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { ReactComponent as Female } from "../../../../assets/female.svg";
 import { ReactComponent as Male } from "../../../../assets/male.svg";
 import theme from "../../../../Components/Drawer/theme";
+import colors from "../../../../colors";
 export default function CardCarrousel() {
   const ref = useRef(null);
   const scroll = (scrollOffset) => {
@@ -14,22 +15,22 @@ export default function CardCarrousel() {
   };
 
   return (
-    <Box sx={{ height: "480px", width: "100%", bgcolor: "#5B8FF9" }}>
+    <Box sx={{ height: "480px", width: "100%", bgcolor: colors.green[2] }}>
       <Box sx={{ p: 2, pl: 4, pr: 4 }}>
         <Box sx={{ display: "flex" }}>
           <Typography
-            sx={{ flex: 1, color: "#f1f1f1", fontWeight: "bold", fontSize: 26 }}
+            sx={{ flex: 1, color: colors.black[0], fontWeight: "bold", fontSize: 26 }}
           >
             Novos Pets
           </Typography>
           <Button onClick={() => scroll(-400)}>
-            <KeyboardArrowLeftIcon fontSize="large" sx={{ color: "#f1f1f1" }} />
+            <KeyboardArrowLeftIcon fontSize="large" sx={{ color: colors.black[0] }} />
           </Button>
           <Button onClick={() => scroll(400)}>
             {" "}
             <KeyboardArrowRightIcon
               fontSize="large"
-              sx={{ color: "#f1f1f1" }}
+              sx={{ color: colors.black[0] }}
             />
           </Button>
         </Box>
@@ -69,7 +70,7 @@ export default function CardCarrousel() {
                   }}
                 />
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Typography>
+                  <Typography component={"span"} variant={"body2"}>
                     <Typography
                       sx={{
                         ml: 1,
@@ -106,14 +107,14 @@ export default function CardCarrousel() {
             <ArrowForwardIcon
               fontSize="large"
               sx={{
-                color: "#f1f1f1",
+                color: colors.black[0],
                 border: "2px solid #f1f1f1",
                 borderRadius: "20px",
                 p: 0.5,
                 mb: 1,
               }}
             />
-            <Typography sx={{ color: "#f1f1f1", textTransform: "none" }}>
+            <Typography sx={{ color: colors.black[0], textTransform: "none" }}>
               Ver outros animais
             </Typography>
           </Button>

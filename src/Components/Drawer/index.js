@@ -19,9 +19,11 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
 import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
+import { ReactComponent as LogoIcon } from "../../assets/Logos/Logo.svg";
 import theme from "./theme";
 import styles from "./styles";
 import Footer from "../Footer";
+import colors from "../../colors";
 // import routes from '../../App'
 
 // const drawerWidth = 240;
@@ -40,19 +42,12 @@ function DrawerAppBar(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   // Menu Lateral
   const drawer = (
     <Box sx={styles.drawerBody}>
       <div style={styles.close}>
-        <Button
-          style={{
-            color: "#102582",
-            backgroundColor: "transparent",
-          }}
-          onClick={handleDrawerToggle}
-        >
-          <CloseIcon fontSize="large" />
+        <Button onClick={handleDrawerToggle}>
+          <CloseIcon sx={styles.menuIcon} fontSize="large" />
         </Button>
       </div>
       <div
@@ -64,16 +59,17 @@ function DrawerAppBar(props) {
         }}
       >
         <Link href="/" sx={styles.drawerLogo} noWrap>
-          PetUfra
+          <LogoIcon style={{ height: "128px" }} />
         </Link>
         <List sx={{ mt: -1, mb: -1 }}>
           {navItems.map((item) => (
-            <ListItem key={item} disablePadding>
+            <ListItem key={item.titulo} disablePadding>
               <ListItemButton
                 href={item.route}
                 sx={{
-                  color: "#102582",
-                  "&&:hover": {
+                  color: colors.green[10],
+                  "&:hover": {
+                    color: colors.green[7],
                     backgroundColor: "transparent",
                   },
                 }}
@@ -84,6 +80,7 @@ function DrawerAppBar(props) {
                     fontSize: "18px",
                     textAlign: "center",
                     fontFamily: "Open Sans, sans-serif",
+                    fontWeight: "400",
                   }}
                 />
               </ListItemButton>
@@ -114,28 +111,30 @@ function DrawerAppBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box theme={theme} sx={{ display: "flex" }}>
+    <Box theme={theme} sx={{ display: "flex"}}>
       <AppBar position="absolute" component="nav" style={styles.appbar}>
         <Toolbar sx={styles.toolbar}>
-          <Box
-            component="div"
-            style={{ flexGrow: 0.8, display: "flex", alignItems: "flex-start" }}
-          >
+          <Box component="div" sx={styles.titleLogo}>
             <Link href="/" sx={styles.appbarLogo} noWrap>
-              Pet Ufra
+              <LogoIcon style={{ height: "48px" }} />
             </Link>
+            <Typography
+              sx={{
+                [theme.breakpoints.down("sd")]: { display: "none" },
+                ml: 1.5,
+                fontFamily: "Roboto Mono",
+                fontWeight: "bold",
+                fontSize: "2vw",
+              }}
+            >
+              Medicina Veterinária do Coletivo
+            </Typography>
           </Box>
           <IconButton
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerToggle}
-            sx={{
-              color: "#102582",
-              mr: { sm: "-5%" },
-              [theme.breakpoints.up("lg")]: {
-                display: "none",
-              },
-            }}
+            sx={styles.menuIcon}
           >
             <MenuIcon />
           </IconButton>
@@ -146,7 +145,7 @@ function DrawerAppBar(props) {
               },
               [theme.breakpoints.up("lg")]: {
                 display: "flex",
-                mr: "-3%",
+                // mr: "-3%",
               },
             }}
           >
@@ -162,7 +161,9 @@ function DrawerAppBar(props) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box component="nav">
+      <Box
+        component="nav"
+      >
         <Drawer
           container={container}
           variant="temporary"
@@ -172,34 +173,35 @@ function DrawerAppBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sx: "none" },
+            display: { xs: "block" },
+            [theme.breakpoints.up("lg")]: { display: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: "100%",
+              "&.hide": {
+                display: "none",
+              },
             },
           }}
         >
           {drawer}
         </Drawer>
       </Box>
-      <Box sx={{ pt: 7.5, width: "100%", height: "100%" }}>
+      <Box sx={{ pt: 7.5, width: "100%", height: "100%", overflow: mobileOpen ? "hidden" : "auto", }}>
         {/* <Toolbar /> */}
-        <Box sx={{ width: "100%", height: "100%" }}>
-          <Outlet />
-        </Box>
-
+        <Outlet style={{ width: "100%" }} />
         <Footer />
       </Box>
     </Box>
   );
 }
 
-DrawerAppBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
+// DrawerAppBar.propTypes = {
+//   /**
+//    * Injected by the documentation to work in an iframe.
+//    * You won't need it on your project.
+//    */
+//   window: PropTypes.func,
+// };
 
 export default DrawerAppBar;
