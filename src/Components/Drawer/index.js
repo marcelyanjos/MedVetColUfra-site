@@ -28,11 +28,11 @@ import colors from "../../colors";
 
 // const drawerWidth = 240;
 const navItems = [
-  { titulo: "Institucional", route: "institucional" },
-  { titulo: "Quero Adotar", route: "" },
-  { titulo: "Quero Doar", route: "" },
-  { titulo: "Eventos", route: "" },
-  { titulo: "Blog", route: "blog" },
+  { titulo: "HOVET", route: "/hovet" },
+  { titulo: "Canil/Gatil", route: "/canil" },
+  { titulo: "Consultas", route: "" },
+  { titulo: "Quero Adotar", route: "/adocao" },
+  { titulo: "Blog", route: "/blog" },
 ];
 
 function DrawerAppBar(props) {
@@ -91,14 +91,14 @@ function DrawerAppBar(props) {
           <IconButton
             sx={styles.medias}
             aria-label="facebook"
-            href="https://pt-br.facebook.com/diomakethechange/"
+            href="https://web.facebook.com/canilgatildaufra/?locale=pt_BR&_rdc=1&_rdr"
           >
             <FacebookIcon width="32px" height="32px" />
           </IconButton>
           <IconButton
             sx={styles.medias}
             aria-label="instagram"
-            href="https://www.instagram.com/dio_makethechange/"
+            href="https://www.instagram.com/medvetcoletivoufra/"
           >
             <InstagramIcon fontSize="large" />
           </IconButton>
@@ -124,10 +124,10 @@ function DrawerAppBar(props) {
                 ml: 1.5,
                 fontFamily: "Roboto Mono",
                 fontWeight: "bold",
-                fontSize: "2vw",
+                fontSize: "1.6vw",
               }}
             >
-              Medicina Veterinária do Coletivo
+              Medicina Veterinária do Coletivo da Ufra
             </Typography>
           </Box>
           <IconButton

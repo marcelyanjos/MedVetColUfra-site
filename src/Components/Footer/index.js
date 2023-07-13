@@ -15,27 +15,24 @@ export default function Footer() {
           <Card sx={styles.bodyLeft}>
             <Typography sx={styles.title}>Institucional</Typography>
             <Link underline="hover" sx={styles.link}>
+              Sobre o Hovet
+            </Link>
+            <Link underline="hover" sx={styles.link}>
               Sobre o Canil
-            </Link>
-            <Link underline="hover" sx={styles.link}>
-              Horário de Funcionamento
-            </Link>
-            <Link underline="hover" sx={styles.link}>
-              Outros Serviços
             </Link>
           </Card>
           <Card sx={styles.bodyLeft}>
             <Typography sx={styles.title}>Informações</Typography>
-            <Link underline="hover" sx={styles.link}>
+            <Link underline="hover" href="/adocao" sx={styles.link}>
               Quero Adotar
             </Link>
             <Link underline="hover" sx={styles.link}>
               Quero Doar
             </Link>
             <Link underline="hover" sx={styles.link}>
-              Eventos
+              Outros serviços
             </Link>
-            <Link underline="hover" sx={styles.link}>
+            <Link underline="hover" href="/blog" sx={styles.link}>
               Blog
             </Link>
           </Card>
@@ -57,7 +54,7 @@ export default function Footer() {
             <IconButton
               sx={styles.medias}
               aria-label="instagram"
-              href="https://www.instagram.com/dio_makethechange/"
+              href="https://www.instagram.com/medvetcoletivoufra/"
             >
               <InstagramIcon width="16px" height="16px" />
             </IconButton>

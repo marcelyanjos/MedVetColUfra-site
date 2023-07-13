@@ -1,0 +1,92 @@
+create database medvetufra;
+
+create table cliente (
+	id_cliente serial primary key,
+	nome varchar(250),
+	data_nasc date,
+	email varchar(250),
+	telefone1 varchar(250),
+	telefone2 varchar(250),
+	cep varchar(100),
+	endereco varchar(300),
+	bairro varchar(250),
+	numero int4,
+	complemento varchar(450)
+)
+
+create table servicos (
+id_servicos serial primary key,
+tipo_servico varchar(150)
+)
+
+create table profissionais (
+matricula int primary key,
+nome varchar(250),
+data_nasc date,
+profissao varchar(150),
+id_servicos int,
+constraint fk_servico foreign key(id_servicos) references servicos(id_servicos)
+)
+
+create table escala (
+id_escala serial primary key,
+dia date,
+matricula int,
+constraint fk_profissional foreign key(matricula) references profissionais(matricula)
+)
+
+create table animais_canil (
+id_animal serial primary key,
+nome varchar(100),
+especie varchar(100),
+sexo varchar(100),
+idade float,
+peso float,
+imagem bytea,
+vacinado bool,
+castrado bool
+)
+
+create table formularios_adocao (
+id_formulario serial primary key,
+id_cliente int,
+id_animal int,
+data_envio date,
+tipo_moradia varchar(100),
+quintal bool,
+pessoas_residencia int,
+ocupacao varchar(200),
+protocolo varchar(100),
+situacao varchar(100)
+outros_animais bool,
+constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
+constraint fk_animalcanil foreign key(id_animal) references animais_canil(id_animal)
+)
+
+create table pet_cliente (
+id_pet serial primary key,
+id_cliente int,
+id_animal int,
+nome varchar(100),
+especie varchar(100),
+sexo varchar(100),
+idade float,
+peso float,
+raca varchar(150),
+constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
+constraint fk_animalcanil foreign key(id_animal) references animais_canil(id_animal)
+)
+
+create table agendamento_cliente (
+id_agendamento serial primary key,
+id_cliente int,
+id_pet int,
+id_servicos int,
+hora time,
+dia date,
+motivo varchar(300),
+situacao varchar(300),
+constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
+constraint fk_pet foreign key(id_pet) references pet_cliente(id_pet),
+constraint fk_servico foreign key(id_servicos) references servicos(id_servicos)
+)

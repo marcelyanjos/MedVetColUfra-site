@@ -8,3 +8,5 @@ Key de slider
 OverflowStyle e ScrollBarWidth de CardCarrousel
 
 WebKitBox de blog
+
+bgcolor de pagination

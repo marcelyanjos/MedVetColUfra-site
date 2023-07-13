@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { TextField, Grid } from '@mui/material';
-import List from '@mui/material/List';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import UserPostsSort from './UserPostsSort';
+import * as React from "react";
+import {
+  TextField,
+  Grid,
+  Box,
+  Typography,
+  ListItemIcon,
+  ListItemButton,
+  ListItemText,
+  Checkbox,
+} from "@mui/material";
+import UserPostsSort from "./UserPostsSort";
 
 const card1 = {
   // display: 'flex',
@@ -19,28 +20,28 @@ const card1 = {
   // width: '49.5%',
   // maxHeight:480,
   // height: '100%',
-  border: '1px solid #CFD0D7',
-  borderRadius: '4px',
-  p: 1
+  border: "1px solid #CFD0D7",
+  borderRadius: "4px",
+  p: 1,
 };
 const SPECIE_OPTIONS = [
-  { value: 'gato', label: 'Gato' },
-  { value: 'cachorro', label: 'Cachorro' }
+  { value: "gato", label: "Gato" },
+  { value: "cachorro", label: "Cachorro" },
 ];
 const SEXO_OPTIONS = [
-  { value: 'femea', label: 'Femea' },
-  { value: 'macho', label: 'Macho' }
+  { value: "femea", label: "Femea" },
+  { value: "macho", label: "Macho" },
 ];
 const ESPECIAL_OPTIONS = [
-  { value: 'sim', label: 'Sim' },
-  { value: 'não', label: 'Não' }
+  { value: "sim", label: "Sim" },
+  { value: "não", label: "Não" },
 ];
 const data = [
-  { value: 'docil', label: 'Dócil' },
-  { value: 'carinhoso', label: 'Carinhoso' },
-  { value: 'brincalhao', label: 'Brincalhão' },
-  { value: 'amavel', label: 'Amável' },
-  { value: 'mimoso', label: 'Mimoso' }
+  { value: "docil", label: "Dócil" },
+  { value: "carinhoso", label: "Carinhoso" },
+  { value: "brincalhao", label: "Brincalhão" },
+  { value: "amavel", label: "Amável" },
+  { value: "mimoso", label: "Mimoso" },
 ];
 export default function Card1() {
   const [checked, setChecked] = React.useState([0]);
@@ -75,7 +76,7 @@ export default function Card1() {
           <Typography>Idade</Typography>
           <TextField
             sx={{
-              width: '100%'
+              width: "100%",
             }}
             size="small"
             autoComplete="username"
@@ -102,18 +103,25 @@ export default function Card1() {
             return (
               // <ListItem key={data} disablePadding>
               <Grid key={data} item xs={8} sm={6} md={4}>
-                <ListItemButton role={undefined} onClick={handleToggle(data.value)} dense>
+                <ListItemButton
+                  role={undefined}
+                  onClick={handleToggle(data.value)}
+                  dense
+                >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
                       checked={checked.indexOf(data.value) !== -1}
                       tabIndex={-1}
                       disableRipple
-                      inputProps={{ 'aria-labelledby': data.label }}
+                      inputProps={{ "aria-labelledby": data.label }}
                     />
-                    <ListItemText sx={{display:'flex',alignItems:'center'}} id={data.value} primary={data.label} />
+                    <ListItemText
+                      sx={{ display: "flex", alignItems: "center" }}
+                      id={data.value}
+                      primary={data.label}
+                    />
                   </ListItemIcon>
-                 
                 </ListItemButton>
               </Grid>
               // </ListItem>

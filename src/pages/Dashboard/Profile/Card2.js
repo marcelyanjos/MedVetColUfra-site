@@ -3,9 +3,10 @@ import { Box, Button, Card, Grid, TextField, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import styles from "./style";
 
 export default function Card2() {
@@ -145,7 +146,7 @@ export default function Card2() {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
               disabled={updateInfo} 
                 label="Data de Nascimento"

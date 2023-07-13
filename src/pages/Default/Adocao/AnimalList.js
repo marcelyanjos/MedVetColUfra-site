@@ -313,7 +313,7 @@ function AnimalList() {
               // color="success"
               sx={{
                 "& .Mui-selected": {
-                  backgroundColor: colors.green[3],
+                  bgcolor: colors.green[3],
                   "&:hover": {
                     bgcolor: colors.green[4],
                   },

@@ -1,10 +1,5 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import {Card, Typography} from "@mui/material";
 
 const totalMedicamentosEstoque = 237;
 const totalDoacoes = 45;
@@ -39,7 +34,7 @@ export default function Card3() {
         >
           Medicamentos em estoque
         </Typography>
-        <Typography variant="h4" fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography fontFamily={"Public Sans"} fontWeight={700}>
           {totalMedicamentosEstoque}
         </Typography>
       </Typography>
@@ -61,7 +56,7 @@ export default function Card3() {
         >
           Outras Doações
         </Typography>
-        <Typography variant="h4" fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography fontFamily={"Public Sans"} fontWeight={700}>
           {totalDoacoes}
         </Typography>
       </Typography>
