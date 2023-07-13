@@ -4,7 +4,7 @@ import React from "react";
 export default function Institucional() {
   return (
     <Box>
-      <Typography>Institucional</Typography>
+      <Typography>Canil/Gatil</Typography>
     </Box>
   );
 }

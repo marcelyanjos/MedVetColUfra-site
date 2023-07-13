@@ -111,7 +111,7 @@ function DrawerAppBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box theme={theme} sx={{ display: "flex"}}>
+    <Box theme={theme} sx={{ display: "flex" }}>
       <AppBar position="absolute" component="nav" style={styles.appbar}>
         <Toolbar sx={styles.toolbar}>
           <Box component="div" sx={styles.titleLogo}>
@@ -149,21 +149,23 @@ function DrawerAppBar(props) {
               },
             }}
           >
-            <Button href="institucional" sx={styles.button}>
-              Institucional
+            <Button href="/hovet" sx={styles.button}>
+              HOVET
             </Button>
-            <Button sx={styles.button}>Quero Adotar</Button>
-            <Button sx={styles.button}>Quero Doar</Button>
-            <Button sx={styles.button}>Eventos</Button>
-            <Button sx={styles.button} href="blog">
+            <Button sx={styles.button} href="/canil">
+              Canil/Gatil
+            </Button>
+            <Button sx={styles.button}>Consultas</Button>
+            <Button sx={styles.button} href="/adocao">
+              Quero Adotar
+            </Button>
+            <Button sx={styles.button} href="/blog">
               Blog
             </Button>
           </Box>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-      >
+      <Box component="nav">
         <Drawer
           container={container}
           variant="temporary"
@@ -187,9 +189,18 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box sx={{ pt: 7.5, width: "100%", height: "100%", overflow: mobileOpen ? "hidden" : "auto", }}>
+      <Box
+        sx={{
+          pt: 7.5,
+          width: "100%",
+          height: "100%",
+          overflow: mobileOpen ? "hidden" : "auto",
+        }}
+      >
         {/* <Toolbar /> */}
-        <Outlet style={{ width: "100%" }} />
+        <Box sx={{ pt: 3, pb: 3 }}>
+          <Outlet />
+        </Box>
         <Footer />
       </Box>
     </Box>

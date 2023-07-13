@@ -18,7 +18,11 @@ import {
   Drawer,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
-import { Header, Home,Institucional, Blog } from "./pages/Default/routes";
+import { Header, Home,Hovet, Blog, Canil, Adocao,AnimaisAdocao} from "./pages/Default/routes";
+import AnimalList from './pages/Default/Adocao/AnimalList'
+import ClientForms from './pages/Default/Adocao/ClientForms'
+import AnimalDetails from './pages/Default/Adocao/AnimalDetails'
+import CheckAndAdopt from './pages/Default/Adocao/CheckAndAdopt'
 // import ErrorPage from "./Pages/ErrorPage";
 
 function App() {
@@ -28,8 +32,16 @@ function App() {
         <Route path="/" element={<Navigate to="" />} />
         <Route path="/" element={<Header />}>
           <Route index path="" element={<Home />} />
-          <Route index path="institucional" element={<Institucional />} />
+          <Route index path="hovet" element={<Hovet />} />
           <Route index path="blog" element={<Blog />} />
+          <Route index path="canil" element={<Canil />} />
+          <Route path="adocao" element={<Adocao />} >
+              <Route index element={<AnimaisAdocao />} />
+              <Route path="lista" element={<AnimalList />} />
+              <Route path="my-adoptions" element={<ClientForms />} />
+              <Route path=":id" element={<AnimalDetails />} />
+              <Route path="adoption-form/:id" element={<CheckAndAdopt />} />
+            </Route>
         </Route>
         {/* Admin */}
         <Route path="admin" element={<Navigate to="login" />} />
