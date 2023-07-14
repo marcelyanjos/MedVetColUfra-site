@@ -20,6 +20,7 @@ import {
 import Dashboard from "./pages/Dashboard";
 import { Header, Home,Hovet, Blog, Canil, Adocao,AnimaisAdocao} from "./pages/Default/routes";
 import AnimalList from './pages/Default/Adocao/AnimalList'
+import AdocaoInfo from './pages/Default/Adocao/Info'
 import ClientForms from './pages/Default/Adocao/ClientForms'
 import AnimalDetails from './pages/Default/Adocao/AnimalDetails'
 import CheckAndAdopt from './pages/Default/Adocao/CheckAndAdopt'
@@ -38,6 +39,7 @@ function App() {
           <Route path="adocao" element={<Adocao />} >
               <Route index element={<AnimaisAdocao />} />
               <Route path="lista" element={<AnimalList />} />
+              <Route path="info" element={<AdocaoInfo />} />
               <Route path="my-adoptions" element={<ClientForms />} />
               <Route path=":id" element={<AnimalDetails />} />
               <Route path="adoption-form/:id" element={<CheckAndAdopt />} />

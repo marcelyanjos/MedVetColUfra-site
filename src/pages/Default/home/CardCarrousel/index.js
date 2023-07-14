@@ -1,14 +1,32 @@
-import { Box, Typography, Card, Button } from "@mui/material";
+import React, { useRef, useState, useEffect } from "react";
+import { Box,Link, Typography, Card, Button, CardMedia } from "@mui/material";
 import initialRows from "../../../../mockup/adoption";
-import React, { useRef } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { ReactComponent as Female } from "../../../../assets/female.svg";
 import { ReactComponent as Male } from "../../../../assets/male.svg";
+import { decode } from "base-64";
 import theme from "../../../../Components/Drawer/theme";
 import colors from "../../../../colors";
+import api from "../../../../api";
 export default function CardCarrousel() {
+  const [animals, setAnimals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    api
+      .get("/api/animals")
+      .then((response) => {
+        setAnimals(response.data);
+        console.log("data: ", response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
+  }, []);
+
   const ref = useRef(null);
   const scroll = (scrollOffset) => {
     ref.current.scrollLeft += scrollOffset;
@@ -19,12 +37,20 @@ export default function CardCarrousel() {
       <Box sx={{ p: 2, pl: 4, pr: 4 }}>
         <Box sx={{ display: "flex" }}>
           <Typography
-            sx={{ flex: 1, color: colors.black[0], fontWeight: "bold", fontSize: 26 }}
+            sx={{
+              flex: 1,
+              color: colors.black[0],
+              fontWeight: "bold",
+              fontSize: 26,
+            }}
           >
             Novos Pets
           </Typography>
           <Button onClick={() => scroll(-400)}>
-            <KeyboardArrowLeftIcon fontSize="large" sx={{ color: colors.black[0] }} />
+            <KeyboardArrowLeftIcon
+              fontSize="large"
+              sx={{ color: colors.black[0] }}
+            />
           </Button>
           <Button onClick={() => scroll(400)}>
             {" "}
@@ -49,25 +75,24 @@ export default function CardCarrousel() {
           }}
         >
           {/* max 6 items */}
-          {initialRows.slice(0, 6).map((i, index) => {
+          {animals.slice(0, 6).map((animal) => {
             return (
+              <Link sx={{textDecoration:'none'}} href={`/adocao/${animal.id_animal}`}>
               <Card
-                key={index}
+                key={animal.id_animal}
                 elevation={4}
                 sx={{
                   mr: 1,
                   height: "380px",
                   minWidth: "300px",
-                  "&:hover": { mt: -1 },
+                  "&:hover": { top:-1 },
                 }}
               >
-                <Box
-                  alt={i.nome}
-                  style={{
-                    height: "320px",
-                    backgroundImage: "url(" + i.images[0] + ")",
-                    backgroundSize: "auto 320px",
-                  }}
+                <CardMedia
+                  component="img"
+                  image={`data:image/jpg;base64,${decode(animal.imagem)}`}
+                  alt={animal.nome}
+                  style={{ width: "320px",height:'82%',objectFit: "cover" }}
                 />
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Typography component={"span"} variant={"body2"}>
@@ -80,7 +105,7 @@ export default function CardCarrousel() {
                         color: "#494a4a",
                       }}
                     >
-                      {i.nome}
+                      {animal.nome}
                     </Typography>
                     <Typography
                       sx={{
@@ -89,16 +114,17 @@ export default function CardCarrousel() {
                         color: "#494a4a",
                       }}
                     >
-                      {i.idade} anos
+                      {animal.idade} anos
                     </Typography>
                   </Typography>
-                  {i.sexo === "femea" ? (
+                  {animal.sexo === "femea" ? (
                     <Female style={{ height: "40px", marginTop: 5 }} />
                   ) : (
                     <Male style={{ height: "40px", marginTop: 5 }} />
                   )}
                 </Box>
               </Card>
+              </Link>
             );
           })}
           <Button

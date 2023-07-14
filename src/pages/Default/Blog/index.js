@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import blog from "../../../mockup/blog";
 import styles from "./styles";
+import colors from "../../../colors";
 export default function Blog() {
   const [filteredList, setFilteredList] = React.useState(blog);
   const [value, setValue] = React.useState("");
@@ -148,7 +149,7 @@ export default function Blog() {
                     }}
                   />
                 </Box>
-                <Typography sx={{ p: 2 }}>
+                <Typography component={"span"} variant={"body2"} sx={{ p: 2 }}>
                   <Box
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
@@ -189,9 +190,12 @@ export default function Blog() {
                     sx={{
                       mt: 1,
                       fontSize: 12,
-                      bgcolor: "#bbdcfc",
+                      bgcolor: colors.green[3],
                       color: "#ffffff",
                       fontWeight: "bold",
+                      "&:hover": {
+                        bgcolor: colors.green[4],
+                      },
                     }}
                   >
                     Leia mais

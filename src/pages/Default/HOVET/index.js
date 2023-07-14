@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 export default function Institucional() {
   return (
-    <Box>
+    <Box sx={{pl:5, pr:5}}>
       <Typography>Hovet</Typography>
     </Box>
   );

@@ -47,7 +47,6 @@ function AnimalDetails(props) {
 
   return (
     <Container
-      minHeight={"100%"}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -123,7 +122,7 @@ function AnimalDetails(props) {
         >
           <Grid item>
             <Grid item sx={{ mb: 2 }}>
-              <Typography variant="body2" sx={{ fontSize: "20px" }}>
+              <Typography component={"span"} variant={"body2"} sx={{ fontSize: "20px" }}>
                 Sobre o Pet
               </Typography>
             </Grid>
@@ -136,12 +135,12 @@ function AnimalDetails(props) {
                 borderRadius: 4,
               }}
             >
-              <Typography variant="body1">Especie: {animal.especie}</Typography>
-              <Typography variant="body1">Sexo: {animal.sexo}</Typography>
-              <Typography variant="body1">
+              <Typography variant={"body2"}>Especie: {animal.especie}</Typography>
+              <Typography variant={"body2"}>Sexo: {animal.sexo}</Typography>
+              <Typography variant={"body2"}>
                 Idade: {animal.idade} anos
               </Typography>
-              <Typography variant="body1">Peso: {animal.peso} kg</Typography>
+              <Typography variant={"body2"}>Peso: {animal.peso} kg</Typography>
             </Grid>
           </Grid>
           <Grid item sx={{ display: "flex", justifyContent: "space-between" }}>

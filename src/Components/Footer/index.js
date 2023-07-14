@@ -23,8 +23,8 @@ export default function Footer() {
           </Card>
           <Card sx={styles.bodyLeft}>
             <Typography sx={styles.title}>Informações</Typography>
-            <Link underline="hover" href="/adocao" sx={styles.link}>
-              Quero Adotar
+            <Link underline="hover" href="/adocao/info" sx={styles.link}>
+              Como Adotar
             </Link>
             <Link underline="hover" sx={styles.link}>
               Quero Doar

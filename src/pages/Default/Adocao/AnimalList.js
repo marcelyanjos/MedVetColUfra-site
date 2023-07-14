@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import InfoIcon from "@mui/icons-material/Info";
 import { decode } from "base-64";
 import api from "../../../api";
 import colors from "../../../colors";
@@ -237,6 +238,15 @@ function AnimalList() {
                 >
                   Quero Adotar
                 </Typography>
+                <IconButton
+                  href="/adocao/info"
+                  sx={{
+                    color: colors.black[3],
+                    "&:hover": { bgcolor: "transparent" },
+                  }}
+                >
+                  <InfoIcon />
+                </IconButton>
               </Grid>
               <Grid
                 item
