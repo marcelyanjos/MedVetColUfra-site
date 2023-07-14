@@ -2,19 +2,20 @@ import Chart from "react-apexcharts";
 import { Card, Typography, Box } from "@mui/material";
 import { BAR_DATA } from "./data";
 import styles from '../style';
+import colors from "../../../../colors";
 
 var pt = require("apexcharts/dist/locales/pt.json")
 
 const options = {
-  colors: ["#1a48ad", "#5B8FF9", "#65789B"],
-  // states:{
-  //   hover:{
-  //     filter:{
-  //       type: "lighten",
-  //       value: 0.05,
-  //     }
-  //   }
-  // },
+  colors: [colors.green[7], colors.green[5], colors.green[2]],
+  states:{
+    hover:{
+      filter:{
+        type: "lighten",
+        value: 0.01,
+      }
+    }
+  },
   chart: {
     id: "basic-bar",
     fontFamily: "Public Sans",

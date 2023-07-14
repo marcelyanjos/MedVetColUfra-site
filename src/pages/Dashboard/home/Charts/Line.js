@@ -16,7 +16,7 @@ const options = {
       toolbar: {
         show: true,
         offsetX: 0,
-        offsetY: -62,
+        offsetY: -25,
       },
     },
     labels: [
@@ -97,16 +97,16 @@ export default function App() {
         fontWeight={700}
         sx={{ fontSize: 18, color: "#212B36"}}
       >
-        Cadastros
+        Consultas e Adoções
       </Typography>
-      <Typography
+      {/* <Typography
         variant="subtitle2"
         fontFamily={"Public Sans"}
         fontWeight={500}
         sx={styles.chart_subtitle2}
       >
         Cadastros na plataforma
-      </Typography>
+      </Typography> */}
       <Box dir="ltr">
         <Chart options={options} series={LINE_DATA} type="line" height={320} />
       </Box>
