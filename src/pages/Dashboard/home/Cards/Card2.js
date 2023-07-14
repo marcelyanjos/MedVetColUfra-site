@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Card, Typography } from "@mui/material";
+import colors from "../../../../colors";
 
 const totalCaesAdotados = 45;
 const totalCaespAdocao = 86;
@@ -11,12 +12,13 @@ export default function Card2() {
         paddingBottom: 4,
         borderRadius: 4,
         minWidth: 275,
-        color: "#04297A",
-        backgroundColor: "#D0F2FF",
+        color: colors.green[10],
+        backgroundColor: colors.green[0],
       }}
       elevation={0}
     >
       <Typography
+        component={'span'}
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -34,7 +36,7 @@ export default function Card2() {
         >
           Cães Adotados
         </Typography>
-        <Typography fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalCaesAdotados}
         </Typography>
       </Typography>
@@ -56,7 +58,7 @@ export default function Card2() {
         >
           Cães para Adoção
         </Typography>
-        <Typography fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalCaespAdocao}
         </Typography>
       </Typography>

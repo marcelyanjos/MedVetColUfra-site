@@ -5,7 +5,7 @@ import data from "../../../../mockup/blog";
 export default function Blog() {
   return (
     <Box sx={{ minHeight: "580px", width: "100%" }}>
-      <Box sx={{ p: 3, pl: 4, pr: 4 }}>
+      <Box sx={{ p: 3, pl: 5, pr: 5 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", pb: 2 }}>
           <Typography sx={{ fontSize: 26, fontWeight: "bold" }}>
             Blog
@@ -94,7 +94,7 @@ export default function Blog() {
                       pb: 1,
                       display: "-webkit-box",
                       WebkitLineClamp: 5,
-                      "-webkit-box-orient": "vertical",
+                      "webkitBoxOrient": "vertical",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       height: "100px",

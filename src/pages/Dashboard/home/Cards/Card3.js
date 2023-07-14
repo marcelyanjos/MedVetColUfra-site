@@ -34,7 +34,7 @@ export default function Card3() {
         >
           Medicamentos em estoque
         </Typography>
-        <Typography fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalMedicamentosEstoque}
         </Typography>
       </Typography>
@@ -56,7 +56,7 @@ export default function Card3() {
         >
           Outras Doações
         </Typography>
-        <Typography fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalDoacoes}
         </Typography>
       </Typography>

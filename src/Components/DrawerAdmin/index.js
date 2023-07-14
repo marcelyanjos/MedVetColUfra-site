@@ -21,10 +21,13 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Outlet } from "react-router-dom";
+import { useAuthContext } from "../../CMS/Context/AuthContext";
 import AccountMenu from "./AccountMenu";
 import profile from "../../mockup/profile";
+import { ReactComponent as LogoIcon } from "../../assets/Logos/Logo.svg";
 import styles from "./styles";
 import routes from "./routes";
+import colors from "../../colors";
 
 //Component Body
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -63,6 +66,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
+  const { user } = useAuthContext();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -83,13 +87,21 @@ export default function PersistentDrawerLeft() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ color: "#212b36", mr: 2 }}
+            sx={{ mr: 2 }}
           >
-            <MenuRoundedIcon sx={{ fontSize: 25 }} />
+            <MenuRoundedIcon fontSize='large'/>
           </IconButton>
-          <Typography sx={styles.logoName} noWrap component="div">
-            Pet Ufra
-          </Typography>
+          <LogoIcon style={{ height: "48px" }} />
+          <Typography
+              sx={{
+                [theme.breakpoints.down("sd")]: { display: "none" },
+                ml: 1.5,
+                fontFamily: "Roboto Mono",
+                fontSize: "1.6vw",
+              }}
+            >
+              Medicina Veterinária do Coletivo da Ufra
+            </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <AccountMenu />
         </Toolbar>
@@ -114,12 +126,12 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <div style={styles.menuDrawer}>
           <Avatar
-            alt={profile.name + profile.surname}
+            alt={user?.username}
             sx={{ width: 200, height: 200 }}
             src={profile.src}
           />
           <Typography sx={{ color: "#74C1EB", fontSize: 28 }}>
-            {profile.name + " " + profile.surname}
+            {user?.name}
           </Typography>
           <Typography sx={{ color: "#74C1EB" }}>{profile.username}</Typography>
         </div>

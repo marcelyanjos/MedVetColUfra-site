@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Card, Typography} from "@mui/material";
+import colors from "../../../../colors";
 
 const totalGatospAdocao = 86;
 const totalGatosAdotados = 45;
@@ -12,11 +13,12 @@ export default function Card1() {
         borderRadius: 4,
         minWidth: 275,
         color: "#EBEDFB",
-        backgroundColor: "#5B8FF9",
+        backgroundColor: colors.green[7],
       }}
       elevation={0}
     >
       <Typography
+        component={'span'}
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -34,7 +36,7 @@ export default function Card1() {
         >
           Gatos Adotados
         </Typography>
-        <Typography variant="h4" fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalGatosAdotados}
         </Typography>
       </Typography>
@@ -56,7 +58,7 @@ export default function Card1() {
         >
           Gatos para Adoção
         </Typography>
-        <Typography variant="h4" fontFamily={"Public Sans"} fontWeight={700}>
+        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
           {totalGatospAdocao}
         </Typography>
       </Typography>

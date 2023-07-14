@@ -115,11 +115,11 @@ export default function App() {
       sx={styles.chart_card}
     >
       <Typography
-        fontFamily={"Public Sans"}
+        fontFamily={"Open Sans, sans-serif"}
         fontWeight={700}
         sx={styles.chart_barTypography}
       >
-        Adoções e Doações
+        Adoções
       </Typography>
       <Box dir="ltr">
         <Chart options={options} series={BAR_DATA} type="line" height={364} />

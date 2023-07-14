@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   IconButton,
   Menu,
@@ -11,9 +12,14 @@ import {
 } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { getToken, removeToken } from "../../CMS/Helpers";
+import { useAuthContext } from "../../CMS/Context/AuthContext";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const isAuthenticated = !!getToken();
+  const { user } = useAuthContext();
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +27,14 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    // Remover o token e fazer outras ações de logout necessárias
+    removeToken();
+    // Atualizar a página
+    window.location.reload();
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -33,7 +47,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar alt={user?.username} sx={{ width: 32, height: 32 }}>{user?.username}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -87,12 +101,12 @@ export default function AccountMenu() {
           <HomeRoundedIcon fontSize="large" color="disabled" /> Home
         </MenuItem>
         <Divider />
-        <Link to="/admin" style={{ textDecoration: "none", color: "black" }}>
+        <Button onClick={handleLogout} style={{ textDecoration: "none", color: "black" }}>
           <MenuItem>
             <ExitToAppIcon fontSize="large" color="disabled" />
             Logout
           </MenuItem>
-        </Link>
+        </Button>
       </Menu>
     </React.Fragment>
   );

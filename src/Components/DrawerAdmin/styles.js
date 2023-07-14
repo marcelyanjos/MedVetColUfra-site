@@ -1,8 +1,11 @@
+import colors from "../../colors";
+
 const drawerWidth = 320;
 
 const styles = {
   appbar: {
-    backgroundColor: "rgba(179, 232, 255, 0.6)",
+    backgroundColor: 'rgba(181,228,198,0.6)',
+    color:colors.green[10],
     backdropFilter: "blur(6px)",
     WebkitBackdropFilter: "blur(6px)",
   },
