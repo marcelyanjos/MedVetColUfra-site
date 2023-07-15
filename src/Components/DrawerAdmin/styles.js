@@ -20,13 +20,12 @@ const styles = {
     flexShrink: 0,
     "& .MuiDrawer-paper": {
       width: drawerWidth,
-      // backgroundColor:"#cfeffd",
       boxSizing: "border-box",
     },
   },
   drawerLogoName: {
-    color: "#74C1EB",
-    fontSize: 30,
+    color: colors.green[3],
+    fontSize: 24,
     fontFamily: "Public Sans",
     fontWeight: "500",
     width: "85%",
@@ -34,6 +33,7 @@ const styles = {
     alignItems: "start",
   },
   menuDrawer: {
+    color: colors.green[4],
     width: "100%",
     display: "flex",
     flexDirection: "column",

@@ -76,6 +76,7 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  console.log("nome", user);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -89,19 +90,19 @@ export default function PersistentDrawerLeft() {
             edge="start"
             sx={{ mr: 2 }}
           >
-            <MenuRoundedIcon fontSize='large'/>
+            <MenuRoundedIcon fontSize="large" />
           </IconButton>
           <LogoIcon style={{ height: "48px" }} />
           <Typography
-              sx={{
-                [theme.breakpoints.down("sd")]: { display: "none" },
-                ml: 1.5,
-                fontFamily: "Roboto Mono",
-                fontSize: "1.6vw",
-              }}
-            >
-              Medicina Veterinária do Coletivo da Ufra
-            </Typography>
+            sx={{
+              [theme.breakpoints.down("sd")]: { display: "none" },
+              ml: 1.5,
+              fontFamily: "Roboto Mono",
+              fontSize: "1.6vw",
+            }}
+          >
+            Medicina Veterinária do Coletivo da Ufra
+          </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <AccountMenu />
         </Toolbar>
@@ -115,7 +116,9 @@ export default function PersistentDrawerLeft() {
       >
         {/* Corpo do Menu Lateral */}
         <DrawerHeader>
-          <Typography sx={styles.drawerLogoName}>Pet Ufra</Typography>
+          <Typography sx={styles.drawerLogoName}>
+            MedVet Coletivo Ufra
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -130,10 +133,8 @@ export default function PersistentDrawerLeft() {
             sx={{ width: 200, height: 200 }}
             src={profile.src}
           />
-          <Typography sx={{ color: "#74C1EB", fontSize: 28 }}>
-            {user?.name}
-          </Typography>
-          <Typography sx={{ color: "#74C1EB" }}>{profile.username}</Typography>
+          <Typography sx={{ fontSize: 28 }}>{user?.name}</Typography>
+          <Typography>{user?.username}</Typography>
         </div>
         <Divider />
 
@@ -146,9 +147,17 @@ export default function PersistentDrawerLeft() {
                 style={{
                   height: 45,
                   marginTop: 5,
+                  fill:
+                    "/admin/dashboard/" + item.link === window.location.pathname
+                      ? colors.green[7]
+                      : colors.green[4],
+                  stroke:
+                    "/admin/dashboard/" + item.link === window.location.pathname
+                      ? colors.green[7]
+                      : colors.green[4],
                   backgroundColor:
                     "/admin/dashboard/" + item.link === window.location.pathname
-                      ? "rgba(179, 232, 255, 0.6)"
+                      ? colors.green[0]
                       : "white",
                   marginLeft:
                     "/admin/dashboard/" + item.link === window.location.pathname
@@ -159,14 +168,20 @@ export default function PersistentDrawerLeft() {
               >
                 <ListItemIcon
                   sx={{
-                    stroke: "#74c1eb",
+                    "&.MuiListItemIcon-root": {
+                      color:
+                        "/admin/dashboard/" + item.link ===
+                        window.location.pathname
+                          ? colors.green[7]
+                          : colors.green[4],
+                    },
                   }}
                 >
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   sx={{
-                    color: "#74c1eb",
+                    color: colors.green[7],
                   }}
                   primary={item.nome}
                   primaryTypographyProps={{ fontSize: "100%" }}

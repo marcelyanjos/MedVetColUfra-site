@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import api from "../../../../api";
 import styles from "../style";
 import colors from "../../../../colors";
-import { format, startOfMonth, addMonths } from "date-fns";
 
 var pt = require("apexcharts/dist/locales/pt.json");
 

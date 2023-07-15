@@ -1,13 +1,14 @@
 // Rotas estilizadas para menu
 import React from "react";
-import { ReactComponent as HomeIcon } from "../../assets/Home_light.svg";
-import { ReactComponent as MedicationIcon } from "../../assets/Medication_light.svg";
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+// import { ReactComponent as HomeIcon } from "../../assets/Home_light.svg";
+import { ReactComponent as SthetoscopeIcon } from "../../assets/stethoscope_icon.svg";
 import { ReactComponent as Adoption } from "../../assets/Paw_light.svg";
 import { ReactComponent as Article } from "../../assets/Article_light.svg";
 const routes = [
   {
     nome: "Home",
-    icon: <HomeIcon />,
+    icon: <HomeRoundedIcon fontSize="large"/>,
     link: "app",
   },
   {
@@ -16,9 +17,9 @@ const routes = [
     link: "animais",
   },
   {
-    nome: "Medicamentos em estoque",
-    icon: <MedicationIcon />,
-    link: "medicamentos",
+    nome: "Profissionais",
+    icon: <SthetoscopeIcon />,
+    link: "profissionais",
   },
 
   {

@@ -11,7 +11,7 @@ import {
   Admin,
   Pets,
   Profile,
-  Medicine,
+  Professionals,
   Article,
   ArticleTable,
   Editor,
@@ -69,7 +69,7 @@ function App() {
             <Route path="dashboard" element={<Navigate to="app" />} />
             <Route path="dashboard" element={getToken() ? <Drawer />:<Navigate to="/admin/login" />}>
               <Route index path="app" element={<Admin />} />
-              <Route path="medicamentos" element={<Medicine />} />
+              <Route path="profissionais" element={<Professionals />} />
               <Route path="animais" element={<Pets />} />
               <Route path="artigos" element={<Article />}>
                 <Route index element={<ArticleTable />} />

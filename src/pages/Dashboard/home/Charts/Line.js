@@ -1,41 +1,45 @@
+import React, { useState } from "react";
 import Chart from "react-apexcharts";
 import { Card, Typography, Box } from "@mui/material";
 import { LINE_DATA } from "./data";
-import styles from '../style';
+import styles from "../style";
+import colors from "../../../../colors";
 
-var pt = require("apexcharts/dist/locales/pt.json")
+var pt = require("apexcharts/dist/locales/pt.json");
 
-const options = {
-    colors: ["#B3CAFF", "#5B8FF9"],
+export default function App() {
+  const [line, setLine] = useState({
+    consultas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    adocoes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  });
+
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const labels = Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    const formattedDate = `${("0" + month).slice(-2)}/01/${year}`;
+    return formattedDate;
+  });
+
+  const options = {
+    colors: [colors.green[0], colors.green[4]],
     chart: {
       id: "chart",
       type: "line",
       fontFamily: "Public Sans",
       locales: [pt],
-      defaultLocale: 'pt',
+      defaultLocale: "pt",
       toolbar: {
         show: true,
         offsetX: 0,
         offsetY: -25,
       },
     },
-    labels: [
-      "01/01/2003",
-      "02/01/2003",
-      "03/01/2003",
-      "04/01/2003",
-      "05/01/2003",
-      "06/01/2003",
-      "07/01/2003",
-      "08/01/2003",
-      "09/01/2003",
-      "10/01/2003",
-      "11/01/2003",
-    ],
+    labels: labels,
     xaxis: {
       type: "datetime",
       labels: {
-        format: 'MM/yyyy',
+        format: "MM/yyyy",
       },
       title: {
         text: "Meses",
@@ -47,7 +51,7 @@ const options = {
     },
     yaxis: {
       title: {
-        text: "Usuários",
+        text: "Contagem",
         align: "left",
       },
     },
@@ -68,7 +72,7 @@ const options = {
       },
       borderRadius: 4,
       backdropFilter: "blur(6px)",
-      WebkitBackdropFilter: 'blur(6px)',
+      WebkitBackdropFilter: "blur(6px)",
       backgroundColor: "rgba(255,255,255,0.3)",
     },
     legend: {
@@ -81,23 +85,20 @@ const options = {
       enabled: false,
     },
     stroke: {
-      colors: ["#B3CAFF", "#5B8FF9"],
-      width:2,
-      curve: 'smooth',
+      colors: [colors.green[0], colors.green[4]],
+      width: 2,
+      curve: "smooth",
     },
-};
+  };
 
-export default function App() {
   return (
-    <Card
-      sx={styles.chart_card}
-    >
+    <Card sx={styles.chart_card}>
       <Typography
         fontFamily={"Public Sans"}
         fontWeight={700}
-        sx={{ fontSize: 18, color: "#212B36"}}
+        sx={{ fontSize: 18, color: "#212B36" }}
       >
-        Consultas e Adoções
+        Uso do Site
       </Typography>
       {/* <Typography
         variant="subtitle2"
