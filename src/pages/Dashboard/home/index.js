@@ -44,11 +44,6 @@ export default function Home() {
           </Grid>
         </Grid>
       </Container>
-      {/* <nav>
-        <Link to="/"> Home </Link>
-        <Link to="/animais"> Animais </Link>
-        <Link to="/medicamentos"> Medicamentos </Link>
-      </nav> */}
     </div>
   );
 }

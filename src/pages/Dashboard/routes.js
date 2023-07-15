@@ -3,7 +3,7 @@ import signUp from "./SignUp";
 import admin from "./home";
 import animais from "./AdoptionList";
 import perfil from "./Profile";
-import profissionais from "./MedicationList";
+import profissionais from "./Profissionais";
 import artigos from "./Artigos";
 import artigosTabela from "./Artigos/table";
 import editor from "./Artigos/editor";

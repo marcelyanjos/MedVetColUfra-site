@@ -1,3 +1,5 @@
+import colors from "../../../colors"
+
 const styles = {
     root: {
         justifyContent: "center",
@@ -7,14 +9,13 @@ const styles = {
         minWidth: 300,
         minHeight: "100vh",
         // flexDirection: "row",
-        width: "100%",
         height: "100%",
-        backgroundColor: "#cfeffd",
+        backgroundColor: colors.green[0],
     },
     paper: {
         borderRadius: 16,
         boxShadow: "0px 2px 10px 4px rgba(0,0,0,0.1)",
-        backgroundColor: "rgba(255,255,255,0.4)",
+        backgroundColor: "rgba(255,255,255,0.6)",
         width: "30%",
         // flex:0.5,
         minWidth: 320,
