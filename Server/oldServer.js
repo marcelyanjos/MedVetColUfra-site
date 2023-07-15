@@ -69,6 +69,43 @@ app.get('/api/animals', async (req, res) => {
   }
 });
 
+// Rota para listar animais por espécie e status de adoção
+api.get("/api/chart", async (req, res) => {
+  const { especie, adotado } = req.query;
+
+  try {
+    let query = "SELECT * FROM animais_canil";
+    const values = [];
+
+    if (especie) {
+      query += " WHERE especie = $1";
+      values.push(especie.toUpperCase());
+    }
+
+    if (adotado) {
+      const index = values.length + 1;
+      query += values.length
+        ? " AND adotado = $" + index
+        : " WHERE adotado = $" + index;
+      values.push(adotado);
+    }
+
+    const { rows } = await pool.query(query, values);
+
+    // Converte o buffer data para base64 string
+    rows.forEach((row) => {
+      if (row.imagem) {
+        row.imagem = Buffer.from(row.imagem).toString("base64");
+      }
+    });
+
+    res.send(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao buscar os animais.");
+  }
+});
+
 // Rota para buscar um animal pelo ID
 app.get('/api/animals/:id_animal', async (req, res) => {
   const { id_animal } = req.params;
@@ -229,6 +266,67 @@ app.post('/api/clientes', async (req, res) => {
     res.status(500).send('Erro ao cadastrar o cliente.');
   }
 });
+
+// todas as adoções
+// app.get("/api/adocao", async (req, res) => {
+//   try {
+//     const query = "SELECT * FROM adocoes";
+//     const { rows } = await pool.query(query);
+//     res.send(rows);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Erro ao buscar adoções.");
+//   }
+// });
+// todas as adoções
+app.get("/api/adocao", async (req, res) => {
+  try {
+    const query = "SELECT * FROM formularios_adocao WHERE data_envio IS NOT NULL";
+    const { rows } = await pool.query(query);
+    res.send(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao buscar adoções.");
+  }
+});
+
+
+
+// // Rota para obter as adoções de um cliente
+// app.get("/api/adocao/:id_cliente", async (req, res) => {
+//   const { id_cliente } = req.params;
+
+//   try {
+//     const { rows } = await pool.query(
+//       "SELECT * FROM adocoes WHERE id_cliente = $1",
+//       [id_cliente]
+//     );
+//     if (rows.length === 0) {
+//       res.status(400).send("Parâmetros inválidos.");
+//     } else {
+//       res.send(rows);
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Erro ao buscar os pets do cliente.");
+//   }
+// });
+
+// // Rota para adicionar uma adoção
+// app.post("/api/adocao", async (req, res) => {
+//   const { id_cliente, id_formulario, id_animal, data_adocao } = req.body;
+//   try {
+//     const { rows: adocao } = await pool.query(
+//       "INSERT INTO adocao (id_cliente, id_formulario, id_animal, data_adocao) VALUES ($1, $2, $3, $4) RETURNING id_pet",
+//       [id_cliente, id_formulario, id_animal, data_adocao]
+//     );
+//     const id_adocao = adocao[0].id_adocao;
+//     res.send({ id_adocao });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Erro ao cadastrar adocao.");
+//   }
+// });
 
 // Rota para obter os serviços disponíveis
 app.get('/api/servicos', async (req, res) => {

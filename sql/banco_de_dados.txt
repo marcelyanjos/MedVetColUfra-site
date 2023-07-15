@@ -44,7 +44,8 @@ idade float,
 peso float,
 imagem bytea,
 vacinado bool,
-castrado bool
+castrado bool,
+adotado bool
 )
 
 create table formularios_adocao (
@@ -52,6 +53,7 @@ id_formulario serial primary key,
 id_cliente int,
 id_animal int,
 data_envio date,
+data_adocao date,
 tipo_moradia varchar(100),
 quintal bool,
 pessoas_residencia int,
@@ -62,6 +64,20 @@ outros_animais bool,
 constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
 constraint fk_animalcanil foreign key(id_animal) references animais_canil(id_animal)
 )
+
+
+// Não usado
+create table adocoes (
+id_adocao serial primary key,
+id_formulario int,
+id_cliente int,
+id_animal int,
+data_adocao date,
+constraint fk_formulario foreign key(id_formulario) references formularios_adocao(id_formulario),
+constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
+constraint fk_animalcanil foreign key(id_animal) references animais_canil(id_animal)
+)
+
 
 create table pet_cliente (
 id_pet serial primary key,

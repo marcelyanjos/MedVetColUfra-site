@@ -6,7 +6,7 @@ const pool = require("../db");
 // Rota para listar todos os formularios de adoção
 router.get("/", async (req, res) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM formularios_adocao");
+    const { rows } = await pool.query("SELECT * FROM formularios_adocao WHERE data_envio IS NOT NULL");
     res.send(rows);
   } catch (error) {
     console.error(error);
