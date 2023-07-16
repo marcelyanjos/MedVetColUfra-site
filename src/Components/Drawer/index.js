@@ -20,7 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet } from "react-router-dom";
 import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
 import { ReactComponent as LogoIcon } from "../../assets/Logos/Logo.svg";
-import theme from "./theme";
+import theme from "../theme";
 import styles from "./styles";
 import Footer from "../Footer";
 import colors from "../../colors";

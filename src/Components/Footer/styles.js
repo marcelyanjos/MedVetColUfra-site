@@ -1,4 +1,4 @@
-import theme from "../Drawer/theme";
+import theme from "../theme";
 import colors from '../../colors'
 
 const styles = {

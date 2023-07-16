@@ -5,7 +5,7 @@ import { ReactComponent as Logo1 } from "../../assets/Logos/Group28.svg";
 import { ReactComponent as Logo2 } from "../../assets/Logos/Group29.svg";
 import { ReactComponent as Logo3 } from "../../assets/Logos/Group31.svg";
 import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
-import theme from "../Drawer/theme";
+import theme from "../theme";
 import styles from "./styles";
 export default function Footer() {
   return (

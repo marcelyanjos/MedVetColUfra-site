@@ -1,4 +1,4 @@
-import theme from "./theme";
+import theme from "../theme";
 import colors from '../../colors'
 const styles = {
   appbar: {

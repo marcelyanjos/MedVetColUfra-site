@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import data from "../../mockup/image";
 import styles from "./styles";
-import theme from "../Drawer/theme";
+import theme from "../theme";
 
 // altura maxima de imagem 450px
 const Slider = () => {

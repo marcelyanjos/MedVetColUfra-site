@@ -7,7 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { ReactComponent as Female } from "../../../../assets/female.svg";
 import { ReactComponent as Male } from "../../../../assets/male.svg";
 import { decode } from "base-64";
-import theme from "../../../../Components/Drawer/theme";
+import theme from "../../theme";
 import colors from "../../../../colors";
 import api from "../../../../api";
 export default function CardCarrousel() {

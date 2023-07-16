@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import theme from "../../../../Components/Drawer/theme";
+import theme from "../../theme";
 export default function Info() {
   return (
     <>
