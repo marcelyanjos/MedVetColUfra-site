@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const animalsRouter = require('./routes/animals');
 const adoptionFormsRouter = require('./routes/adoptionform');
 const agendamentoRouter = require('./routes/agendamento');
@@ -16,6 +17,10 @@ const app = express();
 
 // Habilita o uso do CORS
 app.use(cors());
+
+// Configura o Body Parser para interpretar corretamente os dados enviados no corpo das requisições
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use(express.json());
 

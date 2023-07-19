@@ -18,12 +18,12 @@ const BAR_DATA = [
 
 const LINE_DATA =[
   {
-    name: 'APP',
+    name: 'Consultas',
     type: 'area',
     data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
   },
   {
-    name: 'Site',
+    name: 'Adoções',
     type: 'line',
     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
   }

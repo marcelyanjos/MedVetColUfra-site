@@ -10,9 +10,10 @@ import {
   Login,
   Admin,
   Pets,
+  Adocoes,
   Profile,
   Professionals,
-  Article,
+  ArticleList,
   ArticleTable,
   Editor,
   Drawer,
@@ -32,6 +33,7 @@ import AdocaoInfo from "./pages/Default/Adocao/Info";
 import ClientForms from "./pages/Default/Adocao/ClientForms";
 import AnimalDetails from "./pages/Default/Adocao/AnimalDetails";
 import CheckAndAdopt from "./pages/Default/Adocao/CheckAndAdopt";
+import Article from "./pages/Default/Blog/Article";
 // import ErrorPage from "./Pages/ErrorPage";
 import AuthProvider from "./CMS/components/AuthProvider/AuthProvider";
 import { getToken } from "./CMS/Helpers";
@@ -46,6 +48,7 @@ function App() {
             <Route index path="" element={<Home />} />
             <Route index path="hovet" element={<Hovet />} />
             <Route index path="blog" element={<Blog />} />
+            <Route index path="blog/:id" element={<Article />} />
             <Route index path="canil" element={<Canil />} />
             <Route path="adocao" element={<Adocao />}>
               <Route index element={<AnimaisAdocao />} />
@@ -71,7 +74,8 @@ function App() {
               <Route index path="app" element={<Admin />} />
               <Route path="profissionais" element={<Professionals />} />
               <Route path="animais" element={<Pets />} />
-              <Route path="artigos" element={<Article />}>
+              <Route path="adocoes" element={<Adocoes />} />
+              <Route path="artigos" element={<ArticleList />}>
                 <Route index element={<ArticleTable />} />
                 <Route path="new" element={<Editor />} />
               </Route>

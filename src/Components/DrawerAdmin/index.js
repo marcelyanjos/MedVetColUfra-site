@@ -16,6 +16,10 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -68,15 +72,21 @@ export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const { user } = useAuthContext();
   const [open, setOpen] = React.useState(false);
+  const [clicked, setClicked] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
+  const handleClick = () => {
+    setClicked(!clicked);
+    console.log("click", clicked);
+  };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log("nome", user);
+  console.log("url", window.location.pathname);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -141,55 +151,169 @@ export default function PersistentDrawerLeft() {
         {/* Lista de menus paginas */}
         {routes.map((item) => (
           <List sx={{ padding: 0, ml: 2 }}>
-            <ListItem key={item.nome} disablePadding>
-              <ListItemButton
-                to={item.link}
-                style={{
-                  height: 45,
-                  marginTop: 5,
-                  fill:
-                    "/admin/dashboard/" + item.link === window.location.pathname
-                      ? colors.green[7]
-                      : colors.green[4],
-                  stroke:
-                    "/admin/dashboard/" + item.link === window.location.pathname
-                      ? colors.green[7]
-                      : colors.green[4],
-                  backgroundColor:
-                    "/admin/dashboard/" + item.link === window.location.pathname
-                      ? colors.green[0]
-                      : "white",
-                  marginLeft:
-                    "/admin/dashboard/" + item.link === window.location.pathname
-                      ? 0
-                      : 20,
-                  borderRadius: 4,
+            {item.sections ? (
+              <Accordion
+                defaultExpanded={item.sections.some(
+                  (section) =>
+                    "/admin/dashboard/" + section.link ===
+                    window.location.pathname
+                )}
+                sx={{
+                  elevation: 0,
+                  boxShadow: "none",
                 }}
               >
-                <ListItemIcon
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
                   sx={{
-                    "&.MuiListItemIcon-root": {
-                      color:
-                        "/admin/dashboard/" + item.link ===
-                        window.location.pathname
-                          ? colors.green[7]
-                          : colors.green[4],
+                    height:'50px',
+                    borderRadius:1,
+                    "&.Mui-expanded": {
+                      minHeight: "50px",
+                      maxHeight: "50px",
                     },
+                    marginLeft: item.sections.some(
+                      (section) =>
+                        "/admin/dashboard/" + section.link ===
+                        window.location.pathname
+                    )
+                      ? 0
+                      : 2,
+                    backgroundColor: item.sections.some(
+                      (section) =>
+                        "/admin/dashboard/" + section.link ===
+                        window.location.pathname
+                    )
+                      ? colors.green[0]
+                      : "white",
                   }}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  sx={{
-                    color: colors.green[7],
+                  <ListItemIcon
+                    sx={{
+                      "&.MuiListItemIcon-root": {
+                        fill:
+                          "/admin/dashboard/" + item.link ===
+                          window.location.pathname
+                            ? colors.green[7]
+                            : colors.green[4],
+                        stroke:
+                          "/admin/dashboard/" + item.link ===
+                          window.location.pathname
+                            ? colors.green[7]
+                            : colors.green[4],
+                      },
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{
+                      color: colors.green[7],
+                    }}
+                    primary={item.nome}
+                    primaryTypographyProps={{ fontSize: "100%" }}
+                  />
+                </AccordionSummary>
+                <AccordionDetails sx={{ mt: -2, pb: 0 }}>
+                  <List>
+                    {item.sections.map((section) => (
+                      <ListItem disablePadding>
+                        <ListItemButton
+                          to={section.link}
+                          style={{
+                            height: 45,
+                            // marginTop: 5,
+                            fill:
+                              "/admin/dashboard/" + section.link ===
+                              window.location.pathname
+                                ? colors.green[7]
+                                : colors.green[4],
+                            stroke:
+                              "/admin/dashboard/" + section.link ===
+                              window.location.pathname
+                                ? colors.green[7]
+                                : colors.green[4],
+                            backgroundColor:
+                              "/admin/dashboard/" + section.link ===
+                                window.location.pathname && colors.green[0],
+                            marginLeft:
+                              "/admin/dashboard/" + section.link ===
+                              window.location.pathname
+                                ? 0
+                                : 20,
+                            marginRight: -16,
+                            borderRadius: 4,
+                          }}
+                        >
+                          <ListItemText
+                            sx={{
+                              color: colors.green[7],
+                            }}
+                            primary={section.nome}
+                            primaryTypographyProps={{ fontSize: "100%" }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            ) : (
+              <ListItem key={item.nome} disablePadding>
+                <ListItemButton
+                  to={item.link}
+                  style={{
+                    height: 45,
+                    marginTop: 5,
+                    fill:
+                      "/admin/dashboard/" + item.link ===
+                      window.location.pathname
+                        ? colors.green[7]
+                        : colors.green[4],
+                    stroke:
+                      "/admin/dashboard/" + item.link ===
+                      window.location.pathname
+                        ? colors.green[7]
+                        : colors.green[4],
+                    backgroundColor:
+                      "/admin/dashboard/" + item.link ===
+                      window.location.pathname
+                        ? colors.green[0]
+                        : "white",
+                    marginLeft:
+                      "/admin/dashboard/" + item.link ===
+                      window.location.pathname
+                        ? 0
+                        : 20,
+                    borderRadius: 4,
                   }}
-                  primary={item.nome}
-                  primaryTypographyProps={{ fontSize: "100%" }}
-                />
-              </ListItemButton>
-            </ListItem>
+                >
+                  <ListItemIcon
+                    sx={{
+                      "&.MuiListItemIcon-root": {
+                        color:
+                          "/admin/dashboard/" + item.link ===
+                          window.location.pathname
+                            ? colors.green[7]
+                            : colors.green[4],
+                      },
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{
+                      color: colors.green[7],
+                    }}
+                    primary={item.nome}
+                    primaryTypographyProps={{ fontSize: "100%" }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
         ))}
+
         {/* Fim do menu lateral */}
       </Drawer>
 

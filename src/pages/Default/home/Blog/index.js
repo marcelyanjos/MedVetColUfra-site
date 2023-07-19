@@ -1,8 +1,25 @@
-import React from "react";
-import { Button, Box, Card, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Box, Card, Typography, Link } from "@mui/material";
+import axios from "axios";
 import theme from "../../theme";
-import data from "../../../../mockup/blog";
 export default function Blog() {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const fetchArticles = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/artigos?populate=ilustracao"
+      );
+      setArticles(response.data.data);
+      // console.log("artigos", response.data.data);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
   return (
     <Box sx={{ minHeight: "580px", width: "100%" }}>
       <Box sx={{ p: 3, pl: 5, pr: 5 }}>
@@ -19,94 +36,94 @@ export default function Blog() {
             justifyContent: "space-between",
           }}
         >
-          {data.map((i, index) => {
-            return (
-              <Card
-                key={index}
-                elevation={4}
+          {articles.slice(0, 4).map((article) => (
+            <Card
+              component={Link}
+              href={`/blog/${article.id}`}
+              key={article.id}
+              elevation={4}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                textDecoration: "none",
+                [theme.breakpoints.down("sm")]: {
+                  minWidth: "205px",
+                  width: "100%",
+                  mb: 2,
+                },
+                [theme.breakpoints.down("sd")]: {
+                  minWidth: "205px",
+                  width: "100%",
+                  mb: 2,
+                },
+                [theme.breakpoints.up("sd")]: {
+                  minWidth: "205px",
+                  width: "48%",
+                  mb: 2,
+                },
+                [theme.breakpoints.up("lg")]: {
+                  minWidth: "220px",
+                  width: "24%",
+                },
+              }}
+            >
+              <Box
                 sx={{
                   display: "flex",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  [theme.breakpoints.down("sm")]: {
-                    minWidth: "205px",
-                    width: "100%",
-                    mb: 2,
-                  },
-                  [theme.breakpoints.down("sd")]: {
-                    minWidth: "205px",
-                    width: "100%",
-                    mb: 2,
-                  },
-                  [theme.breakpoints.up("sd")]: {
-                    minWidth: "205px",
-                    width: "48%",
-                    mb: 2,
-                  },
-                  [theme.breakpoints.up("lg")]: {
-                    minWidth: "220px",
-                    width: "24%",
-                  },
+                  justifyContent: "center",
+                  width: "100%",
+                  height: "260px",
                 }}
               >
-                <Box
+                {article.attributes.ilustracao &&
+                  article.attributes.ilustracao.data && (
+                    <img
+                      src={`http://localhost:1337${article.attributes.ilustracao.data.attributes.url}`}
+                      alt="Ilustração"
+                      style={{
+                        width: "100%",
+                        objectFit: "cover",
+                        marginBottom: 10,
+                      }}
+                    />
+                  )}
+              </Box>
+              <Typography
+                component={"span"}
+                variant={"body2"}
+                sx={{ pl: 3, pr: 3, pt: 1, pb: 1 }}
+              >
+                <Typography
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    height: "260px",
+                    color: "black",
+                    fontWeight: "bold",
+                    "&:first-letter": {
+                      textTransform: "uppercase",
+                    },
                   }}
                 >
-                  <img
-                    src={i.image}
-                    style={{ width: "100%", objectFit: "cover" }}
-                  />
-                </Box>
-                <Typography
-                  component={"span"}
-                  variant={"body2"}
-                  sx={{ pl: 3, pr: 3, pt: 1, pb: 1 }}
-                >
-                  <Typography
-                    sx={{
-                      color: "#5B8FF9",
-                      fontWeight: "bold",
-                      fontSize: 12,
-                    }}
-                  >
-                    {i.categoria.join(", ")}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      "&:first-letter": {
-                        textTransform: "uppercase",
-                      },
-                    }}
-                  >
-                    {i.titulo}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#494a4a",
-                      pt: 1,
-                      pb: 1,
-                      display: "-webkit-box",
-                      WebkitLineClamp: 5,
-                      "webkitBoxOrient": "vertical",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      height: "100px",
-                      fontSize: 14,
-                    }}
-                  >
-                    {i.descricao}
-                  </Typography>
+                  {article.attributes.titulo}
                 </Typography>
-              </Card>
-            );
-          })}
+                <Typography
+                  sx={{
+                    color: "#494a4a",
+                    pt: 1,
+                    pb: 1,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 5,
+                    webkitBoxOrient: "vertical",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    height: "100px",
+                    fontSize: 14,
+                  }}
+                >
+                  {article.attributes.descricao}
+                </Typography>
+              </Typography>
+            </Card>
+          ))}
         </Box>
       </Box>
     </Box>
