@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Typography, Divider, Button } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/system';
+import { API, Host } from '../../../CMS/constant';
 
 const Article = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const Article = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:1337/api/artigos/${id}?populate=ilustracao`);
+        const response = await axios.get(`${API}/artigos/${id}?populate=ilustracao`);
         const articleData = response.data.data.attributes;
 
         // Obtém a URL correta da ilustração
@@ -33,7 +34,7 @@ const Article = () => {
     if (imageAttributes && imageAttributes.formats && imageAttributes.formats.thumbnail) {
       const thumbnailUrl = imageAttributes.formats.thumbnail.url;
       const finalImageUrl = thumbnailUrl.replace('/thumbnail_', '/');
-      const imageUrl = `http://localhost:1337${finalImageUrl}`;
+      const imageUrl = `${Host}${finalImageUrl}`;
       return imageUrl;
     }
 
@@ -44,7 +45,7 @@ const Article = () => {
     return <div>Carregando...</div>;
   }
 
-  const bodyWithImageUrl = article.body.replace(/\/uploads/g, 'http://localhost:1337/uploads');
+  const bodyWithImageUrl = article.body.replace(/\/uploads/g, `${Host}/uploads`);
 
   return (
     <Box sx={{pl:5, pr:5}}>

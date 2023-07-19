@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Box, Card, Typography, Link } from "@mui/material";
 import axios from "axios";
 import theme from "../../theme";
+import { API, Host } from "../../../../CMS/constant";
 export default function Blog() {
   const [articles, setArticles] = useState([]);
 
@@ -12,7 +13,7 @@ export default function Blog() {
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/artigos?populate=ilustracao"
+        `${API}/artigos?populate=ilustracao`
       );
       setArticles(response.data.data);
       // console.log("artigos", response.data.data);
@@ -79,7 +80,7 @@ export default function Blog() {
                 {article.attributes.ilustracao &&
                   article.attributes.ilustracao.data && (
                     <img
-                      src={`http://localhost:1337${article.attributes.ilustracao.data.attributes.url}`}
+                      src={`${Host}${article.attributes.ilustracao.data.attributes.url}`}
                       alt="Ilustração"
                       style={{
                         width: "100%",

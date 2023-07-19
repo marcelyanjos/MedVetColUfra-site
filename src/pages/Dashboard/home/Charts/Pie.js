@@ -115,7 +115,7 @@ export default function App() {
         fontWeight={700}
         sx={{ fontSize: 18, color: "#212B36"}}
       >
-        Medicamentos Necessários
+        Agendamento Mensal
       </Typography>
       <Typography
         fontFamily={"Public Sans"}

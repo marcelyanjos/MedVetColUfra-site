@@ -9,7 +9,7 @@ const routes = [
   {
     nome: "Home",
     icon: <HomeRoundedIcon fontSize="large" />,
-    link: "app",
+    link: "/admin/dashboard/app",
   },
   {
     nome: "Canil/Gatil",
@@ -18,11 +18,11 @@ const routes = [
     sections: [
       {
         nome: "Animais do canil/gatil",
-        link: "animais",
+        link: "/admin/dashboard/animais",
       },
       {
         nome: "Adoção",
-        link: "adocoes",
+        link: "/admin/dashboard/adocoes",
       },
       {
         nome: "Informações site",
@@ -33,13 +33,13 @@ const routes = [
   {
     nome: "Profissionais",
     icon: <SthetoscopeIcon />,
-    link: "profissionais",
+    link: "/admin/dashboard/profissionais",
   },
 
   {
     nome: "Artigos",
     icon: <Article />,
-    link: "artigos",
+    link: "/admin/dashboard/artigos",
   },
 ];
 export default routes;

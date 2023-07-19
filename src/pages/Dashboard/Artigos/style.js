@@ -1,15 +1,33 @@
+import colors from "../../../colors";
+import theme from "../../theme";
+
 const styles = {
   index_box: {
     pb: 5,
+    flexGrow: 1,
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent:'space-between',
+    [theme.breakpoints.down("lg")]: {
+      pl: 2,
+      pr: 2,
+    },
+    [theme.breakpoints.up("lg")]: {
+        pl: 6,
+        pr: 6,
+      },
   },
   table_box: {
-    display: "flex",
-    height: "100%",
+    display:'flex',
+    justifyContent:'center',
+    [theme.breakpoints.down("lg")]: {
+      // width:'100%',
+      pl: 2,
+      pr: 2,
+    },
   },
   table_paper: {
     width: "100%",
+    maxWidth:"88vw",
     mb: 2,
     borderRadius: 4,
     boxShadow: "0px 1px 3px 0px rgba(65,65, 65, 0.1)",
@@ -17,6 +35,7 @@ const styles = {
   },
   table_dataGrid: {
     margin: 1,
+    minHeight:'400px',
     border: "none",
     ".MuiDataGrid-columnHeaderTitle": { fontWeight: "bold" },
   },
@@ -50,17 +69,22 @@ const styles = {
     },
   },
   modal_button: {
-    padding: 6,
-    textDecoration: "none",
-    borderRadius: 6,
-    color: "#62B6E4",
+    color: colors.green[5],
     border: "1.5px solid",
+    borderRadius:'10px',
+    textDecoration:'none',
+    padding:'10px',
+    '&:hover':{
+        color:colors.green[7],
+        bgcolor:"transparent",
+        border:`1px solid ${colors.green[7]}`
+    }
   },
   modal_box: {
     // display: 'flex',
     // position: 'absolute',
     // alignItems: 'center',
-    // width: '100%',
+    height:'100%',
     justifyContent: "space-between",
     //   border: '1px solid #CFD0D7',
     p: 1,

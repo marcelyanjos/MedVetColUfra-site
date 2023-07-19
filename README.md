@@ -14,3 +14,9 @@ bgcolor de pagination
 ## ------------ SignUp -----------------
 cadastro: get matricula and nome from matriculas cms
 set user: nome+'.'+sobrenome
+
+## ------------ Modal de Animais Canil -----------------
+Testar put de animais
+
+## ------------ Card3 de perfil -----------------
+Substituir permissões por calendario de escala do profissional

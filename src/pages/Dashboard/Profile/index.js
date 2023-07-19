@@ -32,14 +32,14 @@ export default function Profile() {
             <Grid item xs={12} sm={6} md={6.5}>
               <Card2 />
             </Grid>
-            <Grid item xs={12} sm={6} md={2.5}>
+            {/* <Grid item xs={12} sm={6} md={2.5}>
               <Card
                 sx={styles.card3}
               >
                 <Typography fontWeight={600}>Permissões</Typography>
                 <Card3 />
               </Card>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
       </Container>

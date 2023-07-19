@@ -17,6 +17,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import axios from "axios";
 import styles from "./styles";
 import colors from "../../../colors";
+import { API, Host } from "../../../CMS/constant";
 export default function Blog() {
   const [articles, setArticles] = useState([]);
   const [filteredList, setFilteredList] = React.useState(articles);
@@ -32,7 +33,7 @@ export default function Blog() {
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/artigos?populate=ilustracao"
+        `${API}/artigos?populate=ilustracao`
       );
       setArticles(response.data.data);
       // console.log("artigos", response.data.data);
@@ -165,7 +166,7 @@ export default function Blog() {
                 <Box sx={{ height: "250px" }}>
                   {i.attributes.ilustracao && i.attributes.ilustracao.data && (
                     <img
-                      src={`http://localhost:1337${i.attributes.ilustracao.data.attributes.url}`}
+                      src={`${Host}${i.attributes.ilustracao.data.attributes.url}`}
                       alt="Ilustração"
                       style={{
                         height: "250px",

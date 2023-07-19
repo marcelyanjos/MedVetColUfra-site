@@ -90,75 +90,78 @@ export default function CardCarrousel() {
           }}
         >
           {/* max 6 items */}
-          {animals.slice(0, 6).map((animal) => {
-            return (
-              <Link
-                key={animal.id_animal}
-                sx={{ textDecoration: "none" }}
-                href={`/adocao/${animal.id_animal}`}
-              >
-                <Card
-                  elevation={4}
-                  sx={{
-                    mr: 1,
-                    height: "380px",
-                    minWidth: "300px",
-                    "&:hover": { mt: -1 },
-                  }}
+          {animals
+            .sort((a, b) => b.id_animal - a.id_animal)
+            .slice(0, 6)
+            .map((animal) => {
+              return (
+                <Link
+                  key={animal.id_animal}
+                  sx={{ textDecoration: "none" }}
+                  href={`/adocao/${animal.id_animal}`}
                 >
-                  <CardMedia
-                    component="img"
-                    image={`data:image/jpg;base64,${decode(animal.imagem)}`}
-                    alt={animal.nome}
-                    style={{
-                      width: "320px",
-                      height: "82%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <Box
+                  <Card
+                    elevation={4}
                     sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      mt: 1,
+                      mr: 1,
+                      height: "380px",
+                      minWidth: "300px",
+                      "&:hover": { mt: -1 },
                     }}
                   >
-                    <Typography component={"span"} variant={"body2"}>
-                      <Typography
-                        sx={{
-                          ml: 1,
-                          fontWeight: "bold",
-                          fontSize: 18,
-                          fontFamily: "Open Sans, sans-serif",
-                          color: "#494a4a",
-                          textTransform: "lowercase",
-                          "&:first-letter": {
-                            textTransform: "uppercase",
-                          },
-                        }}
-                      >
-                        {animal.nome}
+                    <CardMedia
+                      component="img"
+                      image={`data:image/jpg;base64,${decode(animal.imagem)}`}
+                      alt={animal.nome}
+                      style={{
+                        width: "320px",
+                        height: "82%",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mt: 1,
+                      }}
+                    >
+                      <Typography component={"span"} variant={"body2"}>
+                        <Typography
+                          sx={{
+                            ml: 1,
+                            fontWeight: "bold",
+                            fontSize: 18,
+                            fontFamily: "Open Sans, sans-serif",
+                            color: "#494a4a",
+                            textTransform: "lowercase",
+                            "&:first-letter": {
+                              textTransform: "uppercase",
+                            },
+                          }}
+                        >
+                          {animal.nome}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            ml: 1,
+                            fontFamily: "Open Sans, sans-serif",
+                            color: "#494a4a",
+                          }}
+                        >
+                          {animal.idade} anos
+                        </Typography>
                       </Typography>
-                      <Typography
-                        sx={{
-                          ml: 1,
-                          fontFamily: "Open Sans, sans-serif",
-                          color: "#494a4a",
-                        }}
-                      >
-                        {animal.idade} anos
-                      </Typography>
-                    </Typography>
-                    {animal.sexo === "femea" ? (
-                      <Female style={{ height: "40px", marginTop: 5 }} />
-                    ) : (
-                      <Male style={{ height: "40px", marginTop: 5 }} />
-                    )}
-                  </Box>
-                </Card>
-              </Link>
-            );
-          })}
+                      {animal.sexo === "femea" ? (
+                        <Female style={{ height: "40px", marginTop: 5 }} />
+                      ) : (
+                        <Male style={{ height: "40px", marginTop: 5 }} />
+                      )}
+                    </Box>
+                  </Card>
+                </Link>
+              );
+            })}
           <Link
             href="adocao"
             sx={{

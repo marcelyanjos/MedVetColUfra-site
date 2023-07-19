@@ -155,7 +155,7 @@ export default function PersistentDrawerLeft() {
               <Accordion
                 defaultExpanded={item.sections.some(
                   (section) =>
-                    "/admin/dashboard/" + section.link ===
+                    section.link ===
                     window.location.pathname
                 )}
                 sx={{
@@ -174,14 +174,14 @@ export default function PersistentDrawerLeft() {
                     },
                     marginLeft: item.sections.some(
                       (section) =>
-                        "/admin/dashboard/" + section.link ===
+                        section.link ===
                         window.location.pathname
                     )
                       ? 0
                       : 2,
                     backgroundColor: item.sections.some(
                       (section) =>
-                        "/admin/dashboard/" + section.link ===
+                        section.link ===
                         window.location.pathname
                     )
                       ? colors.green[0]
@@ -192,12 +192,12 @@ export default function PersistentDrawerLeft() {
                     sx={{
                       "&.MuiListItemIcon-root": {
                         fill:
-                          "/admin/dashboard/" + item.link ===
+                          item.link ===
                           window.location.pathname
                             ? colors.green[7]
                             : colors.green[4],
                         stroke:
-                          "/admin/dashboard/" + item.link ===
+                          item.link ===
                           window.location.pathname
                             ? colors.green[7]
                             : colors.green[4],
@@ -224,20 +224,20 @@ export default function PersistentDrawerLeft() {
                             height: 45,
                             // marginTop: 5,
                             fill:
-                              "/admin/dashboard/" + section.link ===
+                              section.link ===
                               window.location.pathname
                                 ? colors.green[7]
                                 : colors.green[4],
                             stroke:
-                              "/admin/dashboard/" + section.link ===
+                              section.link ===
                               window.location.pathname
                                 ? colors.green[7]
                                 : colors.green[4],
                             backgroundColor:
-                              "/admin/dashboard/" + section.link ===
+                              section.link ===
                                 window.location.pathname && colors.green[0],
                             marginLeft:
-                              "/admin/dashboard/" + section.link ===
+                              section.link ===
                               window.location.pathname
                                 ? 0
                                 : 20,
@@ -266,22 +266,22 @@ export default function PersistentDrawerLeft() {
                     height: 45,
                     marginTop: 5,
                     fill:
-                      "/admin/dashboard/" + item.link ===
+                      item.link ===
                       window.location.pathname
                         ? colors.green[7]
                         : colors.green[4],
                     stroke:
-                      "/admin/dashboard/" + item.link ===
+                      item.link ===
                       window.location.pathname
                         ? colors.green[7]
                         : colors.green[4],
                     backgroundColor:
-                      "/admin/dashboard/" + item.link ===
+                      item.link ===
                       window.location.pathname
                         ? colors.green[0]
                         : "white",
                     marginLeft:
-                      "/admin/dashboard/" + item.link ===
+                      item.link ===
                       window.location.pathname
                         ? 0
                         : 20,
@@ -292,7 +292,7 @@ export default function PersistentDrawerLeft() {
                     sx={{
                       "&.MuiListItemIcon-root": {
                         color:
-                          "/admin/dashboard/" + item.link ===
+                          item.link ===
                           window.location.pathname
                             ? colors.green[7]
                             : colors.green[4],

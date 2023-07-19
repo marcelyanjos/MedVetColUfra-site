@@ -18,6 +18,7 @@ import { Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../../CMS/Context/AuthContext";
 import { getToken } from "../../../CMS/Helpers";
+import { API, Host } from "../../../CMS/constant";
 import "react-quill/dist/quill.snow.css";
 import "./textEditor.css";
 
@@ -154,7 +155,7 @@ export default function Article() {
     const fetchArticle = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1337/api/artigos/${id}?populate=ilustracao`
+          `${API}/artigos/${id}?populate=ilustracao`
         );
         console.log("Resultado do GET:", response.data);
 
@@ -169,7 +170,7 @@ export default function Article() {
             articleData.ilustracao.data &&
             articleData.ilustracao.data.attributes &&
             articleData.ilustracao.data.attributes.url
-              ? `http://localhost:1337${articleData.ilustracao.data.attributes.url}`
+              ? `${Host}${articleData.ilustracao.data.attributes.url}`
               : null,
           descricao: articleData.descricao || "",
           autor: articleData.autor || "",
@@ -222,7 +223,7 @@ export default function Article() {
   const handleEditorChange = (value) => {
     const modifiedValue = value.replace(
       /src="\/uploads/g,
-      'src="http://localhost:1337/uploads'
+      `src="${Host}/uploads`
     );
     setFormData((prevData) => ({
       ...prevData,
@@ -258,13 +259,13 @@ export default function Article() {
 
       if (id) {
         await axios.put(
-          `http://localhost:1337/api/artigos/${id}?populate=ilustracao`,
+          `${API}/artigos/${id}?populate=ilustracao`,
           form,
           config
         );
         console.log("Artigo editado com sucesso!");
       } else {
-        await axios.post("http://localhost:1337/api/artigos", form, config);
+        await axios.post(`${API}/artigos`, form, config);
         console.log("Artigo adicionado com sucesso!");
       }
 

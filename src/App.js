@@ -77,7 +77,7 @@ function App() {
               <Route path="adocoes" element={<Adocoes />} />
               <Route path="artigos" element={<ArticleList />}>
                 <Route index element={<ArticleTable />} />
-                <Route path="new" element={<Editor />} />
+                <Route path="new/:id?" element={<Editor />} />
               </Route>
               <Route path="perfil" element={<Profile />} />
               {/* <Route path="*" element={<ErrorPage />} /> */}

@@ -70,7 +70,7 @@ export default function Card2() {
               mr:1,
               height: 30,
               bgcolor: "#abd7eb",
-              ':hover':{bgcolor:'#99c8de'},
+              '&:hover':{bgcolor:'#99c8de'},
               fontWeight: "bold",
             }}
           >
@@ -83,7 +83,7 @@ export default function Card2() {
               height: 30,
               bgcolor: updateInfo?"#1976d2":'#fe163c',
               fontWeight: "bold",
-              ':hover':{
+              '&:hover':{
                 bgcolor:updateInfo?'#0d67bf':'#e8092e'
               }
             }}
@@ -145,7 +145,7 @@ export default function Card2() {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          {/* <Grid item xs={12} sm={6} md={4}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
               disabled={updateInfo} 
@@ -155,8 +155,8 @@ export default function Card2() {
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField sx={{".css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root":{height:'43px', bgcolor: updateInfo ? "#fcfcfc":'#fff' }}} {...params} />}
               />
-            </LocalizationProvider>
-          </Grid>
+            </LocalizationProvider> */}
+          {/* </Grid> */}
           <Grid item xs={12} md={8}>
             <FormControl
               variant="outlined"
