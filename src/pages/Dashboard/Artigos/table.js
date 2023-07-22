@@ -17,10 +17,10 @@ import styles from "./style";
 import axios from "axios";
 import api from "../../../api";
 import { getToken } from "../../../CMS/Helpers";
-import { API } from "../../../CMS/constant";
+import { API, Host } from "../../../CMS/constant";
 
 export default function ColumnTypesGrid() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -39,12 +39,16 @@ export default function ColumnTypesGrid() {
         `${API}/artigos?populate=ilustracao&publicationState=preview`
       );
       const artigos = response.data.data;
-      const updatedFormularios = artigos.map((artigo) => ({
+      const updatedFormularios = artigos.map((artigo) => (
+        // console.log('artigo', artigo.attributes.ilustracao.data.attributes.url),
+        {
         id: artigo.id,
         titulo: artigo.attributes.titulo,
         "data criação": artigo.attributes.createdAt,
         publicado: artigo.attributes.publishedAt === null ? false : true,
-        ilustracao: artigo.attributes.ilustracao.data === null ? null : artigo.attributes.ilustracao.data.attributes.url,
+        ilustracao: artigo.attributes.ilustracao?.data?.attributes?.url
+        ? `${Host}${artigo.attributes.ilustracao.data.attributes.url}`
+        : null,
       }));
 
       setRows(updatedFormularios);
@@ -57,7 +61,8 @@ export default function ColumnTypesGrid() {
 
   const details = React.useCallback(
     (id) => () => {
-      console.log("details: ", rows.find((row) => row.id === id));
+      // console.log("details: ", rows.find((row) => row.id === id));
+      console.log("id", id)
     },
     []
   );
@@ -65,16 +70,30 @@ export default function ColumnTypesGrid() {
   const edit = React.useCallback(
     (id) => () => {
       console.log("id", id)
-      // (
-      //   <Link href={`new/${id}`}/>
-      // )
+      navigate(`/admin/dashboard/artigos/new/${id}`);
     },
-    []
+    [navigate]
   );
 
   const columns = React.useMemo(
     () => [
       { field: "id", type: "number", flex: 0.6 },
+      {
+        field: "ilustracao",
+        headerName: "Ilustração",
+        renderCell: (params) => (
+          <img
+            src={params.row.ilustracao}
+            alt="Ilustração"
+            style={{
+              borderRadius: "30px",
+              objectFit: "cover",
+              width: "50px",
+              height: "50px",
+            }}
+          />
+        ),
+      },
       { field: "titulo", type: "string", flex: 1},
       { field: "data criação", type: "Date", flex: 0.6 },
       { field: "publicado", type: "boolean", flex: 0.6 },
@@ -131,7 +150,7 @@ export default function ColumnTypesGrid() {
           // variant="outlined"
           // color="primary"
           // startIcon={<AddIcon />}
-          href="new"
+          href="/admin/dashboard/artigos/new"
         >
           New Article
         </Link>

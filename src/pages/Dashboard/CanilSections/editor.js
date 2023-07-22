@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import ReactQuill from "react-quill";
-import { Link, useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../../../CMS/Context/AuthContext";
 import { getToken } from "../../../CMS/Helpers";
@@ -138,16 +138,19 @@ const formats = [
 export default function Article() {
   const [category, setCategory] = useState("");
   const [publish, setPublish] = useState(false);
+  const [publishedAtDate, setPublishedAtDate] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
   const [isLoading, setIsLoading] = useState(!id);
   const [formData, setFormData] = useState({
     titulo: "",
-    ilustracao: null,
-    ilustracaoPreview: null,
+    subtitulo:"",
+    icon: null,
+    iconPreview: null,
     descricao: "",
     autor: "",
     body: "",
+    publishedAt:""
   });
   const history = useNavigate();
 
@@ -155,7 +158,7 @@ export default function Article() {
     const fetchArticle = async () => {
       try {
         const response = await axios.get(
-          `${API}/artigos/${id}?populate=ilustracao`
+          `${API}/sections-canil/${id}?populate=icon`
         );
         console.log("Resultado do GET:", response.data);
 
@@ -164,20 +167,21 @@ export default function Article() {
         setFormData((prevData) => ({
           ...prevData,
           titulo: articleData.titulo || "",
-          ilustracao: articleData.ilustracao || null,
-          ilustracaoPreview:
-            articleData.ilustracao &&
-            articleData.ilustracao.data &&
-            articleData.ilustracao.data.attributes &&
-            articleData.ilustracao.data.attributes.url
-              ? `${Host}${articleData.ilustracao.data.attributes.url}`
+          subtitulo: articleData.subtitulo || "",
+          icon: articleData.icon || null,
+          iconPreview:
+            articleData.icon &&
+            articleData.icon.data &&
+            articleData.icon.data.attributes &&
+            articleData.icon.data.attributes.url
+              ? `${Host}${articleData.icon.data.attributes.url}`
               : null,
           descricao: articleData.descricao || "",
           autor: articleData.autor || "",
           body: articleData.body || "",
+          publishedAt: articleData.publishedAt || "",
         }));
         setIsLoading(false);
-        console.log(setFormData.ilustracao);
       } catch (error) {
         console.error("Error fetching article:", error);
       }
@@ -203,14 +207,14 @@ export default function Article() {
       if (file.type.startsWith("image/")) {
         setFormData((prevData) => ({
           ...prevData,
-          ilustracao: file,
+          icon: file,
         }));
 
         const reader = new FileReader();
         reader.onload = () => {
           setFormData((prevData) => ({
             ...prevData,
-            ilustracaoPreview: reader.result,
+            iconPreview: reader.result,
           }));
         };
         reader.readAsDataURL(file);
@@ -231,19 +235,32 @@ export default function Article() {
     }));
   };
 
+  const handlePublish = () => {
+    if (!publish) {
+      setPublishedAtDate(new Date()); // Set the current date if publishing
+    } else {
+      setPublishedAtDate(null); // Set null if saving as a draft
+    }
+    setPublish(!publish); // Toggle the publish state
+  };
+
+  console.log('publicado', publishedAtDate)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const form = new FormData();
-      form.append("files.ilustracao", formData.ilustracao);
+      form.append("files.icon", formData.icon);
       form.append(
         "data",
         JSON.stringify({
           titulo: formData.titulo,
+          subtitulo: formData.subtitulo,
           descricao: formData.descricao,
           autor: formData.autor,
           body: formData.body,
+          publishedAt: publishedAtDate,
         })
       );
 
@@ -259,41 +276,32 @@ export default function Article() {
 
       if (id) {
         await axios.put(
-          `${API}/artigos/${id}?populate=ilustracao`,
+          `${API}/sections-canil/${id}?populate=icon`,
           form,
           config
         );
-        console.log("Artigo editado com sucesso!");
+        console.log("Seção editada com sucesso!");
       } else {
-        await axios.post(`${API}/artigos`, form, config);
-        console.log("Artigo adicionado com sucesso!");
+        await axios.post(`${API}/sections-canil`, form, config);
+        console.log("Seção adicionado com sucesso!");
       }
 
       setFormData({
         titulo: "",
-        ilustracao: null,
-        ilustracaoPreview: null,
+        subtitulo: "",
         descricao: "",
-        autor: user?.username || "",
+        icon: null,
+        iconPreview: null,
         body: "",
+        publishedAt:''
       });
 
-      history("/articles");
+      history("/admin/dashboard/canilInfo");
     } catch (error) {
-      console.error("Erro ao enviar o artigo:", error);
+      console.error("Erro ao enviar o seção:", error);
     }
   };
 
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  const handlePublish = () => {
-    console.log("setPublish");
-    if (publish == true) {
-      setPublish(false);
-    } else setPublish(true);
-  };
 
   return (
     <div>
@@ -319,7 +327,7 @@ export default function Article() {
               color="#212B36"
               variant="h5"
             >
-              {id ? "Editar" : "Adicionar"} Artigo
+              {id ? "Editar" : "Adicionar"} Seção
             </Typography>
           </Box>
           <Paper sx={{ p: 2, height: "100%" }}>
@@ -331,53 +339,46 @@ export default function Article() {
                   <TextField
                     id="standard-basic"
                     label="Titulo"
+                    name="titulo"
                     value={formData.titulo}
                     sx={{ width: "60%" }}
                     onChange={handleFormChange}
                     variant="standard"
                   />
-                  {/* <TextField select variant="standard" id="categoria" sx={{ minWidth: 220, ml: 2 }}
-                      value={formData.category}
-                      onChange={handleFormChange}
-                      label="Categoria"
-                    >
-                      <MenuItem value="">
-                        <em>Nenhum</em>
-                      </MenuItem>
-                      <MenuItem value={"Dicas de cuidados"}>
-                        Dicas de cuidados
-                      </MenuItem>
-                      <MenuItem value={"Noticias"}>Noticias</MenuItem>
-                      <MenuItem value={"Doenças e sintomas"}>
-                        Doenças e sintomas
-                      </MenuItem>
-                    </TextField> */}
                 </Box>
                 <TextField
                   sx={{ ml: 1 }}
                   id="standard-basic"
-                  label="autor"
-                  disabled
-                  value={user?.username || ""}
+                  label="Subtitulo"
+                  name="subtitulo"
+                  value={formData.subtitulo}
+                  onChange={handleFormChange}
                   variant="standard"
                 />
               </Box>
               <Box>
-              <Typography variant="subtitle1">Ilustração:</Typography>
-              <input
-                type="file"
-                name="ilustracao"
-                onChange={handleFileChange}
-              />
-              {formData.ilustracaoPreview && (
-                <img
-                  src={formData.ilustracaoPreview}
-                  alt="Ilustração"
-                  style={{ height: "300px", marginBottom: 10 }}
+                <Typography variant="subtitle1">Icone:</Typography>
+                <input type="file" name="icone" onChange={handleFileChange} />
+                {formData.iconPreview && (
+                  <img
+                    src={formData.iconPreview}
+                    alt="icone"
+                    style={{ height: "300px", marginBottom: 10 }}
+                  />
+                )}
+              </Box>
+              <Box>
+                <Typography>Descrição</Typography>
+                <TextField
+                  size="small"
+                  name="descricao"
+                  fullWidth
+                  id="standard-basic"
+                  value={formData.descricao}
+                  onChange={handleFormChange}
                 />
-              )}
-            </Box>
-            <Typography variant="subtitle1">Conteúdo:</Typography>
+              </Box>
+              <Typography variant="subtitle1">Conteúdo:</Typography>
               <ReactQuill
                 theme="snow"
                 value={formData.body}
@@ -390,7 +391,7 @@ export default function Article() {
                 modules={modules}
               />
               <Box sx={{ display: "flex" }}>
-                {/* <Box sx={{ pt: 1, flex: 1 }}>
+                <Box sx={{ pt: 1, flex: 1 }}>
                   <Button
                     onClick={handlePublish}
                     sx={{
@@ -401,7 +402,7 @@ export default function Article() {
                   >
                     {publish ? "Publicar" : "Rascunho"}
                   </Button>
-                </Box> */}
+                </Box>
                 <Box sx={{ pt: 1 }}>
                   <Button
                     type="submit"

@@ -170,14 +170,14 @@ export default function Article() {
             articleData.ilustracao.data &&
             articleData.ilustracao.data.attributes &&
             articleData.ilustracao.data.attributes.url
-              ? `${API}${articleData.ilustracao.data.attributes.url}`
+              ? `${Host}${articleData.ilustracao.data.attributes.url}`
               : null,
           descricao: articleData.descricao || "",
           autor: articleData.autor || "",
           body: articleData.body || "",
         }));
         setIsLoading(false);
-        console.log(setFormData.ilustracao);
+        console.log('data',articleData.ilustracao.data.attributes.url);
       } catch (error) {
         console.error("Error fetching article:", error);
       }
@@ -223,7 +223,7 @@ export default function Article() {
   const handleEditorChange = (value) => {
     const modifiedValue = value.replace(
       /src="\/uploads/g,
-      'src="http://192.168.79.73:1337/uploads'
+      `src="${Host}/uploads`
     );
     setFormData((prevData) => ({
       ...prevData,

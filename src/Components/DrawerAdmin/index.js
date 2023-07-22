@@ -86,7 +86,7 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log("url", window.location.pathname);
+  // console.log("url", window.location.pathname);
 
   return (
     <Box sx={{ display: "flex" }}>

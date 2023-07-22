@@ -1,3 +1,5 @@
+# Verificar se endereço do cms e de api corresponde ao ip de maquina
+
 # fix
 Manter scroll quando drawer fechar por conta de tamanho de tela
 

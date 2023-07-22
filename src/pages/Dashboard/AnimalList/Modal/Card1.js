@@ -6,6 +6,7 @@ import {
   Typography,
   Button,
   MenuItem,
+  Link,
 } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -30,7 +31,7 @@ const card2 = {
   borderRadius: "4px",
   p: 1,
 };
-export default function Card1({handleClose}) {
+export default function Card1() {
   const [checked, setChecked] = React.useState([0]);
   const [files, setFiles] = useState([]);
 
@@ -154,158 +155,165 @@ export default function Card1({handleClose}) {
   );
 
   return (
-    <Box sx={{ height: "90%" }}>
-      <Grid sx={styles.modal_box} container>
-        <Grid xs={12} sm={6} ls={12} sx={card1} container>
-          <Grid item xs={12} sm={6} lg={12}>
-            <Typography>Nome</Typography>
-            <TextField
-              fullWidth
-              size="small"
-              autoComplete="username"
-              type="text"
-              name="nome"
-              value={animal.nome}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={6}>
+    <Box sx={{ height: "100%", minHeight:'360px', p: 2 }}>
+      {/* <Box > */}
+        <Grid sx={styles.modal_box} container>
+          <Grid xs={12} sm={6} ls={12} sx={card1}>
+            <Grid item xs={12} sm={12} lg={12}>
               <TextField
                 fullWidth
-                select
                 required
-                size="small"
-                label="Espécie"
-                name="especie"
-                value={animal.especie}
-                onChange={handleChange}
-                variant="outlined"
-                margin="normal"
-              >
-                <MenuItem value="canino">Cachorro</MenuItem>
-                <MenuItem value="felino">Gato</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                sx={{
-                  width: "100%",
-                }}
                 size="small"
                 autoComplete="username"
+                label="Nome"
                 type="text"
-                name="idade"
-                label="idade"
-                margin="normal"
-                value={animal.idade}
-                onChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                fullWidth
-                select
-                required
-                size="small"
-                label="Sexo"
-                name="sexo"
-                value={animal.sexo}
-                onChange={handleChange}
+                name="nome"
                 variant="outlined"
-                margin="normal"
-              >
-                <MenuItem value="macho">Macho</MenuItem>
-                <MenuItem value="femea">Fêmea</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                sx={{
-                  width: "100%",
-                }}
-                size="small"
-                type="text"
-                name="peso"
-                label="peso"
-                margin="normal"
-                value={animal.peso}
+                value={animal.nome}
                 onChange={handleChange}
               />
             </Grid>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12} md={6}>
+                <TextField
+                  fullWidth
+                  select
+                  required
+                  size="small"
+                  label="Espécie"
+                  name="especie"
+                  value={animal.especie}
+                  onChange={handleChange}
+                  variant="outlined"
+                  margin="normal"
+                >
+                  <MenuItem value="CANINO">Cachorro</MenuItem>
+                  <MenuItem value="FELINO">Gato</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                <TextField
+                  sx={{
+                    width: "100%",
+                  }}
+                  size="small"
+                  autoComplete="username"
+                  type="text"
+                  name="idade"
+                  label="idade"
+                  margin="normal"
+                  value={animal.idade}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12} md={6}>
+                <TextField
+                  fullWidth
+                  select
+                  required
+                  size="small"
+                  label="Sexo"
+                  name="sexo"
+                  value={animal.sexo}
+                  onChange={handleChange}
+                  variant="outlined"
+                  margin="normal"
+                >
+                  <MenuItem value="MACHO">Macho</MenuItem>
+                  <MenuItem value="FEMEA">Fêmea</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                <TextField
+                  sx={{
+                    width: "100%",
+                  }}
+                  size="small"
+                  type="text"
+                  name="peso"
+                  label="peso"
+                  margin="normal"
+                  value={animal.peso}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid xs={12} sm={6} ls={12} sx={card2} container>
+            <div
+              {...getRootProps()}
+              style={{
+                height: "98%",
+                width: "95%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-around",
+                border: "1px dashed #CFD0D7",
+                borderRadius: "4px",
+                padding: "16px",
+                backgroundColor: isDragActive ? "#F4F5F7" : "transparent",
+              }}
+            >
+              <input {...getInputProps()} />
+              {animal.imagem ? (
+                <img
+                  src={
+                    newImage
+                      ? URL.createObjectURL(animal.imagem)
+                      : `data:image/jpeg;base64,${decode(animal.imagem)}`
+                  }
+                  alt="Animal"
+                  style={{
+                    maxWidth: "90%",
+                    maxHeight: "90%",
+                    objectFit: "contain",
+                  }}
+                />
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <InsertDriveFileOutlinedIcon fontSize="large" />
+                  <Typography variant="body1">
+                    Arraste e solte a imagem aqui ou clique para fazer o upload
+                  </Typography>
+                </div>
+              )}
+              {animal.imagem && (
+                <>
+                  {newImage ? (
+                    <Typography variant="body1">
+                      {animal.imagem.name}
+                    </Typography>
+                  ) : (
+                    <Typography variant="body1">{animal.nome}</Typography>
+                  )}
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => setAnimal({ ...animal, imagem: "" })}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
+            </div>
           </Grid>
         </Grid>
-        <Grid xs={12} sm={6} ls={12} sx={card2} container>
-          <div
-            {...getRootProps()}
-            style={{
-              height: "98%",
-              width: "95%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-around",
-              border: "1px dashed #CFD0D7",
-              borderRadius: "4px",
-              padding: "16px",
-              backgroundColor: isDragActive ? "#F4F5F7" : "transparent",
-            }}
+        <Grid container>
+          <Button variant="contained" onClick={handleSubmit}>
+            Enviar
+          </Button>
+          <Button
+            variant="contained"
+            component={Link}
+            href="/admin/dashboard/animais"
+            color="secondary"
           >
-            <input {...getInputProps()} />
-            {animal.imagem ? (
-              <img
-                src={
-                  newImage
-                    ? URL.createObjectURL(animal.imagem)
-                    : `data:image/jpeg;base64,${decode(animal.imagem)}`
-                }
-                alt="Animal"
-                style={{
-                  maxWidth: "90%",
-                  maxHeight: "90%",
-                  objectFit: "contain",
-                }}
-              />
-            ) : (
-              <div style={{ textAlign: "center" }}>
-                <InsertDriveFileOutlinedIcon fontSize="large" />
-                <Typography variant="body1">
-                  Arraste e solte a imagem aqui ou clique para fazer o upload
-                </Typography>
-              </div>
-            )}
-            {animal.imagem && (
-              <>
-                {newImage ? (
-                  <Typography variant="body1">{animal.imagem.name}</Typography>
-                ) : (
-                  <Typography variant="body1">{animal.nome}</Typography>
-                )}
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => setAnimal({ ...animal, imagem: "" })}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </>
-            )}
-          </div>
+            Cancelar
+          </Button>
         </Grid>
-      </Grid>
-      <Grid container>
-        <Button variant="contained" onClick={handleSubmit}>
-          Enviar
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleClose}
-          color="secondary"
-        >
-          Cancelar
-        </Button>
-      </Grid>
+      {/* </Box> */}
     </Box>
   );
 }

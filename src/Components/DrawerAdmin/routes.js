@@ -26,7 +26,7 @@ const routes = [
       },
       {
         nome: "Informações site",
-        link: "",
+        link: "/admin/dashboard/canilInfo",
       },
     ],
   },

@@ -36,7 +36,7 @@ app.use('/api/petCliente', petClienteRouter);
 app.use('/api/chart', chartRouter);
 app.use('/api/adocao', adocaoRouter);
 
-const address = '192.168.79.73'; // Endereço IP da sua máquina
+const address = 'localhost'; // Endereço IP da sua máquina
 const port = 5000;
 
 app.listen(port,address, () =>  console.log(`Servidor iniciado em ${address}:${port}`));

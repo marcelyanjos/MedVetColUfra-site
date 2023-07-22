@@ -10,13 +10,17 @@ import {
   Login,
   Admin,
   Pets,
+  PetsTable,
   Adocoes,
   Profile,
   Professionals,
   ArticleList,
   ArticleTable,
-  Editor,
+  EditorArticle,
   Drawer,
+  CanilInfo,
+  CanilInfoTable,
+  EditorCanil,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -34,9 +38,9 @@ import ClientForms from "./pages/Default/Adocao/ClientForms";
 import AnimalDetails from "./pages/Default/Adocao/AnimalDetails";
 import CheckAndAdopt from "./pages/Default/Adocao/CheckAndAdopt";
 import Article from "./pages/Default/Blog/Article";
-// import ErrorPage from "./Pages/ErrorPage";
 import AuthProvider from "./CMS/components/AuthProvider/AuthProvider";
 import { getToken } from "./CMS/Helpers";
+import ModalUser from "./pages/Dashboard/AnimalList/ModalUser";
 
 function App() {
   return (
@@ -67,17 +71,40 @@ function App() {
             }
           />
           <Route path="admin" element={<Dashboard />}>
-            <Route path="login" element={getToken() ? <Navigate to="/admin/dashboard" replace /> : <Login />} />
+            <Route
+              path="login"
+              element={
+                getToken() ? (
+                  <Navigate to="/admin/dashboard" replace />
+                ) : (
+                  <Login />
+                )
+              }
+            />
             <Route path="signup" element={<SignUp />} />
             <Route path="dashboard" element={<Navigate to="app" />} />
-            <Route path="dashboard" element={getToken() ? <Drawer />:<Navigate to="/admin/login" />}>
+            <Route
+              path="dashboard"
+              element={getToken() ? <Drawer /> : <Navigate to="/admin/login" />}
+            >
               <Route index path="app" element={<Admin />} />
               <Route path="profissionais" element={<Professionals />} />
-              <Route path="animais" element={<Pets />} />
+             {/* Animais do canil */}
+              <Route path="animais" element={<Pets />}>
+                <Route index element={<PetsTable />} />
+                <Route path="new/:id?" element={<ModalUser />} />
+              </Route>
+              {/* Formularios de Adoção */}
               <Route path="adocoes" element={<Adocoes />} />
+                {/* Artigos do blog */}
               <Route path="artigos" element={<ArticleList />}>
                 <Route index element={<ArticleTable />} />
-                <Route path="new/:id?" element={<Editor />} />
+                <Route path="new/:id?" element={<EditorArticle />} />
+              </Route>
+              {/* Informações da pagina canil */}
+              <Route path="canilInfo" element={<CanilInfo />}>
+                <Route index element={<CanilInfoTable />} />
+                <Route path="new/:id?" element={<EditorCanil />} />
               </Route>
               <Route path="perfil" element={<Profile />} />
               {/* <Route path="*" element={<ErrorPage />} /> */}
