@@ -138,7 +138,6 @@ const formats = [
 
 export default function Article() {
   const [category, setCategory] = useState("");
-  const [publish, setPublish] = useState(false);
   const [publishedAtDate, setPublishedAtDate] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
@@ -153,6 +152,7 @@ export default function Article() {
     body: "",
     publishedAt:""
   });
+  // const [publish, setPublish] = useState(!!formData.publishedAt);
   const history = useNavigate();
 
   useEffect(() => {
@@ -182,6 +182,7 @@ export default function Article() {
           body: articleData.body || "",
           publishedAt: articleData.publishedAt || "",
         }));
+        setPublishedAtDate(articleData.publishedAt ? new Date(articleData.publishedAt) : null);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching article:", error);
@@ -236,14 +237,14 @@ export default function Article() {
     }));
   };
 
-  const handlePublish = () => {
-    if (!publish) {
-      setPublishedAtDate(new Date()); // Set the current date if publishing
-    } else {
-      setPublishedAtDate(null); // Set null if saving as a draft
-    }
-    setPublish(!publish); // Toggle the publish state
-  };
+  // const handlePublish = () => {
+  //   if (!publish) {
+  //     setPublishedAtDate(new Date()); // Set the current date if publishing
+  //   } else {
+  //     setPublishedAtDate(null); // Set null if saving as a draft
+  //   }
+  //   setPublish(!publish); // Toggle the publish state
+  // };
 
   console.log('publicado', publishedAtDate)
 
@@ -320,7 +321,7 @@ export default function Article() {
           <Typography variant="h3">Loading...</Typography>
         </div>
       ) : (
-        <Container>
+        <Box>
           <Box sx={{ pb: 5, display: "flex", justifyContent: "space-between" }}>
             <Typography
               fontFamily={"Public Sans"}
@@ -331,24 +332,24 @@ export default function Article() {
               {id ? "Editar" : "Adicionar"} Seção
             </Typography>
           </Box>
-          <Paper sx={{ p: 2, height: "100%" }}>
+          <Paper sx={{ p: 3, height: "100%" }}>
             <form onSubmit={handleSubmit}>
               <Box
                 sx={{ mb: 1, display: "flex", justifyContent: "space-between" }}
               >
-                <Box sx={{ flex: 1 }}>
+                {/* <Box sx={{ flex: 1 }}> */}
                   <TextField
                     id="standard-basic"
                     label="Titulo"
                     name="titulo"
                     value={formData.titulo}
-                    sx={{ width: "60%" }}
+                    sx={{ flex:1 }}
                     onChange={handleFormChange}
                     variant="standard"
                   />
-                </Box>
+                {/* </Box> */}
                 <TextField
-                  sx={{ ml: 1 }}
+                  sx={{ ml: 2.5, flex:1 }}
                   id="standard-basic"
                   label="Subtitulo"
                   name="subtitulo"
@@ -374,6 +375,8 @@ export default function Article() {
                   size="small"
                   name="descricao"
                   fullWidth
+                  multiline
+                  maxRows={4}
                   id="standard-basic"
                   value={formData.descricao}
                   onChange={handleFormChange}
@@ -394,14 +397,14 @@ export default function Article() {
               <Box sx={{ display: "flex" }}>
                 <Box sx={{ pt: 1, flex: 1 }}>
                   <Button
-                    onClick={handlePublish}
+                    onClick={() => setPublishedAtDate((date) => (date ? null : new Date()))}
                     sx={{
-                      bgcolor: publish ? "#38d472" : "#c1c1c1",
+                      bgcolor: publishedAtDate ? "#38d472" : "#c1c1c1",
                       mr: 1,
                       color: "#ffffff",
                     }}
                   >
-                    {publish ? "Publicar" : "Rascunho"}
+                    {publishedAtDate ? "Publicar" : "Rascunho"}
                   </Button>
                 </Box>
                 <Box sx={{ pt: 1 }}>
@@ -431,7 +434,7 @@ export default function Article() {
               </Box>
             </form>
           </Paper>
-        </Container>
+        </Box>
       )}
     </div>
   );

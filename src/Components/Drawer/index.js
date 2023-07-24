@@ -30,7 +30,7 @@ import colors from "../../colors";
 const navItems = [
   { titulo: "HOVET", route: "/hovet" },
   { titulo: "Canil/Gatil", route: "/canil" },
-  { titulo: "Consultas", route: "" },
+  { titulo: "Consultas", route: "/agendamento" },
   { titulo: "Quero Adotar", route: "/adocao" },
   { titulo: "Blog", route: "/blog" },
 ];
@@ -155,7 +155,7 @@ function DrawerAppBar(props) {
             <Button sx={styles.button} href="/canil">
               Canil/Gatil
             </Button>
-            <Button sx={styles.button}>Consultas</Button>
+            <Button sx={styles.button} href="/agendamento">Consultas</Button>
             <Button sx={styles.button} href="/adocao">
               Quero Adotar
             </Button>

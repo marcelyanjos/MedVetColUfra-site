@@ -49,7 +49,21 @@ const routes = [
   {
     nome: "Profissionais",
     icon: <SthetoscopeIcon />,
-    link: "/admin/dashboard/profissionais",
+    link: "",
+    sections: [
+      {
+        nome: "Lista de Profissionais",
+        link: "/admin/dashboard/profissionais",
+      },
+      {
+        nome: "Escala",
+        link: "/admin/dashboard/profissionais/escala",
+      },
+      {
+        nome: "Serviços",
+        link: "/admin/dashboard/profissionais/servicos",
+      },
+    ],
   },
   {
     nome: "Artigos",

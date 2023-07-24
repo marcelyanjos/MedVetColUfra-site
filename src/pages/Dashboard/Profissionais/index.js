@@ -1,23 +1,16 @@
-import React from "react";
-import {Box, Container, Typography} from '@mui/material'
+import React, { useState } from "react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import styles from "./style";
 import Table from "./Table";
-import ModalMedication from './ModalMedication'
+import { Link, Outlet } from "react-router-dom";
 
-export default function Professionals() {
+export default function Article() {
   return (
-    <Container maxWidth="x1">
-    <Box sx={{pb: 5, display:'flex', justifyContent:'space-between' }}>
-      <Typography
-        fontFamily={"Public Sans"}
-        fontWeight={700}
-        color="#212B36"
-        variant="h5"
-      >
-        Professionals
-      </Typography>
-      <ModalMedication />
-    </Box>
-    <Table />
-  </Container>
+    <div>
+      <Container maxWidth="x1">
+        <Outlet />
+      </Container>
+    </div>
   );
 }

@@ -25,3 +25,18 @@ Substituir permissões por calendario de escala do profissional
 
 ## ------------ HovetInfo e CanilInfo -----------------
 receber estado de publishedAt para modificação de botão
+
+# Falta
+[ ] adicionar novo serviço
+
+[ ] adicionar e tabela de escala
+
+[X] adicionar e listar profissionais
+
+[ ] associar profissional do banco ao cms
+
+[ ] caso acesso seja primeira vez, pedir para criar senha
+
+[ ] adicionar novo agendamento
+
+[ ] editar perfil (profile)

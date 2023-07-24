@@ -1,3 +1,15 @@
+INSERT INTO servicos (tipo_servico) VALUES
+    ('cardiologia'),
+    ('clinica geral'),
+    ('dermatologia'),
+    ('exame'),
+    ('fisioterapia'),
+    ('nutricionista'),
+    ('odontologia'),
+    ('oftalmologia');
+
+
+// escala
 WITH distinct_services AS (
     SELECT DISTINCT id_servicos
     FROM servicos

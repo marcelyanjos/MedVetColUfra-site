@@ -24,7 +24,7 @@ import styles from "./style";
 import api from "../../../api";
 import { useNavigate } from "react-router-dom";
 
-export default function ColumnTypesGrid() {
+export default function Servicos() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,27 +33,27 @@ export default function ColumnTypesGrid() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/profissionais");
-        const animais = response.data;
+        const [servicosResponse, profissionaisResponse] = await Promise.all([
+          api.get("/api/servicos"),
+          api.get("/api/profissionais"),
+        ]);
 
-        const updatedFormularios = await Promise.all(
-          animais.map(async (profissional) => {
-            const { matricula, id_servicos } = profissional;
-            const dia = format(new Date(profissional.data_nasc), "dd/MM/yyyy");
-            const servicoResponse = await api.get(
-              `/api/servicos/${id_servicos}`
-            );
-            const servico = servicoResponse.data;
+        const servicos = servicosResponse.data;
+        const profissionais = profissionaisResponse.data;
 
-            return {
-              id: matricula,
-              nome: profissional.nome,
-              "data de nascimento": dia,
-              profissão: profissional.profissao,
-              serviço: servico.tipo_servico,
-            };
-          })
-        );
+        // Function to calculate the count of professionals for each service
+        const getCountOfProfessionais = (id_servicos) => {
+          return profissionais.filter((profissional) => profissional.id_servicos === id_servicos).length;
+        };
+
+        const updatedFormularios = servicos.map((servico) => {
+          const { id_servicos } = servico;
+          return {
+            id: id_servicos,
+            "serviço": servico.tipo_servico,
+            "quantidade de profissionais": getCountOfProfessionais(id_servicos),
+          };
+        });
 
         setRows(updatedFormularios);
         setIsLoading(false);
@@ -65,6 +65,7 @@ export default function ColumnTypesGrid() {
 
     fetchData();
   }, []);
+
 
   const details = React.useCallback(
     (id) => () => {
@@ -79,7 +80,7 @@ export default function ColumnTypesGrid() {
   const edit = React.useCallback(
     (id) => () => {
       console.log("edit: ", id);
-      navigate(`/admin/dashboard/profissionais/new/${id}`);
+      navigate(`/admin/dashboard/animais/new/${id}`);
     },
     [navigate]
   );
@@ -87,10 +88,8 @@ export default function ColumnTypesGrid() {
   const columns = React.useMemo(
     () => [
       { field: "id", type: "number", flex: 0.6 },
-      { field: "nome", type: "string", flex: 1 },
-      { field: "data de nascimento", type: "Date", flex: 0.6 },
-      { field: "profissão", type: "string", flex: 0.6 },
-      { field: "serviço", type: "string", flex: 0.6 },
+      { field: "serviço", type: "string", flex: 1 },
+      { field: "quantidade de profissionais", type: "number", flex: 0.6 },
       {
         field: "actions",
         type: "actions",
@@ -139,7 +138,7 @@ export default function ColumnTypesGrid() {
           color="#212B36"
           variant="h5"
         >
-          Profissionais
+          Serviços
         </Typography>
         <Box sx={{display:"flex"}}>
           <Button
@@ -147,10 +146,10 @@ export default function ColumnTypesGrid() {
             variant="outlined"
             color="primary"
             component={Link}
-            href={`/admin/dashboard/profissionais/new`}
+            href={`/admin/dashboard/animais/new`}
             startIcon={<AddIcon />}
           >
-            Adicionar nova matricula
+            Adicionar novo serviço
           </Button>
         </Box>
       </Box>

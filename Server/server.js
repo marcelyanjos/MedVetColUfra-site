@@ -8,7 +8,9 @@ const clientsRouter = require('./routes/clients');
 const disponibilidadeRouter = require('./routes/horarioAgendamento');
 const profissionaisDisponiveisRouter = require('./routes/profissionaisDisponiveis');
 const servicosRouter = require('./routes/servico');
+const escalaRouter = require('./routes/escala');
 const petClienteRouter = require('./routes/petClient')
+const profissionaisRouter = require('./routes/profissionais')
 const petsRouter = require('./routes/petClientes')
 const chartRouter = require('./routes/charts')
 const adocaoRouter = require('./routes/adocoes')
@@ -31,6 +33,8 @@ app.use('/api/clientes', clientsRouter);
 app.use('/api/disponibilidade', disponibilidadeRouter);
 app.use('/api/disponibilidade-profissionais', profissionaisDisponiveisRouter);
 app.use('/api/servicos', servicosRouter);
+app.use('/api/escala', escalaRouter);
+app.use('/api/profissionais', profissionaisRouter);
 app.use('/api/petsCliente', petsRouter);
 app.use('/api/petCliente', petClienteRouter);
 app.use('/api/chart', chartRouter);

@@ -26,6 +26,9 @@ import {
   HovetInfo,
   HovetInfoTable,
   EditorHovet,
+  ProfessionalsTable,
+  Escala,
+  Servicos,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -36,6 +39,10 @@ import {
   Canil,
   Adocao,
   AnimaisAdocao,
+  AgendamentoDefault,
+  MenuAgenda,
+  NovoAgendamento,
+  AgendamentosCliente
 } from "./pages/Default/routes";
 import AnimalList from "./pages/Default/Adocao/AnimalList";
 import AdocaoInfo from "./pages/Default/Adocao/Info";
@@ -45,7 +52,8 @@ import CheckAndAdopt from "./pages/Default/Adocao/CheckAndAdopt";
 import Article from "./pages/Default/Blog/Article";
 import AuthProvider from "./CMS/components/AuthProvider/AuthProvider";
 import { getToken } from "./CMS/Helpers";
-import ModalUser from "./pages/Dashboard/AnimalList/ModalUser";
+import EditAnimal from "./pages/Dashboard/AnimalList/ModalUser";
+import ModalUser from "./pages/Dashboard/Profissionais/ModalUser";
 
 function App() {
   return (
@@ -66,6 +74,11 @@ function App() {
               <Route path="my-adoptions" element={<ClientForms />} />
               <Route path=":id" element={<AnimalDetails />} />
               <Route path="adoption-form/:id" element={<CheckAndAdopt />} />
+            </Route>
+            <Route path="agendamento" element={<AgendamentoDefault />}>
+              <Route index element={<MenuAgenda />} />
+              <Route path="new" element={<NovoAgendamento />} />
+              <Route path="meus-agendamentos" element={<AgendamentosCliente />} />
             </Route>
           </Route>
           {/* Admin */}
@@ -93,11 +106,16 @@ function App() {
               element={getToken() ? <Drawer /> : <Navigate to="/admin/login" />}
             >
               <Route index path="app" element={<Admin />} />
-              <Route path="profissionais" element={<Professionals />} />
+              <Route path="profissionais" element={<Professionals />} >
+                <Route index element={<ProfessionalsTable />} />
+                <Route path="new/:id?" element={<ModalUser />} />
+                <Route path="escala" element={<Escala />} />
+                <Route path="servicos" element={<Servicos />} />
+              </Route>
              {/* Animais do canil */}
               <Route path="animais" element={<Pets />}>
                 <Route index element={<PetsTable />} />
-                <Route path="new/:id?" element={<ModalUser />} />
+                <Route path="new/:id?" element={<EditAnimal />} />
               </Route>
               {/* Formularios de Adoção */}
               <Route path="adocoes" element={<Adocoes />} />
