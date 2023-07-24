@@ -138,6 +138,7 @@ const formats = [
 export default function Article() {
   const [category, setCategory] = useState("");
   const [publish, setPublish] = useState(false);
+  const [publishedAtDate, setPublishedAtDate] = useState(null);
   const { id } = useParams();
   const { user } = useAuthContext();
   const [isLoading, setIsLoading] = useState(!id);
@@ -148,8 +149,10 @@ export default function Article() {
     descricao: "",
     autor: "",
     body: "",
+    publishedAt:""
   });
   const history = useNavigate();
+  console.log('user', user?.username)
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -173,8 +176,9 @@ export default function Article() {
               ? `${Host}${articleData.ilustracao.data.attributes.url}`
               : null,
           descricao: articleData.descricao || "",
-          autor: articleData.autor || "",
+          autor: articleData.autor.data.attributes.username || "",
           body: articleData.body || "",
+          publishedAt: articleData.publishedAt || "",
         }));
         setIsLoading(false);
         console.log('data',articleData.ilustracao.data.attributes.url);
@@ -231,6 +235,15 @@ export default function Article() {
     }));
   };
 
+  const handlePublish = () => {
+    if (!publish) {
+      setPublishedAtDate(new Date()); // Set the current date if publishing
+    } else {
+      setPublishedAtDate(null); // Set null if saving as a draft
+    }
+    setPublish(!publish); // Toggle the publish state
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -242,8 +255,9 @@ export default function Article() {
         JSON.stringify({
           titulo: formData.titulo,
           descricao: formData.descricao,
-          autor: formData.autor,
+          autor: user?.id,
           body: formData.body,
+          publishedAt: publishedAtDate,
         })
       );
 
@@ -276,9 +290,10 @@ export default function Article() {
         descricao: "",
         autor: user?.username || "",
         body: "",
+        publishedAt:''
       });
 
-      history("/articles");
+      history("/admin/dashboard/artigos");
     } catch (error) {
       console.error("Erro ao enviar o artigo:", error);
     }
@@ -288,12 +303,6 @@ export default function Article() {
     setCategory(event.target.value);
   };
 
-  const handlePublish = () => {
-    console.log("setPublish");
-    if (publish == true) {
-      setPublish(false);
-    } else setPublish(true);
-  };
 
   return (
     <div>
@@ -358,7 +367,7 @@ export default function Article() {
                   id="standard-basic"
                   label="autor"
                   disabled
-                  value={user?.username || ""}
+                  value={formData.autor}
                   variant="standard"
                 />
               </Box>
@@ -390,7 +399,7 @@ export default function Article() {
                 modules={modules}
               />
               <Box sx={{ display: "flex" }}>
-                {/* <Box sx={{ pt: 1, flex: 1 }}>
+              <Box sx={{ pt: 1, flex: 1 }}>
                   <Button
                     onClick={handlePublish}
                     sx={{
@@ -401,7 +410,7 @@ export default function Article() {
                   >
                     {publish ? "Publicar" : "Rascunho"}
                   </Button>
-                </Box> */}
+                </Box>
                 <Box sx={{ pt: 1 }}>
                   <Button
                     type="submit"

@@ -3,7 +3,7 @@
 # fix
 Manter scroll quando drawer fechar por conta de tamanho de tela
 
-## ------------ Home -----------------
+## ------------ Default Home -----------------
 
 Key de slider
 
@@ -15,10 +15,13 @@ bgcolor de pagination
 
 ## ------------ SignUp -----------------
 cadastro: get matricula and nome from matriculas cms
-set user: nome+'.'+sobrenome
+set username: nome+'.'+sobrenome
 
 ## ------------ Modal de Animais Canil -----------------
 Testar put de animais
 
 ## ------------ Card3 de perfil -----------------
 Substituir permissões por calendario de escala do profissional
+
+## ------------ HovetInfo e CanilInfo -----------------
+receber estado de publishedAt para modificação de botão

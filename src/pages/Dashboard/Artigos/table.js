@@ -36,7 +36,7 @@ export default function ColumnTypesGrid() {
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
-        `${API}/artigos?populate=ilustracao&publicationState=preview`
+        `${API}/artigos?populate=ilustracao,autor&publicationState=preview`
       );
       const artigos = response.data.data;
       const updatedFormularios = artigos.map((artigo) => (
@@ -49,6 +49,7 @@ export default function ColumnTypesGrid() {
         ilustracao: artigo.attributes.ilustracao?.data?.attributes?.url
         ? `${Host}${artigo.attributes.ilustracao.data.attributes.url}`
         : null,
+        autor:artigo.attributes.autor.data === null ? null : artigo.attributes.autor.data.attributes.username 
       }));
 
       setRows(updatedFormularios);
@@ -96,6 +97,7 @@ export default function ColumnTypesGrid() {
       },
       { field: "titulo", type: "string", flex: 1},
       { field: "data criação", type: "Date", flex: 0.6 },
+      { field: "autor", type: "string", flex: 0.6 },
       { field: "publicado", type: "boolean", flex: 0.6 },
       {
         field: "actions",

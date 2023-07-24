@@ -198,7 +198,7 @@ function DrawerAppBar(props) {
         }}
       >
         {/* <Toolbar /> */}
-        <Box sx={{ pt: 3, pb: 3 }}>
+        <Box>
           <Outlet />
         </Box>
         <Footer />

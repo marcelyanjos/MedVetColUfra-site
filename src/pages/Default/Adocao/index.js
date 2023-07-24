@@ -11,7 +11,7 @@ function IndexAdocao() {
 
 function MenuAdocao(){
   return (
-    <Box sx={{pl:5, pr:5}}>
+    <Box sx={{pl:5, pr:5, pt:3, pb:3}}>
      <AnimalList />
     </Box>
   )

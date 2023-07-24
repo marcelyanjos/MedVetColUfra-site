@@ -21,6 +21,11 @@ import {
   CanilInfo,
   CanilInfoTable,
   EditorCanil,
+  Agendamento,
+  AgendamentoTable,
+  HovetInfo,
+  HovetInfoTable,
+  EditorHovet,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -105,6 +110,14 @@ function App() {
               <Route path="canilInfo" element={<CanilInfo />}>
                 <Route index element={<CanilInfoTable />} />
                 <Route path="new/:id?" element={<EditorCanil />} />
+              </Route>
+              <Route path="hovetInfo" element={<HovetInfo />}>
+                <Route index element={<HovetInfoTable />} />
+                <Route path="new/:id?" element={<EditorHovet />} />
+              </Route>
+              <Route path="agendamentos" element={<Agendamento />}>
+                <Route index element={<AgendamentoTable />} />
+                {/* <Route path="new/:id?" element={<EditorCanil />} /> */}
               </Route>
               <Route path="perfil" element={<Profile />} />
               {/* <Route path="*" element={<ErrorPage />} /> */}

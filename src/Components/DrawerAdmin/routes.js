@@ -3,6 +3,7 @@ import React from "react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 // import { ReactComponent as HomeIcon } from "../../assets/Home_light.svg";
 import { ReactComponent as SthetoscopeIcon } from "../../assets/stethoscope_icon.svg";
+import { ReactComponent as HeartIcon } from "../../assets/Heart.svg";
 import { ReactComponent as Adoption } from "../../assets/Paw_light.svg";
 import { ReactComponent as Article } from "../../assets/Article_light.svg";
 const routes = [
@@ -31,11 +32,25 @@ const routes = [
     ],
   },
   {
+    nome: "HOVET",
+    icon: <HeartIcon />,
+    link: "",
+    sections: [
+      {
+        nome: "Agendamentos",
+        link: "/admin/dashboard/agendamentos",
+      },
+      {
+        nome: "Informações HOVET",
+        link: "/admin/dashboard/hovetInfo",
+      },
+    ],
+  },
+  {
     nome: "Profissionais",
     icon: <SthetoscopeIcon />,
     link: "/admin/dashboard/profissionais",
   },
-
   {
     nome: "Artigos",
     icon: <Article />,
