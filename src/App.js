@@ -50,10 +50,11 @@ import ClientForms from "./pages/Default/Adocao/ClientForms";
 import AnimalDetails from "./pages/Default/Adocao/AnimalDetails";
 import CheckAndAdopt from "./pages/Default/Adocao/CheckAndAdopt";
 import Article from "./pages/Default/Blog/Article";
+import EditAnimal from "./pages/Dashboard/AnimalList/ModalUser";
+import NovoProfissional from "./pages/Dashboard/Profissionais/NovoProfissional";
 import AuthProvider from "./CMS/components/AuthProvider/AuthProvider";
 import { getToken } from "./CMS/Helpers";
-import EditAnimal from "./pages/Dashboard/AnimalList/ModalUser";
-import ModalUser from "./pages/Dashboard/Profissionais/ModalUser";
+import NovaEscala from "./pages/Dashboard/Profissionais/NovaEscala";
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
               <Route path="meus-agendamentos" element={<AgendamentosCliente />} />
             </Route>
           </Route>
+
           {/* Admin */}
           <Route
             path="admin"
@@ -106,10 +108,12 @@ function App() {
               element={getToken() ? <Drawer /> : <Navigate to="/admin/login" />}
             >
               <Route index path="app" element={<Admin />} />
+              {/* Profissionais, serviços e escalas */}
               <Route path="profissionais" element={<Professionals />} >
                 <Route index element={<ProfessionalsTable />} />
-                <Route path="new/:id?" element={<ModalUser />} />
+                <Route path="new/:id?" element={<NovoProfissional />} />
                 <Route path="escala" element={<Escala />} />
+                <Route path="escala/new/:id?" element={<NovaEscala />} />
                 <Route path="servicos" element={<Servicos />} />
               </Route>
              {/* Animais do canil */}
@@ -129,10 +133,12 @@ function App() {
                 <Route index element={<CanilInfoTable />} />
                 <Route path="new/:id?" element={<EditorCanil />} />
               </Route>
+              {/* Informações da pagina hovet */}
               <Route path="hovetInfo" element={<HovetInfo />}>
                 <Route index element={<HovetInfoTable />} />
                 <Route path="new/:id?" element={<EditorHovet />} />
               </Route>
+              {/* Agendamentos */}
               <Route path="agendamentos" element={<Agendamento />}>
                 <Route index element={<AgendamentoTable />} />
                 {/* <Route path="new/:id?" element={<EditorCanil />} /> */}

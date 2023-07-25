@@ -20,11 +20,18 @@ set username: nome+'.'+sobrenome
 ## ------------ Modal de Animais Canil -----------------
 Testar put de animais
 
+## ------------ Editar/Adicionar Profissionais -----------------
+Limpar campos quando post
+Verificar porque está postando e exibindo axios error
+
 ## ------------ Card3 de perfil -----------------
 Substituir permissões por calendario de escala do profissional
 
 ## ------------ HovetInfo e CanilInfo -----------------
 receber estado de publishedAt para modificação de botão
+
+## ------------ Escala -----------------
+procurar calendario para selecionar multiplas datas
 
 # Falta
 [ ] adicionar novo serviço

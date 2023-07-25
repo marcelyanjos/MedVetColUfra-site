@@ -34,7 +34,8 @@ const AgendamentoConsulta = () => {
   const [motivoConsulta, setMotivoConsulta] = useState("");
   const [listaServicos, setListaServicos] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
-  const id_cliente = "";
+  const [horarioSelecionado, setHorarioSelecionado] = useState(false);
+  let id_cliente = "";
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -130,7 +131,7 @@ const AgendamentoConsulta = () => {
       email
     );
     if (clienteExistente) {
-      const id_cliente = clienteExistente.id_cliente;
+      id_cliente = clienteExistente.id_cliente;
       const petExistente = await verificarPetExistente(
         id_cliente,
         nomeAnimal,
@@ -171,6 +172,14 @@ const AgendamentoConsulta = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (!hora) {
+      setHorarioSelecionado(false);
+    } else {
+      setHorarioSelecionado(true);
+    }
+  }, [hora]);
 
   const verificarAgendamentoExistente = async (servico, data, horario) => {
     try {
@@ -322,6 +331,10 @@ const AgendamentoConsulta = () => {
       dia &&
       hora
     );
+  };
+
+  const isHorarioSelecionado = (horario) => {
+    return hora === horario && horarioSelecionado;
   };
 
   return (
@@ -486,20 +499,20 @@ const AgendamentoConsulta = () => {
                 sx={{ marginTop: 2 }}
               />
 
-              <TextField
-                select
-                label="Horário"
-                name="horario"
-                value={hora}
-                onChange={handleHoraChange}
-                sx={{ marginTop: 2 }}
+              {horariosDisponiveis.map((horario) => (
+              <Button
+                variant={isHorarioSelecionado(horario) ? "contained" : "outlined"}
+                disabled={!horariosDisponiveis}
+                key={horario}
+                value={horario}
+                onClick={() => {
+                  setHora(horario);
+                  setHorarioSelecionado(true);
+                }}
               >
-                {horariosDisponiveis.map((horario) => (
-                  <MenuItem key={horario} value={horario}>
-                    {horario}
-                  </MenuItem>
-                ))}
-              </TextField>
+                {horario}
+              </Button>
+            ))}
             </LocalizationProvider>
           </Box>
         )}

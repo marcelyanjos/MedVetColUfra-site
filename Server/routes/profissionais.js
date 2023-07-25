@@ -13,6 +13,20 @@ router.get("/", async (req, res) => {
     res.status(500).send("Erro ao buscar adoções.");
   }
 });
+router.get("/:matricula", async (req, res) => {
+  const { matricula } = req.params;
+  try {
+    const { rows } = await pool.query("SELECT * FROM profissionais WHERE matricula = $1",[matricula])
+    if (rows.length === 0) {
+      res.status(400).send("Parâmetros inválidos.");
+    } else {
+      res.send(rows);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao buscar profissional.");
+  }
+});
 
 router.post("/", async (req, res) => {
   const { matricula, nome, data_nasc, profissao, id_servicos } = req.body;
@@ -31,7 +45,7 @@ router.post("/", async (req, res) => {
     res.send({ matricula: insertedMatricula });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Erro ao cadastrar escala.");
+    res.status(500).send("Erro ao cadastrar profissional.");
   }
 });
 
