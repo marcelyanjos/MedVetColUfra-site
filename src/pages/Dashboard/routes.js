@@ -4,16 +4,18 @@ import admin from "./home";
 import animais from "./AnimalList";
 import animaisTabela from "./AnimalList/Table";
 import adocoes from "./AdoptionList";
+import adocoesTabela from "./AdoptionList/Table";
 import perfil from "./Profile";
 import profissionais from "./Profissionais";
 import profissionaisTabela from "./Profissionais/Table";
-import artigos from "./Artigos";
 import escala from "./Profissionais/Escala";
 import servicos from "./Profissionais/Servicos";
+import artigos from "./Artigos";
 import artigosTabela from "./Artigos/table";
 import editorArticle from "./Artigos/editor";
 import agendamento from "./AgendamentoList";
 import agendamentoTable from './AgendamentoList/table'
+import editorAgendamento from './AgendamentoList/NovoAgendamento'
 import canilInfo from "./CanilSections";
 import canilInfoTabela from "./CanilSections/table";
 import editorCanil from "./CanilSections/editor";
@@ -29,6 +31,7 @@ const Admin = admin;
 const Pets = animais;
 const PetsTable = animaisTabela;
 const Adocoes = adocoes;
+const AdocoesTable = adocoesTabela;
 const Profile = perfil;
 const Escala = escala;
 const Servicos = servicos;
@@ -45,6 +48,7 @@ const ArticleTable = artigosTabela;
 const EditorArticle = editorArticle;
 const Agendamento = agendamento;
 const AgendamentoTable = agendamentoTable;
+const EditorAgendamento = editorAgendamento;
 const Drawer = drawer;
 
 export {
@@ -53,9 +57,11 @@ export {
   Admin,
   Agendamento,
   AgendamentoTable,
+  EditorAgendamento,
   Pets,
   PetsTable,
   Adocoes,
+  AdocoesTable,
   Profile,
   Escala,
   Servicos,

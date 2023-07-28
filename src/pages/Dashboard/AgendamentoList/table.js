@@ -34,6 +34,7 @@ export default function ColumnTypesGrid() {
         const response = await api.get("/api/agendamentos");
         const agendamentos = response.data;
 
+        console.log('agendamentos', agendamentos)
         const updatedAgendamentos = await Promise.all(
           agendamentos.map(async (agendamento) => {
             const { id_agendamento, id_cliente, id_pet, id_servicos } =
@@ -46,11 +47,13 @@ export default function ColumnTypesGrid() {
 
             const petResponse = await api.get(`/api/petCliente/${id_pet}`);
             const pet = petResponse.data[0];
+            console.log('pet', pet.nome)
 
             const serviceResponse = await api.get(
               `/api/servicos/${id_servicos}`
             );
-            const service = serviceResponse.data[0];
+            const service = serviceResponse.data;
+            console.log('serviço', service)
 
             return {
               id: id_agendamento,
@@ -154,7 +157,7 @@ export default function ColumnTypesGrid() {
           variant="outlined"
           color="primary"
           component={Link}
-          href={`/admin/dashboard/animais/new`}
+          href={`/admin/dashboard/agendamentos/new`}
           startIcon={<AddIcon />}
         >
           Adicionar novo animal

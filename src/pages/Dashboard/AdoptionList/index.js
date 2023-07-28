@@ -3,22 +3,14 @@ import { Box, Grid, Container, Typography } from "@mui/material";
 import ModalUser from './ModalUser';
 import Table from './Table';
 import styles from './style';
+import { Link, Outlet } from "react-router-dom";
 
 export default function AdoptionList() {
   return (
-      <Container maxWidth="x1">
-        <Box sx={styles.index_box}>
-          <Typography
-            fontFamily={"Public Sans"}
-            fontWeight={700}
-            color="#212B36"
-            variant="h5"
-          >
-            Adoções
-          </Typography>
-          <ModalUser />
-        </Box>
-        <Table />
-      </Container>
+    <div>
+    <Container maxWidth="x1">
+      <Outlet />
+    </Container>
+  </div>
   );
 }

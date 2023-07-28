@@ -25,7 +25,7 @@ import api from "../../../api";
 import { useNavigate } from "react-router-dom";
 
 export default function ColumnTypesGrid() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -142,6 +142,13 @@ export default function ColumnTypesGrid() {
     );
   }
 
+  const sortModel = [
+    {
+      field: "id",
+      sort: "asc",
+    },
+  ];
+
   return (
     <Box>
       <Box sx={styles.index_box}>
@@ -171,7 +178,7 @@ export default function ColumnTypesGrid() {
             columns={columns}
             rows={rows}
             sx={styles.table_dataGrid}
-            // autoHeight
+            sortModel={sortModel}
             disableColumnSelector
             disableDensitySelector
             pageSize={pageSize}

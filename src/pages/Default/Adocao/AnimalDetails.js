@@ -48,6 +48,8 @@ function AnimalDetails(props) {
   return (
     <Container
       sx={{
+        pt:5,
+        pb:5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

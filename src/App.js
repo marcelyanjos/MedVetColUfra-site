@@ -29,6 +29,8 @@ import {
   ProfessionalsTable,
   Escala,
   Servicos,
+  AdocoesTable,
+  EditorAgendamento,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -42,7 +44,7 @@ import {
   AgendamentoDefault,
   MenuAgenda,
   NovoAgendamento,
-  AgendamentosCliente
+  AgendamentosCliente,
 } from "./pages/Default/routes";
 import AnimalList from "./pages/Default/Adocao/AnimalList";
 import AdocaoInfo from "./pages/Default/Adocao/Info";
@@ -79,7 +81,10 @@ function App() {
             <Route path="agendamento" element={<AgendamentoDefault />}>
               <Route index element={<MenuAgenda />} />
               <Route path="new" element={<NovoAgendamento />} />
-              <Route path="meus-agendamentos" element={<AgendamentosCliente />} />
+              <Route
+                path="meus-agendamentos"
+                element={<AgendamentosCliente />}
+              />
             </Route>
           </Route>
 
@@ -109,21 +114,27 @@ function App() {
             >
               <Route index path="app" element={<Admin />} />
               {/* Profissionais, serviços e escalas */}
-              <Route path="profissionais" element={<Professionals />} >
+              <Route path="profissionais" element={<Professionals />}>
                 <Route index element={<ProfessionalsTable />} />
                 <Route path="new/:id?" element={<NovoProfissional />} />
                 <Route path="escala" element={<Escala />} />
                 <Route path="escala/new/:id?" element={<NovaEscala />} />
+                {/* Falta editar servicos
+                 */}
                 <Route path="servicos" element={<Servicos />} />
               </Route>
-             {/* Animais do canil */}
+              {/* Animais do canil */}
               <Route path="animais" element={<Pets />}>
                 <Route index element={<PetsTable />} />
                 <Route path="new/:id?" element={<EditAnimal />} />
               </Route>
               {/* Formularios de Adoção */}
-              <Route path="adocoes" element={<Adocoes />} />
-                {/* Artigos do blog */}
+              <Route path="adocoes" element={<Adocoes />}>
+                <Route index element={<AdocoesTable />} />
+                {/* Falta editar adoções */}
+                <Route path="new/:id?" element={<EditAnimal />} />
+              </Route>
+              {/* Artigos do blog */}
               <Route path="artigos" element={<ArticleList />}>
                 <Route index element={<ArticleTable />} />
                 <Route path="new/:id?" element={<EditorArticle />} />
@@ -141,7 +152,7 @@ function App() {
               {/* Agendamentos */}
               <Route path="agendamentos" element={<Agendamento />}>
                 <Route index element={<AgendamentoTable />} />
-                {/* <Route path="new/:id?" element={<EditorCanil />} /> */}
+                <Route path="new/:id?" element={<EditorAgendamento />} />
               </Route>
               <Route path="perfil" element={<Profile />} />
               {/* <Route path="*" element={<ErrorPage />} /> */}

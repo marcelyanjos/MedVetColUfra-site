@@ -41,7 +41,7 @@ export default function Card1() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const { id } = useParams(); // Adiciona o parâmetro id
+  const { id } = useParams();
 
   const [animal, setAnimal] = useState({
     nome: "",
@@ -67,8 +67,18 @@ export default function Card1() {
           imagem: animalData.imagem,
         });
       });
+    } else {
+      // If there is no "id" in the URL, reset the "animal" state
+      setAnimal({
+        nome: "",
+        especie: "",
+        sexo: "",
+        idade: "",
+        peso: "",
+        imagem: "",
+      });
     }
-  }, [id]);
+  }, [id]); 
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -85,25 +95,29 @@ export default function Card1() {
     event.preventDefault();
 
     try {
-      // Verifica se a imagem existe antes de convertê-la para base64
-      const base64 =
-        animal.imagem && (await convertImageToBase64(animal.imagem));
+      // Check if there is a new image and convert it to base64
+      let base64;
+      if (newImage && animal.imagem) {
+        base64 = await convertImageToBase64(animal.imagem);
+      }
 
       if (id) {
-        // Edita os dados do animal existente
-        await api.put(`/api/animals/${id}`, {
+        // If updating an existing animal
+        const updateData = {
           ...animal,
-          imagem: base64,
-        });
+          imagem: base64 ? base64 : decode(animal.imagem), // Use the existing image if there is no new image
+        };
+
+        await api.put(`/api/animals/${id}`, updateData);
         setOpenSnackbar(true);
         setSnackbarMessage("Dados do animal atualizado com sucesso!");
         setSnackbarSeverity("success");
       } else {
-        // Envia os dados do animal para o servidor
+        // If adding a new animal
         await api.post("/api/animals", {
           ...animal,
-          newImage,
-          imagem: base64,
+          newImage: base64 ? true : false, // Set newImage to true only if there is a new image
+          imagem: base64 ? base64 : undefined, // Include imagem property only if there is a new image
         });
         setOpenSnackbar(true);
         setSnackbarMessage("Dados do animal salvo com sucesso!");

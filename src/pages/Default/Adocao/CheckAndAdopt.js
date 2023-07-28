@@ -7,7 +7,7 @@ import {
   Box,
   Card,
   Alert,
-  Snackbar
+  Snackbar,
 } from "@mui/material";
 import { decode } from "base-64";
 import api from "../../../api";
@@ -46,12 +46,16 @@ function CheckAndAdopt(props) {
   useEffect(() => {
     if (client && animal) {
       api
-        .get(`/api/adoption-forms?animal_id=${animal.id_animal}&cliente_id=${client.id_cliente}`)
+        .get(
+          `/api/adoption-forms?animal_id=${animal.id_animal}&cliente_id=${client.id_cliente}`
+        )
         .then((response) => {
           const adoptionForms = response.data;
           if (adoptionForms.length > 0) {
             setOpenSnackbar(true);
-            setSnackbarMessage("O cliente já possui um formulário de adoção para esse animal.");
+            setSnackbarMessage(
+              "O cliente já possui um formulário de adoção para esse animal."
+            );
             setSnackbarSeverity("warning");
           } else {
             setShowTable(true);
@@ -95,7 +99,7 @@ function CheckAndAdopt(props) {
             tipo_moradia: clientInfo.tipo_moradia,
             protocolo: generateProtocol(),
             situacao: "Em andamento",
-            data_envio: format(new Date(), 'dd/MM/yyyy'),
+            data_envio: format(new Date(), "yyyy-MM-dd"),
             ...clientInfo,
           };
           submitAdoptionForm(adoptionForm);
@@ -105,6 +109,9 @@ function CheckAndAdopt(props) {
         })
         .catch((error) => {
           console.error(error);
+          setOpenSnackbar(true);
+          setSnackbarMessage("Erro ao cadastrar novo cliente");
+          setSnackbarSeverity("warning");
         });
     } else {
       // Cliente existente
@@ -115,7 +122,7 @@ function CheckAndAdopt(props) {
         tipo_moradia: clientInfo.tipo_moradia,
         protocolo: generateProtocol(),
         situacao: "Em andamento",
-        data_envio: format(new Date(), 'MM/dd/yyyy'),
+        data_envio: format(new Date(), "yyyy-MM-dd"),
         ...clientInfo,
       };
       console.log(adoptionForm);
@@ -140,6 +147,9 @@ function CheckAndAdopt(props) {
       })
       .catch((error) => {
         console.error(error);
+        setOpenSnackbar(true);
+        setSnackbarMessage("Erro ao enviar formulário");
+        setSnackbarSeverity("warning");
       });
   };
 
@@ -148,7 +158,9 @@ function CheckAndAdopt(props) {
     const dateOfBirth = new Date(clientInfo.data_nasc);
     api
       .get(
-        `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${clientInfo.email}`
+        `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${
+          clientInfo.email
+        }`
       )
       .then((clientResponse) => {
         const clients = clientResponse.data;
@@ -178,8 +190,7 @@ function CheckAndAdopt(props) {
   return (
     <Box
       sx={{
-        pl:5,
-        pr:5,
+        p:5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -199,25 +210,23 @@ function CheckAndAdopt(props) {
       <Grid item xs={12} sm={6}>
         {animal && (
           <Card sx={{ padding: 2, marginBottom: 2 }}>
-            <Grid
-              container
-              sx={{justifyContent: "space-between" }}
-            >
+            <Grid container sx={{ justifyContent: "space-between" }}>
               <Grid item>
                 <Typography>Nome: {animal.nome}</Typography>
                 <Typography>Espécie: {animal.especie}</Typography>
                 <Typography>Sexo: {animal.sexo}</Typography>
               </Grid>
-              <Grid item sx={{width:{sm:'25vw'}}}>
+              <Grid item sx={{ width: { sm: "25vw" } }}>
                 <img
-                  src={`data:image/${animal.imagem.endsWith("png")
+                  src={`data:image/${
+                    animal.imagem.endsWith("png")
                       ? "png"
                       : animal.imagem.endsWith("jpeg")
-                        ? "jpeg"
-                        : "jpg"
-                    };base64,${decode(animal.imagem)}`}
+                      ? "jpeg"
+                      : "jpg"
+                  };base64,${decode(animal.imagem)}`}
                   alt={animal.nome}
-                  style={{width:'100%'}}
+                  style={{ width: "100%" }}
                 />
               </Grid>
             </Grid>

@@ -36,7 +36,7 @@ const AgendamentoConsulta = () => {
   const [listaServicos, setListaServicos] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [horarioSelecionado, setHorarioSelecionado] = useState(false);
-  let id_cliente = "";
+  const id_cliente = "";
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -83,8 +83,6 @@ const AgendamentoConsulta = () => {
     setDia(date);
     setHora("");
   };
-
-  console.log('dia',dayjs(dia).format("DD-MM-YYYY"))
 
   const handleHoraChange = (event) => {
     setHora(event.target.value);
@@ -135,6 +133,7 @@ const AgendamentoConsulta = () => {
     );
     if (clienteExistente) {
       id_cliente = clienteExistente.id_cliente;
+      console.log('velho id_cliente', id_cliente)
       const petExistente = await verificarPetExistente(
         id_cliente,
         nomeAnimal,
@@ -201,7 +200,7 @@ const AgendamentoConsulta = () => {
     }
   };
 
-  const verificarClienteExistente = async () => {
+  const verificarClienteExistente = async (nomeCliente, dataNascimento, email) => {
     try {
       const response = await api.get("/api/clientes", {
         params: {
@@ -210,7 +209,7 @@ const AgendamentoConsulta = () => {
           email: email,
         },
       });
-
+  
       const clientes = response.data;
       return clientes.length > 0 ? clientes[0] : null;
     } catch (error) {
@@ -218,26 +217,26 @@ const AgendamentoConsulta = () => {
       return null;
     }
   };
-
-  const verificarPetExistente = async () => {
+  
+  const verificarPetExistente = async (id_cliente, nome, especie, sexo) => {
     try {
       const response = await api.get("/api/petCliente", {
         params: {
           id_cliente: id_cliente,
-          nome: nomeAnimal,
+          nome: nome,
           especie: especie,
           sexo: sexo,
         },
       });
-
+  
       const pets = response.data;
-      console.log("pet", response.data);
       return pets.length > 0 ? pets[0] : null;
     } catch (error) {
       console.error(error);
       return null;
     }
   };
+  
 
   const cadastrarCliente = async () => {
     try {
@@ -260,7 +259,7 @@ const AgendamentoConsulta = () => {
 
   const cadastrarPetCliente = async (id_cliente) => {
     try {
-      console.log("ID do cliente:", id_cliente); // Verifica se o ID do cliente está correto
+      console.log("ID do cliente para pet:", id_cliente); // Verifica se o ID do cliente está correto
       console.log("Dados do pet:", {
         id_cliente: id_cliente,
         nome: nomeAnimal,
