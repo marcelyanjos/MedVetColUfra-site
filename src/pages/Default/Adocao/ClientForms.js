@@ -161,6 +161,8 @@ function ClientForms(props) {
     <Container
       minHeight={"100%"}
       sx={{
+        pt: 3,
+        pb: 3,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

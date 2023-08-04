@@ -34,9 +34,9 @@ receber estado de publishedAt para modificação de botão
 procurar calendario para selecionar multiplas datas
 
 # Falta
-[ ] adicionar novo serviço
+[X] adicionar novo serviço
 
-[ ] adicionar e tabela de escala
+[X] adicionar e tabela de escala
 
 [X] adicionar e listar profissionais
 
@@ -44,6 +44,16 @@ procurar calendario para selecionar multiplas datas
 
 [ ] caso acesso seja primeira vez, pedir para criar senha
 
-[ ] adicionar novo agendamento
+[X] adicionar novo agendamento
+
+[X] adicionar novo formulario de adoção
+
+[ ] modificar novo para novo/editar formulario de adoção
+
+[ ] Adicionar editar "situação" a novo/editar formulario de adoçao de dashboard
+
+[ ] Verificar se cliente já não possui formulario de adoção para animal
+
+[ ] Verificar se cliente e animal do cliente já não existem no banco em caso de agendamento
 
 [ ] editar perfil (profile)

@@ -59,7 +59,7 @@ quintal bool,
 pessoas_residencia int,
 ocupacao varchar(200),
 protocolo varchar(100),
-situacao varchar(100)
+situacao varchar(100),
 outros_animais bool,
 constraint fk_cliente foreign key(id_cliente) references cliente(id_cliente),
 constraint fk_animalcanil foreign key(id_animal) references animais_canil(id_animal)

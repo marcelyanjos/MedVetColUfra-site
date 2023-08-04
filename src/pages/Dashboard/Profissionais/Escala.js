@@ -1,4 +1,12 @@
-import { Box, Typography, TextField, Grid, Divider, Button, Link } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  Divider,
+  Button,
+  Link,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -7,15 +15,18 @@ import { format } from "date-fns";
 import AddIcon from "@mui/icons-material/Add";
 import styles from "./style";
 import api from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 export default function Escala() {
   const [dia, setDia] = useState(null);
+  const navigate = useNavigate();
   const handleDateChange = (date) => {
     setDia(date);
   };
 
   const [rows, setRows] = useState([]);
   const [servicoTipos, setServicoTipos] = useState([]);
+  const [isProfessionalsEmpty, setIsProfessionalsEmpty] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +71,17 @@ export default function Escala() {
     fetchData();
   }, []);
 
+  const handleAddEscalaClick = () => {
+    if (rows.length === 0) {
+      // Check if professionals list is empty
+      setIsProfessionalsEmpty(true);
+      alert("Adicionar profissionais a lista do banco")
+    } else {
+      setIsProfessionalsEmpty(false);
+      navigate("/admin/dashboard/profissionais/escala/new");
+    }
+  };
+
   const filterProfissionaisByDate = () => {
     if (!dia) return [];
 
@@ -87,7 +109,7 @@ export default function Escala() {
   };
 
   return (
-    <Box sx={{minHeight: "80vh" }}>
+    <Box sx={{ minHeight: "80vh" }}>
       <Box sx={styles.index_box}>
         <Typography
           fontFamily={"Public Sans"}
@@ -97,16 +119,15 @@ export default function Escala() {
         >
           Escala
         </Typography>
-          <Button
-            sx={styles.modal_button}
-            variant="outlined"
-            color="primary"
-            component={Link}
-            href={`/admin/dashboard/profissionais/escala/new`}
-            startIcon={<AddIcon />}
-          >
-            Adicionar nova escala
-          </Button>
+        <Button
+          sx={styles.modal_button}
+          variant="outlined"
+          color="primary"
+          onClick={handleAddEscalaClick}
+          startIcon={<AddIcon />}
+        >
+          Adicionar nova escala
+        </Button>
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6}>

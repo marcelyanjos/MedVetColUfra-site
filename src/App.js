@@ -31,6 +31,7 @@ import {
   Servicos,
   AdocoesTable,
   EditorAgendamento,
+  NovaAdocao,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -119,8 +120,6 @@ function App() {
                 <Route path="new/:id?" element={<NovoProfissional />} />
                 <Route path="escala" element={<Escala />} />
                 <Route path="escala/new/:id?" element={<NovaEscala />} />
-                {/* Falta editar servicos
-                 */}
                 <Route path="servicos" element={<Servicos />} />
               </Route>
               {/* Animais do canil */}
@@ -131,8 +130,7 @@ function App() {
               {/* Formularios de Adoção */}
               <Route path="adocoes" element={<Adocoes />}>
                 <Route index element={<AdocoesTable />} />
-                {/* Falta editar adoções */}
-                <Route path="new/:id?" element={<EditAnimal />} />
+                <Route path="new/:id?" element={<NovaAdocao />} />
               </Route>
               {/* Artigos do blog */}
               <Route path="artigos" element={<ArticleList />}>

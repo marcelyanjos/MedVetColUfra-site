@@ -156,7 +156,7 @@ export default function ColumnTypesGrid() {
           variant="outlined"
           color="primary"
           component={Link}
-          href={`/admin/dashboard/animais/new`}
+          href={`/admin/dashboard/adocoes/new`}
           startIcon={<AddIcon />}
         >
           Adicionar novo formulario

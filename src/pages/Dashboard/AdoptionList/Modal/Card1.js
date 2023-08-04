@@ -1,144 +1,271 @@
-import * as React from "react";
 import {
   TextField,
-  Grid,
   Box,
+  Grid,
+  Link,
   Typography,
-  ListItemIcon,
-  ListItemButton,
-  ListItemText,
-  Checkbox,
+  Button,
+  MenuItem,
 } from "@mui/material";
-import UserPostsSort from "./UserPostsSort";
+import { decode } from "base-64";
+import React, { useCallback, useEffect, useState } from "react";
+import { format } from "date-fns";
+import styles from "../style";
+import api from "../../../../api";
 
 const card1 = {
-  // display: 'flex',
-  // flexDirection: 'column',
-  // justifyContent: 'space-between',
-  //   position: 'absolute',
-  //   alignItems: 'center',
-  // width: '49.5%',
-  // maxHeight:480,
-  // height: '100%',
   border: "1px solid #CFD0D7",
+  maxHeight: "95%",
   borderRadius: "4px",
   p: 1,
 };
-const SPECIE_OPTIONS = [
-  { value: "gato", label: "Gato" },
-  { value: "cachorro", label: "Cachorro" },
-];
-const SEXO_OPTIONS = [
-  { value: "femea", label: "Femea" },
-  { value: "macho", label: "Macho" },
-];
-const ESPECIAL_OPTIONS = [
-  { value: "sim", label: "Sim" },
-  { value: "não", label: "Não" },
-];
-const data = [
-  { value: "docil", label: "Dócil" },
-  { value: "carinhoso", label: "Carinhoso" },
-  { value: "brincalhao", label: "Brincalhão" },
-  { value: "amavel", label: "Amável" },
-  { value: "mimoso", label: "Mimoso" },
-];
+
 export default function Card1() {
-  const [checked, setChecked] = React.useState([0]);
+  const [client, setClient] = useState({
+    nome: "",
+    data_nasc: "",
+    email: "",
+    moradia: "",
+    ocupacao: "",
+  });
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  const [animal, setAnimal] = useState({
+    id_animal: "",
+    nome: "",
+    especie: "",
+    sexo: "",
+    idade: "",
+    peso: "",
+    imagem: "",
+  });
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [animalsList, setAnimalsList] = useState([]);
 
-    setChecked(newChecked);
+  useEffect(() => {
+    // Fetch the list of animals from your API endpoint
+    api.get("/api/animals").then((response) => {
+      setAnimalsList(response.data);
+    });
+  }, []);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    // Find the selected animal from the animalsList based on its id
+    const selectedAnimal = animalsList.find(
+      (animalOption) => animalOption.id === value
+    );
+    setAnimal((prevAnimal) => ({
+      ...prevAnimal,
+      [name]: value,
+      id_animal: value,
+      nome: selectedAnimal.nome,
+      especie: selectedAnimal.especie,
+      sexo: selectedAnimal.sexo,
+      idade: selectedAnimal.idade,
+      peso: selectedAnimal.peso,
+      imagem: selectedAnimal.imagem,
+    }));
   };
-  return (
-    // <Box sx={card1}>
-    <Grid xs={42} sm={5.95} ls={12} sx={card1} container>
-      <Grid item xs={12} sm={6} lg={12}>
-        {/* <Box> */}
-        <Typography>Nome</Typography>
-        <TextField fullWidth size="small" autoComplete="username" type="text" />
-        {/* </Box> */}
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Typography>Especie</Typography>
-          <UserPostsSort options={SPECIE_OPTIONS} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Typography>Idade</Typography>
-          <TextField
-            sx={{
-              width: "100%",
-            }}
-            size="small"
-            autoComplete="username"
-            type="text"
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Typography>Sexo</Typography>
-          <UserPostsSort options={SEXO_OPTIONS} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Typography>Especial</Typography>
-          <UserPostsSort options={ESPECIAL_OPTIONS} />
-        </Grid>
-      </Grid>
-      <Box>
-        <Typography>Caracteristicas</Typography>
-        <Grid container>
-          {data.map((data) => {
-            const labelId = data.label;
 
-            return (
-              // <ListItem key={data} disablePadding>
-              <Grid key={data} item xs={8} sm={6} md={4}>
-                <ListItemButton
-                  role={undefined}
-                  onClick={handleToggle(data.value)}
-                  dense
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(data.value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ "aria-labelledby": data.label }}
-                    />
-                    <ListItemText
-                      sx={{ display: "flex", alignItems: "center" }}
-                      id={data.value}
-                      primary={data.label}
-                    />
-                  </ListItemIcon>
-                </ListItemButton>
-              </Grid>
-              // </ListItem>
-            );
-          })}
+  const handleClientChange = (event) => {
+    const { name, value } = event.target;
+    setClient((prevClient) => ({
+      ...prevClient,
+      [name]: value,
+    }));
+  };
+
+  const generateProtocol = () => {
+    const randomString = Math.random().toString(36).substring(2, 8);
+    return randomString.toUpperCase();
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Submit client data to the client API endpoint
+      const clientResponse = await api.post("/api/clientes", {
+        nome: client.nome,
+        data_nasc: client.data_nasc,
+        email: client.email,
+      });
+
+      const createdClientId = clientResponse.data.id_cliente;
+      const currentDate = format(new Date(), "yyyy-MM-dd");
+      // Submit adoption form data to the adoption-forms API endpoint
+      await api.post("/api/adoption-forms", {
+        id_cliente: createdClientId,
+        id_animal: animal.id_animal,
+        protocolo: generateProtocol(),
+        situacao: "Em andamento",
+        tipo_moradia: client.moradia,
+        ocupacao: client.ocupacao,
+        data_envio: currentDate,
+      });
+
+      setOpenSnackbar(true);
+      setSnackbarMessage("Dados enviados com sucesso!");
+      setSnackbarSeverity("success");
+      setClient({
+        nome: "",
+        data_nasc: "",
+        email: "",
+        moradia: "",
+        ocupacao: "",
+      })
+      setAnimal({
+        id_animal: "",
+        nome: "",
+        especie: "",
+        sexo: "",
+        idade: "",
+        peso: "",
+        imagem: "",
+      })
+    } catch (error) {
+      console.error(error);
+      setOpenSnackbar(true);
+      setSnackbarMessage("Erro ao enviar dados. Tente novamente.");
+      setSnackbarSeverity("error");
+    }
+  };
+
+  return (
+    <Box sx={{ height: "100%", minHeight: "360px", p: 2 }}>
+      {/* <Box > */}
+      <Grid sx={styles.modal_box} container>
+        <Grid xs={12} sm={6} ls={12} sx={card1} item>
+          <Typography variant="h4">Adotante</Typography>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              fullWidth
+              required
+              size="small"
+              label="Nome"
+              type="text"
+              name="nome"
+              variant="outlined"
+              value={client.nome}
+              onChange={handleClientChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              fullWidth
+              required
+              size="small"
+              label="Data de nascimento"
+              type="date"
+              name="data_nasc"
+              value={client.data_nasc}
+              onChange={handleClientChange}
+              variant="outlined"
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              sx={{
+                width: "100%",
+              }}
+              size="small"
+              type="text"
+              name="email"
+              label="Email"
+              margin="normal"
+              value={client.email}
+              onChange={handleClientChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              sx={{
+                width: "100%",
+              }}
+              size="small"
+              type="text"
+              name="moradia"
+              label="Moradia"
+              margin="normal"
+              value={client.moradia}
+              onChange={handleClientChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              sx={{
+                width: "100%",
+              }}
+              size="small"
+              type="text"
+              name="ocupacao"
+              label="Ocupação"
+              margin="normal"
+              value={client.ocupacao}
+              onChange={handleClientChange}
+            />
+          </Grid>
         </Grid>
-      </Box>
-      <Grid item xs={12} sm={6} lg={12}>
-        <Typography>Descrição</Typography>
-        <TextField
-          fullWidth
-          id="outlined-multiline-flexible"
-          multiline
-          rows={4}
-          sx={{ marginBottom: 1 }}
-        />
+        <Grid xs={12} sm={6} ls={12} sx={card1} item>
+          <Typography variant="h4">Animal Adotado</Typography>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TextField
+              select
+              sx={{
+                width: "100%",
+              }}
+              size="small"
+              name="id_animal"
+              label="Animal"
+              margin="normal"
+              value={animal.id_animal ?? ""}
+              onChange={handleChange}
+            >
+              {animalsList.map((animalOption) => (
+                <MenuItem key={animalOption.id} value={animalOption.id}>
+                  {animalOption.nome} - {animalOption.especie}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            {/* Display the selected animal's details */}
+            <Typography>Nome: {animal.nome}</Typography>
+            <Typography>Especie: {animal.especie}</Typography>
+            <Typography>Sexo: {animal.sexo}</Typography>
+            <Typography>Idade: {animal.idade} anos</Typography>
+            <Typography>Peso: {animal.peso}kg</Typography>
+            {animal.imagem && (
+              <img
+                style={{width:'100%', objectFit:'contain'}}
+                src={`data:image/jpeg;base64,${decode(animal.imagem)}`}
+                alt="Animal"
+              />
+            )}
+          </Grid>
+        </Grid>
       </Grid>
-    </Grid>
+      <Grid container>
+        <Button variant="contained" onClick={handleSubmit}>
+          Enviar
+        </Button>
+        <Button
+          variant="contained"
+          component={Link}
+          href="/admin/dashboard/adocoes"
+          color="secondary"
+        >
+          Cancelar
+        </Button>
+      </Grid>
+      {/* </Box> */}
+    </Box>
   );
 }

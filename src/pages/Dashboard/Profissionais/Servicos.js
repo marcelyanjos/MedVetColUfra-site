@@ -15,6 +15,7 @@ import {
   Button,
   Typography,
   Link,
+  TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -23,12 +24,15 @@ import { format } from "date-fns";
 import styles from "./style";
 import api from "../../../api";
 import { useNavigate } from "react-router-dom";
+import colors from "../../../colors";
 
 export default function Servicos() {
   const navigate = useNavigate();
   const [pageSize, setPageSize] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
   const [rows, setRows] = useState([]);
+  const [servico, setServico] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,14 +47,16 @@ export default function Servicos() {
 
         // Function to calculate the count of professionals for each service
         const getCountOfProfessionais = (id_servicos) => {
-          return profissionais.filter((profissional) => profissional.id_servicos === id_servicos).length;
+          return profissionais.filter(
+            (profissional) => profissional.id_servicos === id_servicos
+          ).length;
         };
 
         const updatedFormularios = servicos.map((servico) => {
           const { id_servicos } = servico;
           return {
             id: id_servicos,
-            "serviço": servico.tipo_servico,
+            serviço: servico.tipo_servico,
             "quantidade de profissionais": getCountOfProfessionais(id_servicos),
           };
         });
@@ -65,7 +71,6 @@ export default function Servicos() {
 
     fetchData();
   }, []);
-
 
   const details = React.useCallback(
     (id) => () => {
@@ -112,6 +117,44 @@ export default function Servicos() {
     [details, edit]
   );
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // Make an API call to create a new service
+      await api.post("/api/servicos", { tipo_servico: servico });
+
+      // Fetch the updated list of services
+      const servicosResponse = await api.get("/api/servicos");
+      const servicos = servicosResponse.data;
+
+      // Fetch the updated list of profissionais
+      const profissionaisResponse = await api.get("/api/profissionais");
+      const profissionais = profissionaisResponse.data;
+
+      // Function to calculate the count of professionals for each service
+      const getCountOfProfessionais = (id_servicos) => {
+        return profissionais.filter(
+          (profissional) => profissional.id_servicos === id_servicos
+        ).length;
+      };
+
+      const updatedFormularios = servicos.map((servico) => {
+        const { id_servicos } = servico;
+        return {
+          id: id_servicos,
+          serviço: servico.tipo_servico,
+          "quantidade de profissionais": getCountOfProfessionais(id_servicos),
+        };
+      });
+
+      setRows(updatedFormularios);
+      setIsLoading(false);
+      setServico(""); // Clear the input field after submission
+    } catch (error) {
+      console.error("Error creating service:", error);
+    }
+  };
+
   function CustomToolbar() {
     return (
       <GridToolbarContainer sx={{ justifyContent: "space-between" }}>
@@ -140,20 +183,64 @@ export default function Servicos() {
         >
           Serviços
         </Typography>
-        <Box sx={{display:"flex"}}>
+        <Box sx={{ display: "flex" }}>
           <Button
             sx={styles.modal_button}
+            style={{ display: open && "none" }}
             variant="outlined"
             color="primary"
             component={Link}
-            href={`/admin/dashboard/animais/new`}
+            onClick={() => setOpen(true)}
             startIcon={<AddIcon />}
           >
             Adicionar novo serviço
           </Button>
         </Box>
       </Box>
-
+      {open && (
+        <Box sx={{ pl: 5, pr: 5, pb: 3 }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <TextField
+              size="small"
+              sx={{ width: "60%", bgcolor: "#ffffff" }}
+              required
+              label="Novo Serviço"
+              name="novo serviço"
+              placeholder="Serviço"
+              value={servico}
+              onChange={(e) => setServico(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+            />
+            <Box>
+              <Button
+                sx={{
+                  mr:2,
+                  bgcolor: colors.green[3],
+                  boxShadow: "none",
+                  "&:hover": {
+                    bgcolor: colors.green[5],
+                    boxShadow: "none",
+                  },
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Criar
+              </Button>
+              <Button
+                sx={styles.modal_button}
+                onClick={() => setOpen(!open)}
+                variant="outlined"
+              >
+                Cancelar
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      )}
       <Box sx={styles.table_box}>
         <Paper sx={styles.table_paper}>
           <DataGrid

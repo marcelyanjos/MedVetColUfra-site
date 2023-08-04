@@ -5,6 +5,7 @@ import animais from "./AnimalList";
 import animaisTabela from "./AnimalList/Table";
 import adocoes from "./AdoptionList";
 import adocoesTabela from "./AdoptionList/Table";
+import novaAdocao from "./AdoptionList/NovaAdocao";
 import perfil from "./Profile";
 import profissionais from "./Profissionais";
 import profissionaisTabela from "./Profissionais/Table";
@@ -32,6 +33,7 @@ const Pets = animais;
 const PetsTable = animaisTabela;
 const Adocoes = adocoes;
 const AdocoesTable = adocoesTabela;
+const NovaAdocao = novaAdocao;
 const Profile = perfil;
 const Escala = escala;
 const Servicos = servicos;
@@ -62,6 +64,7 @@ export {
   PetsTable,
   Adocoes,
   AdocoesTable,
+  NovaAdocao,
   Profile,
   Escala,
   Servicos,

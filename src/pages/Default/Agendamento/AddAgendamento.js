@@ -488,21 +488,20 @@ const AgendamentoConsulta = () => {
             Agendar
           </Button>
         </Box>
-        {servico && (
           <Box sx={{ width: "60%", ml: 1 }}>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               adapterLocale={"pt-br"}
-            >
+              >
               <DateCalendar
                 label="Data"
                 value={dia}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
                 sx={{ marginTop: 2 }}
-              />
+                />
 
-              {horariosDisponiveis.map((horario) => (
+                {servico && horariosDisponiveis.map((horario) => (
               <Button
                 variant={isHorarioSelecionado(horario) ? "contained" : "outlined"}
                 disabled={!horariosDisponiveis}
@@ -515,10 +514,9 @@ const AgendamentoConsulta = () => {
               >
                 {horario}
               </Button>
-            ))}
+              ))}
             </LocalizationProvider>
           </Box>
-        )}
       </Box>
     </Box>
   );

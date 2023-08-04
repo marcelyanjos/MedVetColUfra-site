@@ -39,10 +39,10 @@ router.post("/", async (req, res) => {
   const { tipo_servico } = req.body;
   try {
     const { rows } = await pool.query(
-      "INSERT INTO servicos (tipo_servico) VALUES ($1) RETURNING id_servico",
+      "INSERT INTO servicos (tipo_servico) VALUES ($1) RETURNING id_servicos",
       [tipo_servico.toUpperCase()]
     );
-    const id_servico = rows[0].id_servico;
+    const id_servico = rows[0].id_servicos;
     res.send({ id_servico });
   } catch (error) {
     console.error(error);
