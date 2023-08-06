@@ -1,0 +1,46 @@
+INSERT INTO servicos (tipo_servico) VALUES
+    ('cardiologia'),
+    ('clinica geral'),
+    ('dermatologia'),
+    ('exame'),
+    ('fisioterapia'),
+    ('nutricionista'),
+    ('odontologia'),
+    ('oftalmologia');
+
+
+// escala
+WITH distinct_services AS (
+    SELECT DISTINCT id_servicos
+    FROM servicos
+    WHERE tipo_servico != 'exame' AND tipo_servico != 'Recepcionista' AND tipo_servico != 'Diretor'
+),
+available_professionals AS (
+    SELECT p.matricula, p.id_servicos
+    FROM profissionais p
+    INNER JOIN distinct_services ds ON p.id_servicos = ds.id_servicos
+),
+dates AS (
+    SELECT generate_series('2023-07-01'::date, '2023-07-31'::date, '1 day') AS date
+),
+random_professionals AS (
+    SELECT
+        d.date::date,
+        ap.id_servicos,
+        ap.matricula
+    FROM
+        dates d
+    CROSS JOIN available_professionals ap
+    LEFT JOIN escala e ON d.date::date = e.dia AND ap.matricula = e.matricula
+    WHERE
+        EXTRACT('ISODOW' FROM d.date::date) BETWEEN 1 AND 5 -- Segunda a sexta-feira
+        AND e.id_escala IS NULL
+    ORDER BY
+        RANDOM()
+)
+INSERT INTO escala (dia, matricula)
+SELECT
+    date::date,
+    matricula
+FROM
+    random_professionals;

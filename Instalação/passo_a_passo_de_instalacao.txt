@@ -1,0 +1,82 @@
+------------------------- Instalando pacotes -----------------------------------
+*No Windows Shell(adm)
+
+Verificar se possui permissões para instalar dependencias
+-> Get-ExecutionPolicy
+
+Caso "Restricted"
+-> Set-ExecutionPolicy Unrestricted
+
+Instalar Chocolatey
+-> Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+Verificar se o chocolatey foi instalado
+-> choco
+
+Instalar dependencias para uso do react e cms
+-> choco install -y openjdk11 python yarn
+-> choco install nodejs --version=16.16.0
+
+Caso queira verificar se tudo foi instalado, use no cmd os comandos
+-> node -v
+-> yarn -v
+-> java -version
+
+
+------------------------ Instalando Projetos ----------------------------------
+
+Recomenda-se criar um projeto novo react para instalar as dependencias do react
+-> npx create-react-app nome_do_projeto
+
+
+Mesma coisa para o Strapi
+-> npx create-strapi-app@latest my-project
+
+
+------------------------ Clonando pacotes --------------------------------------
+
+Baixe o zip ou clone o repositório desejado
+Para o strapi é necessário um arquivo .env, clone do projeto teste strapi
+
+------------------------ Configurando Strapi -----------------------------------
+
+1. As "tabelas" usadas no projeto serão Content-Type Builder (collection type)
+Para usuário será o padrão já criado da strapi "User"
+Para artigos será criada uma nova collection type com
+	Titulo (short text)
+	Descricao (long text)
+	Ilustracao (media)
+	Body (custom field)
+Obs: o body usa um plugin de editor do strapi (CKEditor 5 custom field)
+
+2. Ir para USERS & PERMISSIONS PLUGIN (Roles)
+	Em "Authenticated": o que as pessoas com login podem fazer
+		Permissions
+			Artigos: select all
+			Categoria: select all
+			User-permissions: Auth(callback, connect e o que achar necessário; esses são os usuários da strapi) User (Select all, ou o que achar nessesário, esses são a tabela user)
+	Em "Public": o que o público pode fazer
+		Permissions
+			Artigos: find and findOne
+			Categoria: find and findOne
+			User-permissions: Auth(callback e connect) e User(count, find e findOne, para permitir verificar login)
+Lembre-se de salvar cada uma das ações
+
+* Para json das tabelas por padrão é http://localhost:1337/api/nome_da_tabela *
+
+
+----------------- Configurando e Criando Banco de dados -----------------
+
+1. Baixe e instale o postgres: https://www.postgresql.org/download/
+	Na instalação, para o projeto, defina a senha como "root"
+2. Para visualizar melhor instalar Dbeaver: https://dbeaver.io/download/
+3. Conect no dbeaver o banco, como está local a unica coisa que precisa adicionar é a senha
+	Em "Connection settings"/"Postgres" selecione "show all database", caso contrário só irá mostrar a tabela padrão do banco
+4. Crie uma nova tabela manualmente ou pelo dbeaver
+	Use o ddl do documento para criar as tabelas
+
+Feito isso, o react projeto já está configurado para conectar com o banco
+
+---------------- Outras instalações -----------------------------
+
+Insomnia (para testar conexão com as apis): https://insomnia.rest/download
