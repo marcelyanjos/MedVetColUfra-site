@@ -1,5 +1,5 @@
 # Instalação
-[Link de instalação](https://github.com/marcelyanjos/petUfra-site/blob/main/Instala%C3%A7%C3%A3o/passo_a_passo_de_instalacao.txt)
+[Link de instalação](https://github.com/marcelyanjos/MedVetColUfra-site/blob/main/Instala%C3%A7%C3%A3o/passo_a_passo_de_instalacao.txt)
 
 # CMS
 [Link de instalação](https://github.com/marcelyanjos/strapi-petufra)
