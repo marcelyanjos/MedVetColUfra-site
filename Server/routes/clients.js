@@ -106,4 +106,25 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Rota para atualizar um cliente
+router.put("/:id_cliente", async (req, res) => {
+  const { id_cliente } = req.params;
+  const { nome, data_nasc, email, moradia, ocupacao } = req.body;
+
+  try {
+    const { rows } = await pool.query(
+      "UPDATE cliente SET nome = $1, data_nasc = $2, email = $3, moradia = $4, ocupacao = $5 WHERE id_cliente = $6",
+      [nome.toUpperCase(), data_nasc, email, moradia, ocupacao, id_cliente]
+    );
+    if (rows.length === 0) {
+      return res.status(404).send("Cliente não encontrado.");
+    }
+    res.send({ message: "Cliente atualizado com sucesso." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao atualizar o cliente.");
+  }
+});
+
+
 module.exports = router;

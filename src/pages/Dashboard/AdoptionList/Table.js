@@ -22,8 +22,10 @@ import InfoIcon from "@mui/icons-material/Info";
 import { format } from "date-fns";
 import styles from "./style";
 import api from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 export default function ColumnTypesGrid() {
+  const navigate = useNavigate()
   const [pageSize, setPageSize] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
   const [rows, setRows] = useState([]);
@@ -87,9 +89,11 @@ export default function ColumnTypesGrid() {
   const edit = React.useCallback(
     (id) => () => {
       console.log("edit: ", id);
+      navigate(`/admin/dashboard/adocoes/new/${id}`);
     },
-    []
+    [navigate]
   );
+
 
   const columns = React.useMemo(
     () => [

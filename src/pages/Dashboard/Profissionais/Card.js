@@ -4,6 +4,8 @@ import {
   IconButton,
   Box,
   Typography,
+  Snackbar,
+  Alert,
   Button,
   MenuItem,
   Link,
@@ -14,8 +16,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import { useNavigate, useParams } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { decode } from "base-64";
+import { format } from 'date-fns';
 import styles from "./style";
 import api from "../../../api";
 
@@ -51,16 +52,30 @@ export default function Card1() {
     id_servicos: "",
   });
 
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/servicos")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching services:", error);
+      });
+  }, []);
+
   useEffect(() => {
     // Se existe o id, carrega as informações do profissional para editar
     if (id) {
       api.get(`/api/profissionais/${id}`).then((response) => {
-        const profissionalData = response.data;
+        const profissionalData = response.data[0];
+        console.log('veio', profissionalData)
         setNewImage(false);
         setProfissional({
           nome: profissionalData.nome,
           matricula: profissionalData.matricula,
-          data_nasc: profissionalData.data_nasc,
+          data_nasc: format(new Date(profissionalData.data_nasc), 'yyyy-MM-dd'),
           profissao: profissionalData.profissao,
           id_servicos: profissionalData.id_servicos,
         });
@@ -74,50 +89,111 @@ export default function Card1() {
       ...prevProfissional,
       [name]: value,
     }));
+    console.log(`${name} changed to:`, value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Verificar se a matrícula já existe antes de enviar os dados
     try {
-      // Verifica se a imagem existe antes de convertê-la para base64
-      if (id) {
-        // Edita os dados do profissional existente
-        await api.put(`/api/profissionais/${id}`, {
-          ...profissional,
-        });
+      const response = await api.get(
+        `/api/profissionais/${profissional.matricula}`
+      );
+      const existingProfissional = response.data;
+
+      if (existingProfissional.length > 0) {
+        // Matrícula encontrada
         setOpenSnackbar(true);
-        setSnackbarMessage("Dados do profissional atualizado com sucesso!");
-        setSnackbarSeverity("success");
+        setSnackbarMessage("Profissional já cadastrado.");
+        setSnackbarSeverity("warning");
       } else {
-        // Envia os dados do profissional para o servidor
-        await api.post("/api/profissionais", {
-          ...profissional,
-        });
-        setOpenSnackbar(true);
-        setSnackbarMessage("Dados do profissional salvo com sucesso!");
-        setSnackbarSeverity("success");
-        // Limpa os dados do profissional
-        setProfissional({
-          nome: "",
-          matricula: "",
-          data_nasc: "",
-          profissao: "",
-          id_servicos: "",
-        });
+        // Matrícula não encontrada, continua com o envio dos dados do profissional
+        try {
+          if (id) {
+            // Edita os dados do profissional existente
+            await api.put(`/api/profissionais/${id}`, {
+              ...profissional,
+            });
+            setOpenSnackbar(true);
+            setSnackbarMessage("Dados do profissional atualizado com sucesso!");
+            setSnackbarSeverity("success");
+          } else {
+            // Envia os dados do profissional para o servidor
+            await api.post("/api/profissionais", {
+              ...profissional,
+            });
+            console.log("Data to be posted:", {
+              ...profissional,
+            });
+            setOpenSnackbar(true);
+            setSnackbarMessage("Profissional cadastrado com sucesso!");
+            setSnackbarSeverity("success");
+            // Limpa os dados do profissional
+            setProfissional({
+              nome: "",
+              matricula: "",
+              data_nasc: "",
+              profissao: "",
+              id_servicos: "",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          setOpenSnackbar(true);
+          setSnackbarMessage(
+            "Erro ao salvar dados do profissional. Tente novamente."
+          );
+          setSnackbarSeverity("error");
+        }
       }
     } catch (error) {
-      console.error(error);
-      setOpenSnackbar(true);
-      setSnackbarMessage(
-        "Erro ao salvar dados do profissional. Tente novamente."
-      );
-      setSnackbarSeverity("error");
+      if (error.response && error.response.status === 400) {
+        // Matrícula não encontrada (status 400), posta o profissional
+        try {
+          await api.post("/api/profissionais", {
+            ...profissional,
+          });
+          setOpenSnackbar(true);
+          setSnackbarMessage("Profissional cadastrado com sucesso!");
+          setSnackbarSeverity("success");
+          // Limpa os dados do profissional
+          setProfissional({
+            nome: "",
+            matricula: "",
+            data_nasc: "",
+            profissao: "",
+            id_servicos: "",
+          });
+        } catch (error) {
+          console.error(error);
+          setOpenSnackbar(true);
+          setSnackbarMessage(
+            "Erro ao salvar dados do profissional. Tente novamente."
+          );
+          setSnackbarSeverity("error");
+        }
+      } else {
+        console.error(error);
+        setOpenSnackbar(true);
+        setSnackbarMessage("Erro ao verificar a matrícula. Tente novamente.");
+        setSnackbarSeverity("error");
+      }
     }
   };
 
   return (
     <Box sx={{ height: "100%", minHeight: "360px", p: 2 }}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert severity={snackbarSeverity} sx={{ width: "100%" }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid sx={styles.modal_box} container>
         <Grid xs={12} sm={6} ls={12} sx={card1}>
           <Grid container spacing={1}>
@@ -203,8 +279,14 @@ export default function Card1() {
                 variant="outlined"
                 margin="normal"
               >
-                <MenuItem value="1">Cardiologia</MenuItem>
-                <MenuItem value="2">Clínica Geral</MenuItem>
+                {services.map((service) => (
+                  <MenuItem
+                    key={service.id_servicos}
+                    value={service.id_servicos}
+                  >
+                    {service.tipo_servico}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
           </Grid>

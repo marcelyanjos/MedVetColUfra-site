@@ -29,6 +29,24 @@ router.get("/:id_cliente", async (req, res) => {
   }
 });
 
+// Por formulario
+router.get("/formulario/:id_formulario", async (req, res) => {
+  const { id_formulario } = req.params;
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM formularios_adocao WHERE id_formulario = $1",
+      [id_formulario]
+    );
+    if (rows.length === 0) {
+      return res.status(404).send("Formulário de adoção não encontrado.");
+    }
+    res.send(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao buscar formulário de adoção por ID.");
+  }
+});
+
 // Rota para cadastrar um novo formulário de adoção
 router.post("/", async (req, res) => {
   const {
@@ -61,6 +79,37 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id_formulario", async (req, res) => {
+  const { id_formulario } = req.params;
+  const {
+    id_cliente,
+    id_animal,
+    tipo_moradia,
+    ocupacao,
+    situacao,
+  } = req.body;
+
+  try {
+    const { rows } = await pool.query(
+      "UPDATE formularios_adocao SET id_cliente = $1, id_animal = $2, tipo_moradia = $3, ocupacao = $4, situacao = $5 WHERE id_formulario = $6",
+      [
+        id_cliente,
+        id_animal,
+        tipo_moradia,
+        ocupacao.toUpperCase(),
+        situacao,
+        id_formulario
+      ]
+    );
+    if (rows.length === 0) {
+      return res.status(404).send("Formulário de adoção não encontrado.");
+    }
+    res.send({ message: "Formulário de adoção atualizado com sucesso." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao atualizar o formulário de adoção.");
+  }
+});
 
 module.exports = router;
 

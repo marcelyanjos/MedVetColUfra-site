@@ -31,7 +31,7 @@ router.get("/:matricula", async (req, res) => {
 router.post("/", async (req, res) => {
   const { matricula, nome, data_nasc, profissao, id_servicos } = req.body;
   try {
-    const { rows } = await pool.query(
+    const result = await pool.query(
       "INSERT INTO profissionais (matricula, nome, data_nasc, profissao, id_servicos) VALUES ($1, $2, $3, $4, $5)",
       [
         matricula,
@@ -41,12 +41,19 @@ router.post("/", async (req, res) => {
         id_servicos,
       ]
     );
-    const insertedMatricula = rows[0].matricula;
-    res.send({ matricula: insertedMatricula });
+
+    // Checa se a propriedade rowCount para inserir foi um sucesso
+    if (result.rowCount > 0) {
+      const insertedMatricula = matricula;
+      res.send({ matricula: insertedMatricula });
+    } else {
+      res.status(500).send("Erro ao cadastrar profissional (matricula).");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Erro ao cadastrar profissional.");
   }
 });
+
 
 module.exports = router;
