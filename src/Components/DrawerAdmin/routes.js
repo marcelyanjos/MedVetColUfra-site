@@ -1,6 +1,7 @@
 // Rotas estilizadas para menu
 import React from "react";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 // import { ReactComponent as HomeIcon } from "../../assets/Home_light.svg";
 import { ReactComponent as SthetoscopeIcon } from "../../assets/stethoscope_icon.svg";
 import { ReactComponent as HeartIcon } from "../../assets/Heart.svg";
@@ -11,6 +12,11 @@ const routes = [
     nome: "Home",
     icon: <HomeRoundedIcon fontSize="large" />,
     link: "/admin/dashboard/app",
+  },
+  {
+    nome: "Destaques",
+    icon: <ViewCarouselIcon fontSize="large" />,
+    link: "/admin/dashboard/destaque",
   },
   {
     nome: "Canil/Gatil",

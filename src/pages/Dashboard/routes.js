@@ -12,6 +12,9 @@ import profissionaisTabela from "./Profissionais/Table";
 import escala from "./Profissionais/Escala";
 import servicos from "./Profissionais/Servicos";
 import artigos from "./Artigos";
+import destaque from "./Destaques";
+import destaqueEditor from "./Destaques/editor";
+import destaqueTable from "./Destaques/Table";
 import artigosTabela from "./Artigos/table";
 import editorArticle from "./Artigos/editor";
 import agendamento from "./AgendamentoList";
@@ -49,6 +52,9 @@ const EditorHovet = editorHovet;
 const ArticleTable = artigosTabela;
 const EditorArticle = editorArticle;
 const Agendamento = agendamento;
+const Destaque = destaque;
+const DestaqueEditor = destaqueEditor;
+const DestaqueTable = destaqueTable;
 const AgendamentoTable = agendamentoTable;
 const EditorAgendamento = editorAgendamento;
 const Drawer = drawer;
@@ -57,6 +63,9 @@ export {
   SignUp,
   Login,
   Admin,
+  Destaque,
+  DestaqueEditor,
+  DestaqueTable,
   Agendamento,
   AgendamentoTable,
   EditorAgendamento,

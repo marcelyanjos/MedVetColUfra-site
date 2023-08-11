@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { decode } from "base-64";
 import React, { useCallback, useEffect, useState } from "react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import styles from "../style";
 import api from "../../../../api";
 import { useParams } from "react-router-dom";
@@ -59,7 +59,7 @@ export default function Card1() {
       // Fetch adoption form data by ID
       api.get(`/api/adoption-forms/formulario/${id}`).then((response) => {
         const adoptionFormData = response.data;
-        console.log("veio", adoptionFormData);
+        // console.log("veio", adoptionFormData);
 
         // Fetch client data using id_cliente
         api
@@ -134,7 +134,6 @@ export default function Card1() {
         // Fetch adoption form data by ID
         const response = await api.get(`/api/adoption-forms/formulario/${id}`);
         const adoptionFormData = response.data;
-        console.log("veio", adoptionFormData);
 
         // Check if the client exists
         const clientResponse = await api.get(
@@ -160,7 +159,7 @@ export default function Card1() {
           // Update existing client data
           await api.put(`/api/clientes/${adoptionFormData.id_cliente}`, {
             nome: client.nome,
-            data_nasc: client.data_nasc,
+            data_nasc: format(parseISO(client.data_nasc), "yyyy-MM-dd"),
             email: client.email,
           });
 

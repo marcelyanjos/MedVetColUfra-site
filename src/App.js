@@ -32,6 +32,9 @@ import {
   AdocoesTable,
   EditorAgendamento,
   NovaAdocao,
+  Destaque,
+  DestaqueTable,
+  DestaqueEditor,
 } from "./pages/Dashboard/routes";
 import Dashboard from "./pages/Dashboard";
 import {
@@ -121,6 +124,11 @@ function App() {
                 <Route path="escala" element={<Escala />} />
                 <Route path="escala/new/:id?" element={<NovaEscala />} />
                 <Route path="servicos" element={<Servicos />} />
+              </Route>
+              {/* Destaque */}
+              <Route path="destaque" element={<Destaque />}>
+                <Route index element={<DestaqueTable />} />
+                <Route path="new/:id?" element={<DestaqueEditor />} />
               </Route>
               {/* Animais do canil */}
               <Route path="animais" element={<Pets />}>

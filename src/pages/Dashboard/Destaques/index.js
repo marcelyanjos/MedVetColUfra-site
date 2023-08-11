@@ -4,7 +4,7 @@ import Table from './Table';
 import styles from './style';
 import { Link, Outlet } from "react-router-dom";
 
-export default function Destaques() {
+export default function AdoptionList() {
   return (
     <div>
     <Container maxWidth="x1">
