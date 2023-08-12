@@ -27,6 +27,7 @@ export default function Article() {
   const [files, setFiles] = useState([]);
   const [newImage, setNewImage] = useState(true);
   const [isLoading, setIsLoading] = useState(!id);
+  const [conteudoFilePreview, setConteudoFilePreview] = useState(null);
   const [formData, setFormData] = useState({
     titulo: "",
     imagem: null,
@@ -43,7 +44,7 @@ export default function Article() {
     const fetchArticle = async () => {
       try {
         const response = await axios.get(
-          `${API}/destaques/${id}?populate=imagem`
+          `${API}/destaques/${id}?populate=imagem,conteudo`
         );
 
         const articleData = response.data?.data?.attributes || {};
@@ -60,6 +61,7 @@ export default function Article() {
               ? `${Host}${articleData.imagem.data.attributes.url}`
               : null,
           link: articleData.link || "",
+          conteudo: articleData.conteudo || null,
           conteudoPreview:
             articleData.conteudo &&
             articleData.conteudo.data &&
@@ -78,7 +80,7 @@ export default function Article() {
         console.error("Error fetching article:", error);
       }
     };
-
+console.log('veio',formData)
     if (id) {
       fetchArticle();
     } else {
@@ -91,6 +93,12 @@ export default function Article() {
       ...prevData,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedFiles = e.dataTransfer.files;
+    setFiles(droppedFiles);
   };
 
   const handleFileChange = (e, type) => {
@@ -114,14 +122,13 @@ export default function Article() {
         setFormData((prevData) => ({
           ...prevData,
           conteudo: file,
-          conteudoPreview: URL.createObjectURL(file),
         }));
+        setConteudoFilePreview(URL.createObjectURL(file));
       } else {
         console.error("Tipo de arquivo não suportado.");
       }
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -151,11 +158,7 @@ export default function Article() {
       };
 
       if (id) {
-        await axios.put(
-          `${API}/destaques/${id}?populate=imagem`,
-          form,
-          config
-        );
+        await axios.put(`${API}/destaques/${id}?populate=imagem,conteudo`, form, config);
         console.log("Seção editada com sucesso!");
       } else {
         await axios.post(`${API}/destaques`, form, config);
@@ -222,18 +225,26 @@ export default function Article() {
               </Box>
               <Box>
                 <Typography variant="subtitle1">Imagem:</Typography>
-                <input
-                  type="file"
-                  name="imagem"
-                  onChange={(e) => handleFileChange(e, "imagem")}
-                />
-                {formData.imagemPreview && (
-                  <img
-                    src={formData.imagemPreview}
-                    alt="imagem"
-                    style={{ height: "300px", marginBottom: 10 }}
-                  />
-                )}
+                <div
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={handleDrop}
+                  style={{
+                    border: "2px dashed #ccc",
+                    padding: "20px",
+                    textAlign: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  {formData.imagemPreview ? (
+                    <img
+                      src={formData.imagemPreview}
+                      alt="imagem"
+                      style={{ height: "300px", marginBottom: 10 }}
+                    />
+                  ) : (
+                    <Typography>Arraste e solte a imagem aqui</Typography>
+                  )}
+                </div>
               </Box>
               <Box>
                 <Typography>Link</Typography>
@@ -248,17 +259,17 @@ export default function Article() {
                 />
               </Box>
               <Box>
-                <Typography>Conteúdo:</Typography>
+              <Typography>Conteúdo:</Typography>
                 <input
                   type="file"
                   name="conteudo"
                   onChange={(e) => handleFileChange(e, "conteudo")}
                 />
-                {formData.conteudoPreview && (
+                {conteudoFilePreview && (
                   <div>
                     <Typography>Conteúdo Pré-visualizado:</Typography>
                     <iframe
-                      src={formData.conteudoPreview}
+                      src={conteudoFilePreview}
                       title="Conteúdo Pré-visualizado"
                       style={{ width: "100%", height: "300px" }}
                     />
@@ -269,9 +280,7 @@ export default function Article() {
                 <Box sx={{ pt: 1, flex: 1 }}>
                   <Button
                     onClick={() =>
-                      setPublishedAtDate((date) =>
-                        date ? null : new Date()
-                      )
+                      setPublishedAtDate((date) => (date ? null : new Date()))
                     }
                     sx={{
                       bgcolor: publishedAtDate ? "#38d472" : "#c1c1c1",

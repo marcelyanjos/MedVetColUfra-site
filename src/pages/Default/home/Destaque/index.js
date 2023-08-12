@@ -14,7 +14,9 @@ export default function Destaque() {
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get(`${API}/destaques?populate=imagem`);
+      const response = await axios.get(
+        `${API}/destaques?populate=imagem,conteudo`
+      );
       setArticles(response.data.data);
     } catch (error) {
       console.error("Error fetching articles:", error);
@@ -22,10 +24,10 @@ export default function Destaque() {
   };
 
   const handleImageClick = (link, conteudo) => {
-    if (link) {
+    if (conteudo && conteudo.data && conteudo.data.attributes.url) {
+      window.open(`${Host}${conteudo.data.attributes.url}`, "_blank"); // Abre o conteúdo (PDF, CSV, etc.) em uma nova aba
+    } else if (link) {
       window.open(link, "_blank"); // Abre o link em uma nova aba
-    } else if (conteudo) {
-      window.open(conteudo, "_blank"); // Abre o conteúdo (PDF, CSV, etc.) em uma nova aba
     }
   };
 
@@ -62,7 +64,10 @@ export default function Destaque() {
                   cursor: "pointer", // Adiciona um cursor de mão ao passar o mouse
                 }}
                 onClick={() =>
-                  handleImageClick(article.attributes.link, article.attributes.conteudo)
+                  handleImageClick(
+                    article.attributes.link,
+                    article.attributes.conteudo
+                  )
                 } // Chama a função de clique com link e conteúdo
               />
             )}
