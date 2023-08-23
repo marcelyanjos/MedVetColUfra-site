@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Typography,
   Grid,
@@ -149,9 +149,13 @@ function ClientForms(props) {
     },
   ];
 
-  const details = (id) => () => {
-    console.log("details: ", agendamentos[id - 1]);
-  };
+  const details = useCallback(
+    (id) => () => {
+      console.log("details: ", id);
+      navigate(`/adocao/my-form-details/${id}`);
+    },
+    [navigate]
+  );
 
   const edit = (id) => () => {
     console.log("edit: ", id);

@@ -49,6 +49,7 @@ import {
   MenuAgenda,
   NovoAgendamento,
   AgendamentosCliente,
+  FormularioCliente,
 } from "./pages/Default/routes";
 import AnimalList from "./pages/Default/Adocao/AnimalList";
 import AdocaoInfo from "./pages/Default/Adocao/Info";
@@ -76,10 +77,11 @@ function App() {
             <Route index path="canil" element={<Canil />} />
             <Route path="adocao" element={<Adocao />}>
               <Route index element={<AnimaisAdocao />} />
+              <Route path=":id" element={<AnimalDetails />} />
               <Route path="lista" element={<AnimalList />} />
               <Route path="info" element={<AdocaoInfo />} />
               <Route path="my-adoptions" element={<ClientForms />} />
-              <Route path=":id" element={<AnimalDetails />} />
+              <Route path="my-form-details/:id" element={<FormularioCliente />} />
               <Route path="adoption-form/:id" element={<CheckAndAdopt />} />
             </Route>
             <Route path="agendamento" element={<AgendamentoDefault />}>

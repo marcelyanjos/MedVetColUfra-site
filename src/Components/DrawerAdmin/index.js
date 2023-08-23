@@ -111,7 +111,7 @@ export default function PersistentDrawerLeft() {
               fontSize: "1.6vw",
             }}
           >
-            Medicina Veterinária do Coletivo da Ufra
+            VetHub UFRA
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <AccountMenu />

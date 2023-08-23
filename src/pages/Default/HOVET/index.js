@@ -8,6 +8,7 @@ import { API, Host } from "../../../CMS/constant";
 import axios from "axios";
 import { Box, Container, Button } from "@mui/material"; // Import the Button component from Material-UI
 import colors from "../../../colors";
+import theme from "../../../Components/theme";
 
 export default function BasicAccordion() {
   const [info, setInfo] = useState([]);
@@ -26,14 +27,16 @@ export default function BasicAccordion() {
           /src="\/uploads/g,
           `src="${Host}/uploads`
         );
-        return { ...hovet, attributes: { ...hovet.attributes, body: bodyWithImages } };
+        return {
+          ...hovet,
+          attributes: { ...hovet.attributes, body: bodyWithImages },
+        };
       });
       setInfo(data);
     } catch (error) {
       console.error("Error fetching info:", error);
     }
   };
-  
 
   const handleAccordionToggle = (hovetId) => {
     setShow((prevShow) => (prevShow === hovetId ? null : hovetId));
@@ -48,7 +51,7 @@ export default function BasicAccordion() {
           sx={{
             elevation: 0,
             boxShadow: "none",
-            bgcolor: hovet.id % 2 === 0 ? colors.green[5] : colors.green[2],
+            bgcolor: hovet.id % 2 === 0 ? colors.green[5] : "#fcfcfc",
             "&.Mui-expanded": { margin: 0 },
             p: 4,
           }}
@@ -61,44 +64,85 @@ export default function BasicAccordion() {
               "&:hover:not(.Mui-disabled)": { cursor: "default" },
             }}
           >
-            <Box
-              sx={{
-                alignItems: "center",
-                width: "100%",
-                cursor: "default",
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: hovet.id % 2 === 0 ? "row-reverse" : "row",
-              }}
-            >
-              <Box sx={{ maxWidth: show === hovet.id ? "100%" : "35vw", flex: show === hovet.id && 1 }}>
-                <Typography sx={{ fontSize: '32px', fontWeight: 'bold' }}>{hovet.attributes.titulo}</Typography>
-                {show === hovet.id || (
-                  <>
-                    <Typography sx={{ mb: 2 }}>{hovet.attributes.descricao}</Typography>
-
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      onClick={() => handleAccordionToggle(hovet.id)} // Pass the hovet.id to the handler
-                    >
-                      Leia mais
-                    </Button>
-                  </>
-                )}
-              </Box>
-              {hovet.attributes.icon && hovet.attributes.icon.data && show !== hovet.id && (
-                <img
-                  src={`${Host}${hovet.attributes.icon.data.attributes.url}`}
-                  alt="Icone"
-                  style={{
-                    height: "250px",
-                    // width: "100%",
-                    objectFit: "cover",
-                    marginBottom: 10,
+            <Box sx={{ flex: 1 }}>
+              <Box
+                sx={{
+                  alignItems: "center",
+                  width: "100%",
+                  cursor: "default",
+                  display: "flex",
+                  [theme.breakpoints.down("sd")]: {
+                    flexDirection: "column",
+                  },
+                  justifyContent: "space-between",
+                  flexDirection: hovet.id % 2 === 0 ? "row-reverse" : "row",
+                }}
+              >
+                <Box
+                  sx={{
+                    [theme.breakpoints.down("sd")]: {
+                      maxWidth: "100%",
+                    },
+                    maxWidth: show === hovet.id ? "100%" : "35vw",
+                    flex: show === hovet.id && 1,
                   }}
-                />
-              )}
+                >
+                  <Typography sx={{ fontSize: "32px", fontWeight: "bold" }}>
+                    {hovet.attributes.titulo}
+                  </Typography>
+                  {show === hovet.id || (
+                    <>
+                      <Typography sx={{ mb: 2 }}>
+                        {hovet.attributes.descricao}
+                      </Typography>
+                    </>
+                  )}
+                </Box>
+                {hovet.attributes.icon &&
+                  hovet.attributes.icon.data &&
+                  show !== hovet.id && (
+                    <Box
+                      sx={{
+                        [theme.breakpoints.up("sm")]: {
+                          maxHeight: "80%",
+                          maxWidth: "100%",
+                        },
+                      }}
+                    >
+                      <img
+                        src={`${Host}${hovet.attributes.icon.data.attributes.url}`}
+                        alt="Icone"
+                        style={{
+                          flex: 1,
+                          minWidth: "300px",
+                          maxWidth: "350px",
+                          objectFit: "cover",
+                          marginBottom: 10,
+                        }}
+                      />
+                    </Box>
+                  )}
+              </Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  [theme.breakpoints.up("sd")]:{
+                    justifyContent:
+                    hovet.id % 2 === 0 ? "flex-end" : "flex-start",
+                  }
+                }}
+              >
+                <Button
+                  sx={{ bgcolor: colors.green[7], "&:hover":{
+                    bgcolor: hovet.id % 2 === 0 ? colors.green[7] :colors.green[5]
+                  } }}
+                  variant="contained"
+                  onClick={() => handleAccordionToggle(hovet.id)} // Pass the hovet.id to the handler
+                >
+                  Leia mais
+                </Button>
+              </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails>

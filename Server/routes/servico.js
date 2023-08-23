@@ -26,7 +26,7 @@ router.get("/:id_servicos", async (req, res) => {
     if (rows.length === 0) {
       res.status(400).send("Parâmetros inválidos.");
     } else {
-      res.send(rows[0]);
+      res.send(rows);
     }
   } catch (error) {
     console.error(error);

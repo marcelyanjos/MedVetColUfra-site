@@ -8,6 +8,7 @@ import { API, Host } from "../../../CMS/constant";
 import axios from "axios";
 import { Box, Container, Button } from "@mui/material"; // Import the Button component from Material-UI
 import colors from "../../../colors";
+import theme from "../../../Components/theme";
 
 export default function BasicAccordion() {
   const [info, setInfo] = useState([]);
@@ -52,44 +53,88 @@ export default function BasicAccordion() {
               "&:hover:not(.Mui-disabled)": { cursor: "default" },
             }}
           >
-            <Box
-              sx={{
-                alignItems: "center",
-                width: "100%",
-                cursor: "default",
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: canil.id % 2 === 0 ? "row-reverse" : "row",
-              }}
-            >
-              <Box sx={{ maxWidth: show === canil.id ? "100%" : "35vw", flex: show === canil.id && 1 }}>
-                <Typography sx={{ fontSize: '32px', fontWeight: 'bold' }}>{canil.attributes.titulo}</Typography>
-                {show === canil.id || (
-                  <>
-                    <Typography sx={{ mb: 2 }}>{canil.attributes.descricao}</Typography>
-
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      onClick={() => handleAccordionToggle(canil.id)} // Pass the canil.id to the handler
-                    >
-                      Leia mais
-                    </Button>
-                  </>
-                )}
-              </Box>
-              {canil.attributes.icon && canil.attributes.icon.data && show !== canil.id && (
-                <img
-                  src={`${Host}${canil.attributes.icon.data.attributes.url}`}
-                  alt="Icone"
-                  style={{
-                    height: "250px",
-                    // width: "100%",
-                    objectFit: "cover",
-                    marginBottom: 10,
+            <Box sx={{ flex: 1 }}>
+              <Box
+                sx={{
+                  alignItems: "center",
+                  width: "100%",
+                  cursor: "default",
+                  display: "flex",
+                  [theme.breakpoints.down("sd")]: {
+                    flexDirection: "column",
+                  },
+                  justifyContent: "space-between",
+                  flexDirection: canil.id % 2 === 0 ? "row-reverse" : "row",
+                }}
+              >
+                <Box
+                  sx={{
+                    [theme.breakpoints.down("sd")]: {
+                      maxWidth: "100%",
+                    },
+                    maxWidth: show === canil.id ? "100%" : "35vw",
+                    flex: show === canil.id && 1,
                   }}
-                />
-              )}
+                >
+                  <Typography sx={{ fontSize: "32px", fontWeight: "bold" }}>
+                    {canil.attributes.titulo}
+                  </Typography>
+                  {show === canil.id || (
+                    <>
+                      <Typography sx={{ mb: 2 }}>
+                        {canil.attributes.descricao}
+                      </Typography>
+                    </>
+                  )}
+                </Box>
+                {canil.attributes.icon &&
+                  canil.attributes.icon.data &&
+                  show !== canil.id && (
+                    <Box
+                      sx={{
+                        [theme.breakpoints.up("sm")]: {
+                          maxHeight: "80%",
+                          maxWidth: "100%",
+                        },
+                      }}
+                    >
+                      <img
+                        src={`${Host}${canil.attributes.icon.data.attributes.url}`}
+                        alt="Icone"
+                        style={{
+                          minWidth: "300px",
+                          maxWidth: "350px",
+                          objectFit: "cover",
+                          marginBottom: 10,
+                        }}
+                      />
+                    </Box>
+                  )}
+              </Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  display: "flex",
+                  [theme.breakpoints.up("sd")]: {
+                    justifyContent:
+                      canil.id % 2 === 0 ? "flex-end" : "flex-start",
+                  },
+                }}
+              >
+                <Button
+                  sx={{
+                    bgcolor: colors.green[5],
+                    "&:hover": {
+                      bgcolor:
+                        canil.id % 2 === 0 ? colors.green[7] : colors.green[5],
+                    },
+                  }}
+                  variant="contained"
+                  onClick={() => handleAccordionToggle(canil.id)} // Pass the canil.id to the handler
+                >
+                  Leia mais
+                </Button>
+              </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails>

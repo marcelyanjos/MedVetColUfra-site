@@ -160,7 +160,7 @@ export default function ColumnTypesGrid() {
           href={`/admin/dashboard/agendamentos/new`}
           startIcon={<AddIcon />}
         >
-          Adicionar novo animal
+          Adicionar novo agendamento
         </Button>
       </Box>
 

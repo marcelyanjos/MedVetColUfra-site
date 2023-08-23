@@ -127,7 +127,7 @@ function DrawerAppBar(props) {
                 fontSize: "1.6vw",
               }}
             >
-              Medicina Veterinária do Coletivo da Ufra
+              VetHub UFRA
             </Typography>
           </Box>
           <IconButton

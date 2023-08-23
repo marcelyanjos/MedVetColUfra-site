@@ -43,6 +43,11 @@ export default function Escala() {
             );
             const profissional = profissionalResponse.data[0];
 
+            if (!profissional) {
+              setIsProfessionalsEmpty(true);
+              return null;
+            }
+
             const servicoResponse = await api.get(
               `/api/servicos/${profissional.id_servicos}`
             );
@@ -72,12 +77,10 @@ export default function Escala() {
   }, []);
 
   const handleAddEscalaClick = () => {
-    if (rows.length === 0) {
+    if (isProfessionalsEmpty) {
       // Check if professionals list is empty
-      setIsProfessionalsEmpty(true);
       alert("Adicionar profissionais a lista do banco")
     } else {
-      setIsProfessionalsEmpty(false);
       navigate("/admin/dashboard/profissionais/escala/new");
     }
   };
@@ -163,7 +166,6 @@ export default function Escala() {
               ))}
             </>
           ) : (
-            // Show all service types when no date is selected
             <>
               <Typography variant="h6">Tipos de Serviço</Typography>
               <Divider />
