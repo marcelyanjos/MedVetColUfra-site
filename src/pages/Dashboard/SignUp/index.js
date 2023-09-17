@@ -1,99 +1,94 @@
-import React, { useState, useEffect } from "react";
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import {
-  Button,
-  Link,
-  Typography,
   Box,
-  Card,
-  Paper,
-  CircularProgress,
-  InputAdornment,
-  Grid,
+  Button,
   Divider,
+  Grid,
+  InputAdornment,
+  Link,
+  Paper,
   TextField,
-} from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import { ReactComponent as Logo } from "../../../assets/Logos/Group31.svg";
-import { ReactComponent as Logo2 } from "../../../assets/Logos/Group28.svg";
-import { ReactComponent as Logo3 } from "../../../assets/Logos/ISPA.svg";
-import styles from "./styles";
-import theme from "../../theme";
-import { useAuthContext } from "../../../CMS/Context/AuthContext";
-import { API } from "../../../CMS/constant";
-import { setToken } from "../../../CMS/Helpers";
-import colors from "../../../colors";
+  Typography,
+} from '@mui/material'
+import FormControl from '@mui/material/FormControl'
+import IconButton from '@mui/material/IconButton'
+import React, { useState } from 'react'
+import { useAuthContext } from '../../../CMS/Context/AuthContext'
+import { setToken } from '../../../CMS/Helpers'
+import { API } from '../../../CMS/constant'
+import { ReactComponent as Logo2 } from '../../../assets/Logos/Group28.svg'
+import { ReactComponent as Logo } from '../../../assets/Logos/Group31.svg'
+import { ReactComponent as Logo3 } from '../../../assets/Logos/ISPA.svg'
+import colors from '../../../styles/colors'
+import theme from '../../theme'
+import styles from './styles'
 
 export default function SignIn() {
-  const { setUser } = useAuthContext();
-  const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
-  const [error, setError] = useState("");
+  const { setUser } = useAuthContext()
+  // const [isLoginSuccessful, setIsLoginSuccessful] = useState(false)
+  const [error, setError] = useState('')
   const [values, setValues] = React.useState({
-    nome: "",
-    sobrenome: "",
-    email: "",
-    user: "",
-    password: "",
-    matricula: "",
+    nome: '',
+    sobrenome: '',
+    email: '',
+    user: '',
+    password: '',
+    matricula: '',
     showPassword: false,
-  });
+  })
   const onFinish = async () => {
     try {
       const value = {
         identifier: values.email,
         password: values.password,
-      };
+      }
       const response = await fetch(`${API}/auth/local`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(value),
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       if (data?.error) {
-        setError("Email ou senha incorretos");
-        throw data?.error;
+        setError('Email ou senha incorretos')
+        throw data?.error
       } else {
         // set the token
-        setToken(data.jwt);
+        setToken(data.jwt)
 
         // set the user
-        setUser(data.user);
+        setUser(data.user)
 
-        setIsLoginSuccessful(true);
-        window.location.href = "/admin/login";
+        // setIsLoginSuccessful(true)
+        window.location.href = '/admin/login'
       }
     } catch (error) {
-      console.error(error);
-      setError("Email ou senha incorretos");
+      console.error(error)
+      setError('Email ou senha incorretos')
     }
-  };
+  }
 
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+    setValues({ ...values, [prop]: event.target.value })
+  }
   const handleFormSubmit = (event) => {
-    event.preventDefault(""); // Impede o envio do formulário e a atualização da URL
-    onFinish(); // Chama a função de finalização do formulário personalizada
-  };
+    event.preventDefault('') // Impede o envio do formulário e a atualização da URL
+    onFinish() // Chama a função de finalização do formulário personalizada
+  }
 
   const handleClickShowPassword = () => {
     setValues({
       ...values,
       showPassword: !values.showPassword,
-    });
-  };
+    })
+  }
 
   const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
 
   return (
     <Box style={styles.root}>
@@ -101,30 +96,30 @@ export default function SignIn() {
         container
         spacing={4}
         sx={{
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap",
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
         <Grid item style={styles.flex2}>
           <Box
             sx={{
-              [theme.breakpoints.up("md")]: { width: "80%" },
-              [theme.breakpoints.down("md")]: { width: "50%" },
+              [theme.breakpoints.up('md')]: { width: '80%' },
+              [theme.breakpoints.down('md')]: { width: '50%' },
             }}
           >
-            <Logo style={{ height: "100%", width: "100%" }} />
+            <Logo style={{ height: '100%', width: '100%' }} />
           </Box>
           <Box
             sx={{
-              display: "flex",
-              [theme.breakpoints.up("md")]: { width: "100%" },
-              [theme.breakpoints.down("md")]: { width: "80%" },
+              display: 'flex',
+              [theme.breakpoints.up('md')]: { width: '100%' },
+              [theme.breakpoints.down('md')]: { width: '80%' },
             }}
           >
-            <Logo2 style={{ padding: "10px", height: "100%", width: "100%" }} />
-            <Logo3 style={{ padding: "10px", height: "100%", width: "100%" }} />
+            <Logo2 style={{ padding: '10px', height: '100%', width: '100%' }} />
+            <Logo3 style={{ padding: '10px', height: '100%', width: '100%' }} />
           </Box>
         </Grid>
         <Grid item>
@@ -132,7 +127,7 @@ export default function SignIn() {
             <div style={styles.card}>
               <Typography
                 variant="h5"
-                sx={{ fontFamily: "Open Sans, sans-serif", fontWeight: "bold" }}
+                sx={{ fontFamily: 'Open Sans, sans-serif', fontWeight: 'bold' }}
               >
                 Cadastro
               </Typography>
@@ -151,8 +146,8 @@ export default function SignIn() {
                   placeholder="Matricula"
                   required
                   value={values.matricula}
-                  onChange={handleChange("matricula")}
-                  sx={{ mb: 1.5, bgcolor: "#fff" }}
+                  onChange={handleChange('matricula')}
+                  sx={{ mb: 1.5, bgcolor: '#fff' }}
                 />
                 <TextField
                   label="Email"
@@ -163,8 +158,8 @@ export default function SignIn() {
                   placeholder="Email address"
                   required
                   value={values.email}
-                  onChange={handleChange("email")}
-                  sx={{ mb: 1.5, bgcolor: "#fff" }}
+                  onChange={handleChange('email')}
+                  sx={{ mb: 1.5, bgcolor: '#fff' }}
                 />
                 <TextField
                   label="Nome"
@@ -175,8 +170,8 @@ export default function SignIn() {
                   placeholder="Nome"
                   required
                   value={values.nome}
-                  onChange={handleChange("nome")}
-                  sx={{ mb: 1.5, bgcolor: "#fff" }}
+                  onChange={handleChange('nome')}
+                  sx={{ mb: 1.5, bgcolor: '#fff' }}
                 />
                 <TextField
                   label="Sobrenome"
@@ -187,20 +182,20 @@ export default function SignIn() {
                   placeholder="Sobrenome"
                   required
                   value={values.sobrenome}
-                  onChange={handleChange("sobrenome")}
-                  sx={{ mb: 1.5, bgcolor: "#fff" }}
+                  onChange={handleChange('sobrenome')}
+                  sx={{ mb: 1.5, bgcolor: '#fff' }}
                 />
                 <TextField
                   label="Senha"
                   id="password"
                   size="small"
                   name="password"
-                  type={values.showPassword ? "text" : "password"}
+                  type={values.showPassword ? 'text' : 'password'}
                   placeholder="Password"
                   required
                   value={values.password}
-                  onChange={handleChange("password")}
-                  sx={{ bgcolor: "#fff" }}
+                  onChange={handleChange('password')}
+                  sx={{ bgcolor: '#fff' }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -224,7 +219,7 @@ export default function SignIn() {
                   <Typography>{values.user}</Typography>
                 ) : null}
                 {error && (
-                  <Typography sx={{ color: "red", mt: 1 }}>{error}</Typography>
+                  <Typography sx={{ color: 'red', mt: 1 }}>{error}</Typography>
                 )}
                 <Button
                   type="submit"
@@ -236,11 +231,11 @@ export default function SignIn() {
                 </Button>
               </FormControl>
               <Divider sx={{ mt: 2 }} />
-              <Typography sx={{ fontSize: 12, mt: 1, textAlign: "center" }}>
-                Possui conta?{" "}
+              <Typography sx={{ fontSize: 12, mt: 1, textAlign: 'center' }}>
+                Possui conta?{' '}
                 <Link
                   href="/admin/login"
-                  sx={{ color: colors.green[7], textDecoration: "none" }}
+                  sx={{ color: colors.green[7], textDecoration: 'none' }}
                 >
                   Entrar
                 </Link>
@@ -250,5 +245,5 @@ export default function SignIn() {
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }

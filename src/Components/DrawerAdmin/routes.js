@@ -1,80 +1,80 @@
 // Rotas estilizadas para menu
-import React from "react";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import React from 'react'
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel'
 // import { ReactComponent as HomeIcon } from "../../assets/Home_light.svg";
-import { ReactComponent as SthetoscopeIcon } from "../../assets/stethoscope_icon.svg";
-import { ReactComponent as HeartIcon } from "../../assets/Heart.svg";
-import { ReactComponent as Adoption } from "../../assets/Paw_light.svg";
-import { ReactComponent as Article } from "../../assets/Article_light.svg";
+import { ReactComponent as SthetoscopeIcon } from '../../assets/stethoscope_icon.svg'
+import { ReactComponent as HeartIcon } from '../../assets/Heart.svg'
+import { ReactComponent as Adoption } from '../../assets/Paw_light.svg'
+import { ReactComponent as Article } from '../../assets/Article_light.svg'
 const routes = [
   {
-    nome: "Home",
+    nome: 'Home',
     icon: <HomeRoundedIcon fontSize="large" />,
-    link: "/admin/dashboard/app",
+    link: '/admin/dashboard/app',
   },
   {
-    nome: "Destaques",
+    nome: 'Destaques',
     icon: <ViewCarouselIcon fontSize="large" />,
-    link: "/admin/dashboard/destaque",
+    link: '/admin/dashboard/destaque',
   },
   {
-    nome: "Canil/Gatil",
+    nome: 'Canil/Gatil',
     icon: <Adoption />,
-    link: "",
+    link: '',
     sections: [
       {
-        nome: "Animais do canil/gatil",
-        link: "/admin/dashboard/animais",
+        nome: 'Animais do canil/gatil',
+        link: '/admin/dashboard/animais',
       },
       {
-        nome: "Adoção",
-        link: "/admin/dashboard/adocoes",
+        nome: 'Adoção',
+        link: '/admin/dashboard/adocoes',
       },
       {
-        nome: "Informações site",
-        link: "/admin/dashboard/canilInfo",
+        nome: 'Informações site',
+        link: '/admin/dashboard/canilInfo',
       },
     ],
   },
   {
-    nome: "HOVET",
+    nome: 'HOVET',
     icon: <HeartIcon />,
-    link: "",
+    link: '',
     sections: [
       {
-        nome: "Agendamentos",
-        link: "/admin/dashboard/agendamentos",
+        nome: 'Agendamentos',
+        link: '/admin/dashboard/agendamentos',
       },
       {
-        nome: "Informações HOVET",
-        link: "/admin/dashboard/hovetInfo",
+        nome: 'Informações HOVET',
+        link: '/admin/dashboard/hovetInfo',
       },
     ],
   },
   {
-    nome: "Profissionais",
+    nome: 'Profissionais',
     icon: <SthetoscopeIcon />,
-    link: "",
+    link: '',
     sections: [
       {
-        nome: "Lista de Profissionais",
-        link: "/admin/dashboard/profissionais",
+        nome: 'Lista de Profissionais',
+        link: '/admin/dashboard/profissionais',
       },
       {
-        nome: "Escala",
-        link: "/admin/dashboard/profissionais/escala",
+        nome: 'Escala',
+        link: '/admin/dashboard/profissionais/escala',
       },
       {
-        nome: "Serviços",
-        link: "/admin/dashboard/profissionais/servicos",
+        nome: 'Serviços',
+        link: '/admin/dashboard/profissionais/servicos',
       },
     ],
   },
   {
-    nome: "Artigos",
+    nome: 'Artigos',
     icon: <Article />,
-    link: "/admin/dashboard/artigos",
+    link: '/admin/dashboard/artigos',
   },
-];
-export default routes;
+]
+export default routes

@@ -1,111 +1,102 @@
-import React, { useEffect, useState } from "react";
+import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
+import InfoIcon from '@mui/icons-material/Info'
+import { Box, Button, Link, Paper, TextField, Typography } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarQuickFilter,
-} from "@mui/x-data-grid";
-import {
-  Toolbar,
-  Paper,
-  Box,
-  Container,
-  Button,
-  Typography,
-  Link,
-  TextField,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from "@mui/icons-material/Info";
-import { format } from "date-fns";
-import styles from "./style";
-import api from "../../../api";
-import { useNavigate } from "react-router-dom";
-import colors from "../../../colors";
+} from '@mui/x-data-grid'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../../../services/api'
+import colors from '../../../styles/colors'
+import styles from './style'
 
 export default function Servicos() {
-  const navigate = useNavigate();
-  const [pageSize, setPageSize] = useState(5);
-  const [isLoading, setIsLoading] = useState(true);
-  const [open, setOpen] = useState(false);
-  const [rows, setRows] = useState([]);
-  const [servico, setServico] = useState("");
+  const navigate = useNavigate()
+  const [pageSize, setPageSize] = useState(5)
+  // const [isLoading, setIsLoading] = useState(true)
+  const [open, setOpen] = useState(false)
+  const [rows, setRows] = useState([])
+  const [servico, setServico] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [servicosResponse, profissionaisResponse] = await Promise.all([
-          api.get("/api/servicos"),
-          api.get("/api/profissionais"),
-        ]);
+          api.get('/api/servicos'),
+          api.get('/api/profissionais'),
+        ])
 
-        const servicos = servicosResponse.data;
-        const profissionais = profissionaisResponse.data;
+        const servicos = servicosResponse.data
+        const profissionais = profissionaisResponse.data
 
         // Function to calculate the count of professionals for each service
         const getCountOfProfessionais = (id_servicos) => {
           return profissionais.filter(
-            (profissional) => profissional.id_servicos === id_servicos
-          ).length;
-        };
+            (profissional) => profissional.id_servicos === id_servicos,
+          ).length
+        }
 
         const updatedFormularios = servicos.map((servico) => {
-          const { id_servicos } = servico;
+          const { id_servicos } = servico
           return {
             id: id_servicos,
             serviço: servico.tipo_servico,
-            "quantidade de profissionais": getCountOfProfessionais(id_servicos),
-          };
-        });
+            'quantidade de profissionais': getCountOfProfessionais(id_servicos),
+          }
+        })
 
-        setRows(updatedFormularios);
-        setIsLoading(false);
+        setRows(updatedFormularios)
+        // setIsLoading(false)
       } catch (error) {
-        console.error(error);
-        setIsLoading(false);
+        console.error(error)
+        // setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
-  const details = React.useCallback(
-    (id) => () => {
-      console.log(
-        "details: ",
-        rows.find((row) => row.id === id)
-      );
-    },
-    []
-  );
+  // const details = React.useCallback(
+  //   (id) => () => {
+  //     console.log(
+  //       'details: ',
+  //       rows.find((row) => row.id === id),
+  //     )
+  //   },
+  //   [],
+  // )
 
   const edit = React.useCallback(
     (id) => () => {
-      console.log("edit: ", id);
-      navigate(`/admin/dashboard/animais/new/${id}`);
+      console.log('edit: ', id)
+      navigate(`/admin/dashboard/animais/new/${id}`)
     },
-    [navigate]
-  );
+    [navigate],
+  )
 
   const columns = React.useMemo(
     () => [
-      { field: "id", type: "number", flex: 0.6 },
-      { field: "serviço", type: "string", flex: 1 },
-      { field: "quantidade de profissionais", type: "number", flex: 0.6 },
+      { field: 'id', type: 'number', flex: 0.6 },
+      { field: 'serviço', type: 'string', flex: 1 },
+      { field: 'quantidade de profissionais', type: 'number', flex: 0.6 },
       {
-        field: "actions",
-        type: "actions",
+        field: 'actions',
+        type: 'actions',
         width: 90,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<InfoIcon />}
             label="Details"
-            onClick={details(params.id)}
+            // onClick={details(params.id)}
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={<EditIcon />}
             label="Edit"
             onClick={edit(params.id)}
@@ -114,79 +105,80 @@ export default function Servicos() {
         ],
       },
     ],
-    [details, edit]
-  );
+    [edit],
+  )
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
       // Make an API call to create a new service
-      await api.post("/api/servicos", { tipo_servico: servico });
+      await api.post('/api/servicos', { tipo_servico: servico })
 
       // Fetch the updated list of services
-      const servicosResponse = await api.get("/api/servicos");
-      const servicos = servicosResponse.data;
+      const servicosResponse = await api.get('/api/servicos')
+      const servicos = servicosResponse.data
 
       // Fetch the updated list of profissionais
-      const profissionaisResponse = await api.get("/api/profissionais");
-      const profissionais = profissionaisResponse.data;
+      const profissionaisResponse = await api.get('/api/profissionais')
+      const profissionais = profissionaisResponse.data
 
       // Function to calculate the count of professionals for each service
       const getCountOfProfessionais = (id_servicos) => {
         return profissionais.filter(
-          (profissional) => profissional.id_servicos === id_servicos
-        ).length;
-      };
+          (profissional) => profissional.id_servicos === id_servicos,
+        ).length
+      }
 
       const updatedFormularios = servicos.map((servico) => {
-        const { id_servicos } = servico;
+        const { id_servicos } = servico
         return {
           id: id_servicos,
           serviço: servico.tipo_servico,
-          "quantidade de profissionais": getCountOfProfessionais(id_servicos),
-        };
-      });
+          'quantidade de profissionais': getCountOfProfessionais(id_servicos),
+        }
+      })
 
-      setRows(updatedFormularios);
-      setIsLoading(false);
-      setServico(""); // Clear the input field after submission
+      setRows(updatedFormularios)
+      // setIsLoading(false)
+
+      setServico('') // Clear the input field after submission
     } catch (error) {
-      console.error("Error creating service:", error);
+      console.error('Error creating service:', error)
     }
-  };
+  }
 
   function CustomToolbar() {
     return (
-      <GridToolbarContainer sx={{ justifyContent: "space-between" }}>
+      <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
         {/* <GridToolbarFilterButton /> */}
         <GridToolbarExport
           printOptions={{
             hideFooter: true,
             hideToolbar: true,
-            fileName: "customerDataBase",
-            pageStyle: ".MuiDataGrid-root .MuiDataGrid-main {flex: 1}",
+            fileName: 'customerDataBase',
+            pageStyle: '.MuiDataGrid-root .MuiDataGrid-main {flex: 1}',
           }}
         />
         <GridToolbarQuickFilter />
       </GridToolbarContainer>
-    );
+    )
   }
 
   return (
     <Box>
       <Box sx={styles.index_box}>
         <Typography
-          fontFamily={"Public Sans"}
+          fontFamily={'Public Sans'}
           fontWeight={700}
           color="#212B36"
           variant="h5"
         >
           Serviços
         </Typography>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: 'flex' }}>
           <Button
             sx={styles.modal_button}
-            style={{ display: open && "none" }}
+            style={{ display: open && 'none' }}
             variant="outlined"
             color="primary"
             component={Link}
@@ -201,11 +193,11 @@ export default function Servicos() {
         <Box sx={{ pl: 5, pr: 5, pb: 3 }}>
           <form
             onSubmit={handleSubmit}
-            style={{ display: "flex", justifyContent: "space-between" }}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <TextField
               size="small"
-              sx={{ width: "60%", bgcolor: "#ffffff" }}
+              sx={{ width: '60%', bgcolor: '#ffffff' }}
               required
               label="Novo Serviço"
               name="novo serviço"
@@ -217,12 +209,12 @@ export default function Servicos() {
             <Box>
               <Button
                 sx={{
-                  mr:2,
+                  mr: 2,
                   bgcolor: colors.green[3],
-                  boxShadow: "none",
-                  "&:hover": {
+                  boxShadow: 'none',
+                  '&:hover': {
                     bgcolor: colors.green[5],
-                    boxShadow: "none",
+                    boxShadow: 'none',
                   },
                 }}
                 type="submit"
@@ -266,5 +258,5 @@ export default function Servicos() {
         </Paper>
       </Box>
     </Box>
-  );
+  )
 }

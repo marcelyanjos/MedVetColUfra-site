@@ -1,111 +1,110 @@
-import Chart from "react-apexcharts";
-import { Card, Typography, Box } from "@mui/material";
-import { useState, useEffect } from "react";
-import api from "../../../../api";
-import styles from "../style";
-import colors from "../../../../colors";
+import { Box, Card, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import Chart from 'react-apexcharts'
+import api from '../../../../services/api'
+import colors from '../../../../styles/colors'
+import styles from '../style'
 
-var pt = require("apexcharts/dist/locales/pt.json");
+const pt = require('apexcharts/dist/locales/pt.json')
 
 export default function App() {
   const [bar, setBar] = useState({
     caes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     gatos: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     pedidos: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  });
+  })
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const caesResponse = await api.get("/api/chart", {
-          params: { especie: "canino", adotado: "true" },
-        });
-        const caesIds = caesResponse.data.map((item) => item.id_animal);
+        const caesResponse = await api.get('/api/chart', {
+          params: { especie: 'canino', adotado: 'true' },
+        })
+        const caesIds = caesResponse.data.map((item) => item.id_animal)
 
-        const gatosResponse = await api.get("/api/chart", {
-          params: { especie: "felino", adotado: "true" },
-        });
-        const gatosIds = gatosResponse.data.map((item) => item.id_animal);
+        const gatosResponse = await api.get('/api/chart', {
+          params: { especie: 'felino', adotado: 'true' },
+        })
+        const gatosIds = gatosResponse.data.map((item) => item.id_animal)
 
-        const adocoesResponse = await api.get("/api/adocao");
-        const adocoesData = adocoesResponse.data;
+        const adocoesResponse = await api.get('/api/adocao')
+        const adocoesData = adocoesResponse.data
 
-        const caesAdotados = countAnimaisAdotadosPorMes(caesIds, adocoesData);
-        const gatosAdotados = countAnimaisAdotadosPorMes(gatosIds, adocoesData);
-        const pedidosAdocao = await countPedidosAdocaoPorMes();
+        const caesAdotados = countAnimaisAdotadosPorMes(caesIds, adocoesData)
+        const gatosAdotados = countAnimaisAdotadosPorMes(gatosIds, adocoesData)
+        const pedidosAdocao = await countPedidosAdocaoPorMes()
 
         setBar({
           caes: caesAdotados,
           gatos: gatosAdotados,
           pedidos: pedidosAdocao,
-        });
+        })
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   function countAnimaisAdotadosPorMes(ids, adocoes) {
-    const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     adocoes.forEach((adocao) => {
-      const { id_animal, data_adocao } = adocao;
+      const { id_animal, data_adocao } = adocao
       if (ids.includes(id_animal) && data_adocao) {
-        const date = new Date(data_adocao);
-        const month = date.getMonth();
-        data[month]++;
+        const date = new Date(data_adocao)
+        const month = date.getMonth()
+        data[month]++
       }
-    });
+    })
 
-    return data;
+    return data
   }
 
   async function countPedidosAdocaoPorMes() {
-    const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     try {
-      const response = await api.get("/api/adoption-forms");
-      const forms = response.data;
+      const response = await api.get('/api/adoption-forms')
+      const forms = response.data
 
       forms.forEach((form) => {
-        const { data_envio } = form;
-        const date = new Date(data_envio);
-        const month = date.getMonth();
-        data[month]++;
-      });
+        const { data_envio } = form
+        const date = new Date(data_envio)
+        const month = date.getMonth()
+        data[month]++
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
 
-    return data;
+    return data
   }
 
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
+  const currentDate = new Date()
+  const year = currentDate.getFullYear()
   const labels = Array.from({ length: 12 }, (_, index) => {
-    const month = index + 1;
-    const formattedDate = `${("0" + month).slice(-2)}/01/${year}`;
-    return formattedDate;
-  });
-  
+    const month = index + 1
+    const formattedDate = `${('0' + month).slice(-2)}/01/${year}`
+    return formattedDate
+  })
 
   const options = {
     colors: [colors.green[7], colors.green[5], colors.green[2]],
     states: {
       hover: {
         filter: {
-          type: "lighten",
+          type: 'lighten',
           value: 0.01,
         },
       },
     },
     chart: {
-      id: "basic-bar",
-      fontFamily: "Public Sans",
+      id: 'basic-bar',
+      fontFamily: 'Public Sans',
       locales: [pt],
-      defaultLocale: "pt",
+      defaultLocale: 'pt',
       toolbar: {
         show: true,
         offsetX: 0,
@@ -114,32 +113,32 @@ export default function App() {
     },
     series: [
       {
-        name: "Cães Adotados",
-        type: "column",
+        name: 'Cães Adotados',
+        type: 'column',
         data: bar.caes,
       },
       {
-        name: "Gatos Adotados",
-        type: "column",
+        name: 'Gatos Adotados',
+        type: 'column',
         data: bar.gatos,
       },
       {
-        name: "Pedidos de Adoção",
-        type: "column",
+        name: 'Pedidos de Adoção',
+        type: 'column',
         data: bar.pedidos,
       },
     ],
-    labels: labels,
+    labels,
     xaxis: {
-      type: "datetime",
+      type: 'datetime',
       labels: {
-        format: "dd/MM/yyyy",
+        format: 'dd/MM/yyyy',
       },
       axisBorder: { show: false },
       axisTicks: { show: false },
       title: {
-        text: "Meses",
-        align: "center",
+        text: 'Meses',
+        align: 'center',
       },
       tooltip: {
         enabled: false,
@@ -147,8 +146,8 @@ export default function App() {
     },
     yaxis: {
       title: {
-        text: "Adoções",
-        align: "left",
+        text: 'Adoções',
+        align: 'left',
       },
     },
     grid: {
@@ -160,20 +159,20 @@ export default function App() {
       followCursor: true,
       y: {
         formatter: (y) => {
-          if (typeof y !== "undefined") {
-            return `${y.toFixed(0)}`;
+          if (typeof y !== 'undefined') {
+            return `${y.toFixed(0)}`
           }
-          return y;
+          return y
         },
       },
       borderRadius: 4,
-      backdropFilter: "blur(6px)",
-      WebkitBackdropFilter: "blur(6px)",
-      backgroundColor: "rgba(255,255,255,0.3)",
+      backdropFilter: 'blur(6px)',
+      WebkitBackdropFilter: 'blur(6px)',
+      backgroundColor: 'rgba(255,255,255,0.3)',
     },
     plotOptions: {
       bar: {
-        columnWidth: "40%",
+        columnWidth: '40%',
         borderRadius: 4,
         rangeBarOverlap: true,
         rangeBarGroupRows: false,
@@ -181,31 +180,36 @@ export default function App() {
     },
     legend: {
       show: true,
-      position: "top",
-      horizontalAlign: "left",
+      position: 'top',
+      horizontalAlign: 'left',
       offsetY: 0,
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
-      colors: ["transparent"],
+      colors: ['transparent'],
       width: 2,
     },
-  };
+  }
 
   return (
     <Card sx={styles.chart_card}>
       <Typography
-        fontFamily={"Open Sans, sans-serif"}
+        fontFamily={'Open Sans, sans-serif'}
         fontWeight={700}
         sx={styles.chart_barTypography}
       >
         Adoções
       </Typography>
       <Box dir="ltr">
-        <Chart options={options} series={options.series} type="line" height={364} />
+        <Chart
+          options={options}
+          series={options.series}
+          type="line"
+          height={364}
+        />
       </Box>
     </Card>
-  );
+  )
 }

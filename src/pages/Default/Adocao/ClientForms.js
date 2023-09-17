@@ -1,145 +1,139 @@
-import { useState, useEffect, useCallback } from "react";
+import EditIcon from '@mui/icons-material/Edit'
+import InfoIcon from '@mui/icons-material/Info'
 import {
-  Typography,
-  Grid,
   Button,
-  TextField,
   Container,
-  Card,
-} from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridColDef,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarQuickFilter,
-} from "@mui/x-data-grid";
-import { Toolbar, Paper, Box } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from "@mui/icons-material/Info";
-import { format, parseISO } from "date-fns";
-import api from "../../../api";
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material'
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
+import { format, parseISO } from 'date-fns'
+import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../../../services/api'
 
 function ClientForms(props) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [clientInfo, setClientInfo] = useState({
-    nome: "",
-    data_nasc: "",
-    email: "",
-  });
+    nome: '',
+    data_nasc: '',
+    email: '',
+  })
 
-  const [showTable, setShowTable] = useState(false);
-  const [agendamentos, setAgendamentos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [showTable, setShowTable] = useState(false)
+  const [agendamentos, setAgendamentos] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleClientInfoChange = (event) => {
     setClientInfo({
       ...clientInfo,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+  }
 
   const handleSearchClient = (event) => {
-    event.preventDefault();
-    const dateOfBirth = new Date(clientInfo.data_nasc);
+    event.preventDefault()
+    const dateOfBirth = new Date(clientInfo.data_nasc)
     api
       .get(
         `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${
           clientInfo.email
-        }`
+        }`,
       )
       .then((clientResponse) => {
-        const clients = clientResponse.data;
+        const clients = clientResponse.data
 
         if (clients.length === 1) {
-          const id_cliente = clients[0].id_cliente; // Obtém o id do cliente
-          loadAgendamentos(id_cliente);
-          setShowTable(true);
+          const id_cliente = clients[0].id_cliente // Obtém o id do cliente
+          loadAgendamentos(id_cliente)
+          setShowTable(true)
         } else if (clients.length === 0) {
-          alert("Cliente não encontrado");
-          setAgendamentos([]);
-          setShowTable(false);
+          alert('Cliente não encontrado')
+          setAgendamentos([])
+          setShowTable(false)
         } else {
           alert(
-            "Mais de um cliente encontrado com os mesmos dados. Verifique a base de dados."
-          );
-          setAgendamentos([]);
-          setShowTable(true);
+            'Mais de um cliente encontrado com os mesmos dados. Verifique a base de dados.',
+          )
+          setAgendamentos([])
+          setShowTable(true)
         }
       })
       .catch((error) => {
-        console.error(error);
-      });
-  };
+        console.error(error)
+      })
+  }
   const handleClearSearch = () => {
     setClientInfo({
-      nome: "",
-      data_nasc: "",
-      email: "",
-    });
-    setShowTable(false);
-    setAgendamentos([]);
-  };
+      nome: '',
+      data_nasc: '',
+      email: '',
+    })
+    setShowTable(false)
+    setAgendamentos([])
+  }
 
   const loadAgendamentos = (id_cliente) => {
-    setIsLoading(true);
+    setIsLoading(true)
     api
       .get(`/api/adoption-forms/${id_cliente}`)
       .then(async (response) => {
         const adocoes = await Promise.all(
           response.data.map(async (adocao) => {
-            const { id_formulario, id_animal } = adocao;
-            console.log("ids:", id_formulario, id_animal);
-            const dia = format(new Date(adocao.data_envio), "dd/MM/yyyy");
-            const petResponse = await api.get(`/api/animals/${id_animal}`);
-            const pet = petResponse.data;
+            const { id_formulario, id_animal } = adocao
+            console.log('ids:', id_formulario, id_animal)
+            const dia = format(new Date(adocao.data_envio), 'dd/MM/yyyy')
+            const petResponse = await api.get(`/api/animals/${id_animal}`)
+            const pet = petResponse.data
 
             return {
               id: id_formulario,
               cliente: clientInfo.nome,
               email: clientInfo.email,
-              "data de nascimento": format(
+              'data de nascimento': format(
                 parseISO(clientInfo.data_nasc),
-                "dd/MM/yyyy"
+                'dd/MM/yyyy',
               ),
-              "nome do animal": pet.nome,
-              "data de envio": dia,
+              'nome do animal': pet.nome,
+              'data de envio': dia,
               moradia: adocao.tipo_moradia,
               ocupacao: adocao.ocupacao,
-            };
-          })
-        );
+            }
+          }),
+        )
 
-        setAgendamentos(adocoes);
-        setIsLoading(false);
+        setAgendamentos(adocoes)
+        setIsLoading(false)
       })
       .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  };
+        console.error(error)
+        setIsLoading(false)
+      })
+  }
 
   const columns = [
-    { field: "id", type: "number", flex: 0.4 },
-    { field: "cliente", type: "string", flex: 0.8 },
-    { field: "data de nascimento", type: "Date", flex: 0.8 },
-    { field: "nome do animal", type: "string", flex: 0.8 },
-    { field: "data de envio", type: "Date", flex: 0.8 },
-    { field: "ocupacao", type: "string", flex: 0.6 },
-    { field: "moradia", type: "string", flex: 0.6 },
+    { field: 'id', type: 'number', flex: 0.4 },
+    { field: 'cliente', type: 'string', flex: 0.8 },
+    { field: 'data de nascimento', type: 'Date', flex: 0.8 },
+    { field: 'nome do animal', type: 'string', flex: 0.8 },
+    { field: 'data de envio', type: 'Date', flex: 0.8 },
+    { field: 'ocupacao', type: 'string', flex: 0.6 },
+    { field: 'moradia', type: 'string', flex: 0.6 },
     {
-      field: "actions",
-      type: "actions",
+      field: 'actions',
+      type: 'actions',
       width: 90,
       getActions: (params) => [
         <GridActionsCellItem
+          key={params.id}
           icon={<InfoIcon />}
           label="Details"
           onClick={details(params.id)}
         />,
         <GridActionsCellItem
+          key={params.id}
           icon={<EditIcon />}
           label="Edit"
           onClick={edit(params.id)}
@@ -147,29 +141,29 @@ function ClientForms(props) {
         />,
       ],
     },
-  ];
+  ]
 
   const details = useCallback(
     (id) => () => {
-      console.log("details: ", id);
-      navigate(`/adocao/my-form-details/${id}`);
+      console.log('details: ', id)
+      navigate(`/adocao/my-form-details/${id}`)
     },
-    [navigate]
-  );
+    [navigate],
+  )
 
   const edit = (id) => () => {
-    console.log("edit: ", id);
-  };
+    console.log('edit: ', id)
+  }
 
   return (
     <Container
-      minHeight={"100%"}
+      minHeight={'100%'}
       sx={{
         pt: 3,
         pb: 3,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       <Grid
@@ -177,9 +171,9 @@ function ClientForms(props) {
         xs={12}
         sm={6}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         }}
       >
         <Grid item>
@@ -269,7 +263,7 @@ function ClientForms(props) {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }
 
-export default ClientForms;
+export default ClientForms

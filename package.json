@@ -42,7 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "nodemon Server/server.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -63,6 +64,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.22.15",
+    "@rocketseat/eslint-config": "^2.1.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "nodemon": "^3.0.1"
   }
 }

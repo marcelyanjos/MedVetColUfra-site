@@ -16,18 +16,20 @@ const { Buffer } = require("buffer");
 // });
 
 // Rota para buscar um cliente por nome, data de nascimento e email
-router.get("/", async (req, res) => {
-  const { nome, data_nasc, email } = req.query;
+router.post("/", async (req, res) => {
+  const { nome, data_nasc, email } = req.body;
+ 
   try {
     let query = "SELECT * FROM cliente";
-    const values = [];
+    
+    let values = [];
 
     if (nome) {
       const index = values.length + 1;
       query += values.length
         ? " AND nome = $" + index
         : " WHERE nome = $" + index;
-      values.push(nome);
+      values.push(nome.toUpperCase());
     }
 
     if (data_nasc) {
@@ -48,7 +50,7 @@ router.get("/", async (req, res) => {
 
     const { rows } = await pool.query(query, values);
 
-    res.send(rows);
+    res.send(rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).send("Erro ao buscar os clientes.");
@@ -91,7 +93,7 @@ router.get("/:id_cliente", async (req, res) => {
 });
 
 // Rota para cadastrar um novo cliente
-router.post("/", async (req, res) => {
+router.post("/addclient", async (req, res) => {
   const { nome, data_nasc, email } = req.body;
   try {
     const { rows } = await pool.query(

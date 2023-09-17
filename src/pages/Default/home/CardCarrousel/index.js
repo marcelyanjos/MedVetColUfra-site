@@ -1,46 +1,45 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Box, Link, Typography, Card, Button, CardMedia } from "@mui/material";
-import initialRows from "../../../../mockup/adoption";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { ReactComponent as Female } from "../../../../assets/female.svg";
-import { ReactComponent as Male } from "../../../../assets/male.svg";
-import { decode } from "base-64";
-import theme from "../../theme";
-import colors from "../../../../colors";
-import api from "../../../../api";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { Box, Button, Card, CardMedia, Link, Typography } from '@mui/material'
+import { decode } from 'base-64'
+import React, { useEffect, useRef, useState } from 'react'
+import { ReactComponent as Female } from '../../../../assets/female.svg'
+import { ReactComponent as Male } from '../../../../assets/male.svg'
+import api from '../../../../services/api'
+import colors from '../../../../styles/colors'
+
 export default function CardCarrousel() {
-  const [animals, setAnimals] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [animals, setAnimals] = useState([])
+  // const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     api
-      .get("/api/animals")
+      .get('/api/animals')
       .then((response) => {
-        setAnimals(response.data);
-        console.log("data: ", response.data);
-        setIsLoading(false);
+        setAnimals(response.data)
+        console.log('data: ', response.data)
+        // setIsLoading(false)
       })
       .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  }, []);
+        console.error(error)
+        // setIsLoading(false)
+      })
+  }, [])
 
-  const ref = useRef(null);
+  const ref = useRef(null)
   const scroll = (scrollOffset) => {
-    ref.current.scrollLeft += scrollOffset;
-  };
+    ref.current.scrollLeft += scrollOffset
+  }
 
   return (
-    <Box sx={{ height: "480px", width: "100%", bgcolor: colors.green[2] }}>
+    <Box sx={{ height: '480px', width: '100%', bgcolor: colors.green[2] }}>
       <Box sx={{ p: 2, pl: 5, pr: 5 }}>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: 'flex' }}>
           <Typography
             sx={{
               flex: 1,
               color: colors.black[0],
-              fontWeight: "bold",
+              fontWeight: 'bold',
               fontSize: 26,
             }}
           >
@@ -49,8 +48,8 @@ export default function CardCarrousel() {
           <Button
             onClick={() => scroll(-400)}
             sx={{
-              "&:hover": {
-                bgcolor: "transparent",
+              '&:hover': {
+                bgcolor: 'transparent',
               },
             }}
           >
@@ -62,12 +61,12 @@ export default function CardCarrousel() {
           <Button
             onClick={() => scroll(400)}
             sx={{
-              "&:hover": {
-                bgcolor: "transparent",
+              '&:hover': {
+                bgcolor: 'transparent',
               },
             }}
           >
-            {" "}
+            {' '}
             <KeyboardArrowRightIcon
               fontSize="large"
               sx={{ color: colors.black[0] }}
@@ -77,16 +76,16 @@ export default function CardCarrousel() {
         <Box
           ref={ref}
           sx={{
-            scrollBehavior: "smooth",
-            minHeight: "390px",
+            scrollBehavior: 'smooth',
+            minHeight: '390px',
             pt: 1,
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": { display: "none" },
-            overflowX: "scroll",
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            overflowX: 'scroll',
           }}
         >
           {/* max 6 items */}
@@ -97,16 +96,16 @@ export default function CardCarrousel() {
               return (
                 <Link
                   key={animal.id_animal}
-                  sx={{ textDecoration: "none" }}
+                  sx={{ textDecoration: 'none' }}
                   href={`/adocao/${animal.id_animal}`}
                 >
                   <Card
                     elevation={4}
                     sx={{
                       mr: 1,
-                      height: "380px",
-                      minWidth: "300px",
-                      "&:hover": { mt: -1 },
+                      height: '380px',
+                      minWidth: '300px',
+                      '&:hover': { mt: -1 },
                     }}
                   >
                     <CardMedia
@@ -114,29 +113,29 @@ export default function CardCarrousel() {
                       image={`data:image/jpg;base64,${decode(animal.imagem)}`}
                       alt={animal.nome}
                       style={{
-                        width: "320px",
-                        height: "82%",
-                        objectFit: "cover",
+                        width: '320px',
+                        height: '82%',
+                        objectFit: 'cover',
                       }}
                     />
                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
+                        display: 'flex',
+                        justifyContent: 'space-between',
                         mt: 1,
                       }}
                     >
-                      <Typography component={"span"} variant={"body2"}>
+                      <Typography component={'span'} variant={'body2'}>
                         <Typography
                           sx={{
                             ml: 1,
-                            fontWeight: "bold",
+                            fontWeight: 'bold',
                             fontSize: 18,
-                            fontFamily: "Open Sans, sans-serif",
-                            color: "#494a4a",
-                            textTransform: "lowercase",
-                            "&:first-letter": {
-                              textTransform: "uppercase",
+                            fontFamily: 'Open Sans, sans-serif',
+                            color: '#494a4a',
+                            textTransform: 'lowercase',
+                            '&:first-letter': {
+                              textTransform: 'uppercase',
                             },
                           }}
                         >
@@ -145,34 +144,34 @@ export default function CardCarrousel() {
                         <Typography
                           sx={{
                             ml: 1,
-                            fontFamily: "Open Sans, sans-serif",
-                            color: "#494a4a",
+                            fontFamily: 'Open Sans, sans-serif',
+                            color: '#494a4a',
                           }}
                         >
                           {animal.idade} anos
                         </Typography>
                       </Typography>
-                      {animal.sexo === "femea" ? (
-                        <Female style={{ height: "40px", marginTop: 5 }} />
+                      {animal.sexo === 'femea' ? (
+                        <Female style={{ height: '40px', marginTop: 5 }} />
                       ) : (
-                        <Male style={{ height: "40px", marginTop: 5 }} />
+                        <Male style={{ height: '40px', marginTop: 5 }} />
                       )}
                     </Box>
                   </Card>
                 </Link>
-              );
+              )
             })}
           <Link
             href="adocao"
             sx={{
-              display: "flex",
+              display: 'flex',
               ml: 3,
-              flexDirection: "column",
-              minWidth: "100px",
-              alignItems: "center",
-              textDecoration: "none",
-              "&:hover": {
-                bgcolor: "transparent",
+              flexDirection: 'column',
+              minWidth: '100px',
+              alignItems: 'center',
+              textDecoration: 'none',
+              '&:hover': {
+                bgcolor: 'transparent',
               },
             }}
           >
@@ -180,18 +179,18 @@ export default function CardCarrousel() {
               fontSize="large"
               sx={{
                 color: colors.black[0],
-                border: "2px solid #f1f1f1",
-                borderRadius: "20px",
+                border: '2px solid #f1f1f1',
+                borderRadius: '20px',
                 p: 0.5,
                 mb: 1,
               }}
             />
-            <Typography sx={{ color: colors.black[0], textTransform: "none" }}>
+            <Typography sx={{ color: colors.black[0], textTransform: 'none' }}>
               Ver outros animais
             </Typography>
           </Link>
         </Box>
       </Box>
     </Box>
-  );
+  )
 }

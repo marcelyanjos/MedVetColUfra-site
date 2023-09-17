@@ -1,96 +1,95 @@
-import { useState, useEffect } from "react";
 import {
-  Typography,
-  Grid,
-  Button,
-  TextField,
-  Box,
-  Card,
   Alert,
+  Box,
+  Button,
+  Card,
+  Grid,
   Snackbar,
-} from "@mui/material";
-import { decode } from "base-64";
-import api from "../../../api";
-import { useParams, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+  TextField,
+  Typography,
+} from '@mui/material'
+import { decode } from 'base-64'
+import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import api from '../../../services/api'
 
 function CheckAndAdopt(props) {
-  const navigate = useNavigate();
-  const [animal, setAnimal] = useState(null);
-  const { id } = useParams(); // id do animal
-  const [client, setClient] = useState(null);
-  const [showTable, setShowTable] = useState(false);
+  const [animal, setAnimal] = useState(null)
+  const { id } = useParams() // id do animal
+  const [client, setClient] = useState(null)
+  const [showTable, setShowTable] = useState(false)
   const [clientInfo, setClientInfo] = useState({
-    nome: "",
-    data_nasc: "",
-    email: "",
-    tipo_moradia: "",
-    ocupacao: "",
-  });
+    nome: '',
+    data_nasc: '',
+    email: '',
+    tipo_moradia: '',
+    ocupacao: '',
+  })
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   useEffect(() => {
     api
       .get(`/api/animals/${id}`)
       .then((animalResponse) => {
-        setAnimal(animalResponse.data);
+        setAnimal(animalResponse.data)
       })
       .catch((error) => {
-        console.error(error);
-      });
-  }, [id]);
+        console.error(error)
+      })
+  }, [id])
 
   useEffect(() => {
     if (client && animal) {
       api
         .get(
-          `/api/adoption-forms?animal_id=${animal.id_animal}&cliente_id=${client.id_cliente}`
+          `/api/adoption-forms?animal_id=${animal.id_animal}&cliente_id=${client.id_cliente}`,
         )
         .then((response) => {
-          const adoptionForms = response.data;
+          const adoptionForms = response.data
           if (adoptionForms.length > 0) {
-            setOpenSnackbar(true);
+            setOpenSnackbar(true)
             setSnackbarMessage(
-              "O cliente já possui um formulário de adoção para esse animal."
-            );
-            setSnackbarSeverity("warning");
+              'O cliente já possui um formulário de adoção para esse animal.',
+            )
+            setSnackbarSeverity('warning')
           } else {
-            setShowTable(true);
+            setShowTable(true)
           }
         })
         .catch((error) => {
-          console.error(error);
-        });
+          console.error(error)
+        })
     }
-  }, [client, animal]);
+  }, [client, animal])
 
   const handleClientInfoChange = (event) => {
     setClientInfo({
       ...clientInfo,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+  }
 
   const generateProtocol = () => {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    return randomString.toUpperCase();
-  };
+    const randomString = Math.random().toString(36).substring(2, 8)
+    return randomString.toUpperCase()
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (!client) {
       // Criar novo cliente
       const newClient = {
         nome: clientInfo.nome,
         data_nasc: clientInfo.data_nasc,
         email: clientInfo.email,
-      };
+      }
 
       api
-        .post("/api/clientes", newClient)
+        .post('/api/clientes', newClient)
         .then((clientResponse) => {
           const adoptionForm = {
             id_cliente: clientResponse.data.id_cliente,
@@ -98,21 +97,21 @@ function CheckAndAdopt(props) {
             ocupacao: clientInfo.ocupacao,
             tipo_moradia: clientInfo.tipo_moradia,
             protocolo: generateProtocol(),
-            situacao: "Em andamento",
-            data_envio: format(new Date(), "yyyy-MM-dd"),
+            situacao: 'Em andamento',
+            data_envio: format(new Date(), 'yyyy-MM-dd'),
             ...clientInfo,
-          };
-          submitAdoptionForm(adoptionForm);
-          setOpenSnackbar(true);
-          setSnackbarMessage("Novo cliente adicionado");
-          setSnackbarSeverity("success");
+          }
+          submitAdoptionForm(adoptionForm)
+          setOpenSnackbar(true)
+          setSnackbarMessage('Novo cliente adicionado')
+          setSnackbarSeverity('success')
         })
         .catch((error) => {
-          console.error(error);
-          setOpenSnackbar(true);
-          setSnackbarMessage("Erro ao cadastrar novo cliente");
-          setSnackbarSeverity("warning");
-        });
+          console.error(error)
+          setOpenSnackbar(true)
+          setSnackbarMessage('Erro ao cadastrar novo cliente')
+          setSnackbarSeverity('warning')
+        })
     } else {
       // Cliente existente
       const adoptionForm = {
@@ -121,88 +120,88 @@ function CheckAndAdopt(props) {
         ocupacao: clientInfo.ocupacao,
         tipo_moradia: clientInfo.tipo_moradia,
         protocolo: generateProtocol(),
-        situacao: "Em andamento",
-        data_envio: format(new Date(), "yyyy-MM-dd"),
+        situacao: 'Em andamento',
+        data_envio: format(new Date(), 'yyyy-MM-dd'),
         ...clientInfo,
-      };
-      console.log(adoptionForm);
-      submitAdoptionForm(adoptionForm);
+      }
+      console.log(adoptionForm)
+      submitAdoptionForm(adoptionForm)
     }
-  };
+  }
 
   const submitAdoptionForm = (adoptionForm) => {
     api
-      .post("/api/adoption-forms", adoptionForm)
+      .post('/api/adoption-forms', adoptionForm)
       .then(() => {
-        setOpenSnackbar(true);
-        setSnackbarMessage("Formulario enviado com sucesso.");
-        setSnackbarSeverity("success");
+        setOpenSnackbar(true)
+        setSnackbarMessage('Formulario enviado com sucesso.')
+        setSnackbarSeverity('success')
         setClientInfo({
-          nome: "",
-          data_nasc: "",
-          email: "",
-          tipo_moradia: "",
-          ocupacao: "",
-        });
+          nome: '',
+          data_nasc: '',
+          email: '',
+          tipo_moradia: '',
+          ocupacao: '',
+        })
       })
       .catch((error) => {
-        console.error(error);
-        setOpenSnackbar(true);
-        setSnackbarMessage("Erro ao enviar formulário");
-        setSnackbarSeverity("warning");
-      });
-  };
+        console.error(error)
+        setOpenSnackbar(true)
+        setSnackbarMessage('Erro ao enviar formulário')
+        setSnackbarSeverity('warning')
+      })
+  }
 
   const handleSearchClient = (event) => {
-    event.preventDefault();
-    const dateOfBirth = new Date(clientInfo.data_nasc);
+    event.preventDefault()
+    const dateOfBirth = new Date(clientInfo.data_nasc)
     api
       .get(
         `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${
           clientInfo.email
-        }`
+        }`,
       )
       .then((clientResponse) => {
-        const clients = clientResponse.data;
+        const clients = clientResponse.data
         if (clients.length === 1) {
-          setClient(clients[0]);
+          setClient(clients[0])
           // console.log("Cliente encontrado:", clients[0]);
         } else {
-          setClient(null);
-          setShowTable(true);
+          setClient(null)
+          setShowTable(true)
           // console.log("Cliente não encontrado");
         }
       })
       .catch((error) => {
-        console.error(error);
-      });
-  };
+        console.error(error)
+      })
+  }
 
   useEffect(() => {
     if (animal) {
       setClientInfo((prevClientInfo) => ({
         ...prevClientInfo,
         id_animal: animal.id_animal,
-      }));
+      }))
     }
-  }, [animal]);
+  }, [animal])
 
   return (
     <Box
       sx={{
-        p:5,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
+        p: 5,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       <Snackbar
         open={openSnackbar}
         autoHideDuration={5000}
         onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <Alert severity={snackbarSeverity} sx={{ width: "100%" }}>
+        <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
@@ -210,23 +209,23 @@ function CheckAndAdopt(props) {
       <Grid item xs={12} sm={6}>
         {animal && (
           <Card sx={{ padding: 2, marginBottom: 2 }}>
-            <Grid container sx={{ justifyContent: "space-between" }}>
+            <Grid container sx={{ justifyContent: 'space-between' }}>
               <Grid item>
                 <Typography>Nome: {animal.nome}</Typography>
                 <Typography>Espécie: {animal.especie}</Typography>
                 <Typography>Sexo: {animal.sexo}</Typography>
               </Grid>
-              <Grid item sx={{ width: { sm: "25vw" } }}>
+              <Grid item sx={{ width: { sm: '25vw' } }}>
                 <img
                   src={`data:image/${
-                    animal.imagem.endsWith("png")
-                      ? "png"
-                      : animal.imagem.endsWith("jpeg")
-                      ? "jpeg"
-                      : "jpg"
+                    animal.imagem.endsWith('png')
+                      ? 'png'
+                      : animal.imagem.endsWith('jpeg')
+                      ? 'jpeg'
+                      : 'jpg'
                   };base64,${decode(animal.imagem)}`}
                   alt={animal.nome}
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 />
               </Grid>
             </Grid>
@@ -238,9 +237,9 @@ function CheckAndAdopt(props) {
         xs={12}
         sm={6}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         }}
       >
         <Grid item>
@@ -303,7 +302,7 @@ function CheckAndAdopt(props) {
             <form onSubmit={handleSubmit}>
               <Card sx={{ padding: 2, marginBottom: 2 }}>
                 <Typography variant="h6" gutterBottom>
-                  {client ? "Cliente" : "Novo Cliente"}
+                  {client ? 'Cliente' : 'Novo Cliente'}
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
@@ -368,7 +367,7 @@ function CheckAndAdopt(props) {
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }
 
-export default CheckAndAdopt;
+export default CheckAndAdopt

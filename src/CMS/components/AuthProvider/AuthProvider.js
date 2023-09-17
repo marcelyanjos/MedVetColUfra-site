@@ -1,42 +1,42 @@
-import React, { useState } from "react";
-import { AuthContext } from "../../Context/AuthContext";
-import { API, BEARER } from "../../../CMS/constant";
-import { useEffect } from "react";
-import { getToken } from "../../../CMS/Helpers";
+import React, { useState, useEffect } from 'react'
+import { AuthContext } from '../../Context/AuthContext'
+import { API, BEARER } from '../../../CMS/constant'
+
+import { getToken } from '../../../CMS/Helpers'
 
 const AuthProvider = ({ children }) => {
-  const [userData, setUserData] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const authToken = getToken();
+  const authToken = getToken()
 
   const fetchLoggedInUser = async (token) => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const response = await fetch(`${API}/users/me`, {
         headers: { Authorization: `${BEARER} ${token}` },
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
 
-      setUserData(data);
+      setUserData(data)
     } catch (error) {
-      console.error(error);
-      console.error("Error While Getting Logged In User Details");
+      console.error(error)
+      console.error('Error While Getting Logged In User Details')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleUser = (user) => {
-    setUserData(user);
+    setUserData(user)
     console.log('setUserData', setUserData(user))
-  };
+  }
 
   useEffect(() => {
     if (authToken) {
-      fetchLoggedInUser(authToken);
+      fetchLoggedInUser(authToken)
     }
-  }, [authToken]);
+  }, [authToken])
 
   return (
     <AuthContext.Provider
@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-export default AuthProvider;
+export default AuthProvider

@@ -1,67 +1,67 @@
-import "./App.css";
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+} from 'react-router-dom'
+import { getToken } from './CMS/Helpers'
+import AuthProvider from './CMS/components/AuthProvider/AuthProvider'
+import Dashboard from './pages/Dashboard'
+import EditAnimal from './pages/Dashboard/AnimalList/ModalUser'
+import NovaEscala from './pages/Dashboard/Profissionais/NovaEscala'
+import NovoProfissional from './pages/Dashboard/Profissionais/NovoProfissional'
 import {
-  SignUp,
-  Login,
   Admin,
-  Pets,
-  PetsTable,
   Adocoes,
-  Profile,
-  Professionals,
-  ArticleList,
-  ArticleTable,
-  EditorArticle,
-  Drawer,
-  CanilInfo,
-  CanilInfoTable,
-  EditorCanil,
+  AdocoesTable,
   Agendamento,
   AgendamentoTable,
+  ArticleList,
+  ArticleTable,
+  CanilInfo,
+  CanilInfoTable,
+  Destaque,
+  DestaqueEditor,
+  DestaqueTable,
+  Drawer,
+  EditorAgendamento,
+  EditorArticle,
+  EditorCanil,
+  EditorHovet,
+  Escala,
   HovetInfo,
   HovetInfoTable,
-  EditorHovet,
-  ProfessionalsTable,
-  Escala,
-  Servicos,
-  AdocoesTable,
-  EditorAgendamento,
+  Login,
   NovaAdocao,
-  Destaque,
-  DestaqueTable,
-  DestaqueEditor,
-} from "./pages/Dashboard/routes";
-import Dashboard from "./pages/Dashboard";
+  Pets,
+  PetsTable,
+  Professionals,
+  ProfessionalsTable,
+  Profile,
+  Servicos,
+  SignUp,
+} from './pages/Dashboard/routes'
+import AnimalDetails from './pages/Default/Adocao/AnimalDetails'
+import AnimalList from './pages/Default/Adocao/AnimalList'
+import CheckAndAdopt from './pages/Default/Adocao/CheckAndAdopt'
+import ClientForms from './pages/Default/Adocao/ClientForms'
+import AdocaoInfo from './pages/Default/Adocao/Info'
+import Article from './pages/Default/Blog/Article'
 import {
+  Adocao,
+  AgendamentoDefault,
+  AgendamentosCliente,
+  AnimaisAdocao,
+  Blog,
+  Canil,
+  FormularioCliente,
   Header,
   Home,
   Hovet,
-  Blog,
-  Canil,
-  Adocao,
-  AnimaisAdocao,
-  AgendamentoDefault,
   MenuAgenda,
   NovoAgendamento,
-  AgendamentosCliente,
-  FormularioCliente,
-} from "./pages/Default/routes";
-import AnimalList from "./pages/Default/Adocao/AnimalList";
-import AdocaoInfo from "./pages/Default/Adocao/Info";
-import ClientForms from "./pages/Default/Adocao/ClientForms";
-import AnimalDetails from "./pages/Default/Adocao/AnimalDetails";
-import CheckAndAdopt from "./pages/Default/Adocao/CheckAndAdopt";
-import Article from "./pages/Default/Blog/Article";
-import EditAnimal from "./pages/Dashboard/AnimalList/ModalUser";
-import NovoProfissional from "./pages/Dashboard/Profissionais/NovoProfissional";
-import AuthProvider from "./CMS/components/AuthProvider/AuthProvider";
-import { getToken } from "./CMS/Helpers";
-import NovaEscala from "./pages/Dashboard/Profissionais/NovaEscala";
+} from './pages/Default/routes'
+import './styles/App.css'
 
 function App() {
   return (
@@ -81,7 +81,10 @@ function App() {
               <Route path="lista" element={<AnimalList />} />
               <Route path="info" element={<AdocaoInfo />} />
               <Route path="my-adoptions" element={<ClientForms />} />
-              <Route path="my-form-details/:id" element={<FormularioCliente />} />
+              <Route
+                path="my-form-details/:id"
+                element={<FormularioCliente />}
+              />
               <Route path="adoption-form/:id" element={<CheckAndAdopt />} />
             </Route>
             <Route path="agendamento" element={<AgendamentoDefault />}>
@@ -170,7 +173,7 @@ function App() {
       </AuthProvider>
       {/* <div> Foooter </div> */}
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

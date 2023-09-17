@@ -1,12 +1,12 @@
-import React from "react";
-import { Card, Box, Typography, Link, IconButton } from "@mui/material";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import { ReactComponent as Logo1 } from "../../assets/Logos/Group28.svg";
-import { ReactComponent as Logo2 } from "../../assets/Logos/Group29.svg";
-import { ReactComponent as Logo3 } from "../../assets/Logos/Group31.svg";
-import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
-import theme from "../theme";
-import styles from "./styles";
+import React from 'react'
+import { Card, Box, Typography, Link, IconButton } from '@mui/material'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import { ReactComponent as Logo1 } from '../../assets/Logos/Group28.svg'
+import { ReactComponent as Logo2 } from '../../assets/Logos/Group29.svg'
+import { ReactComponent as Logo3 } from '../../assets/Logos/Group31.svg'
+import { ReactComponent as FacebookIcon } from '../../assets/facebook.svg'
+import theme from '../theme'
+import styles from './styles'
 export default function Footer() {
   return (
     <Card sx={styles.body} theme={theme}>
@@ -38,10 +38,10 @@ export default function Footer() {
           </Card>
         </Card>
         <Card sx={styles.right}>
-          <Box sx={{ display: "flex" }}>
-            <Logo1 style={{ padding: "0 10px 0 10px", height: "150px" }} />
-            <Logo2 style={{ padding: "0 10px 0 10px", height: "150px" }} />
-            <Logo3 style={{ padding: "0 10px 0 10px", height: "150px" }} />
+          <Box sx={{ display: 'flex' }}>
+            <Logo1 style={{ padding: '0 10px 0 10px', height: '150px' }} />
+            <Logo2 style={{ padding: '0 10px 0 10px', height: '150px' }} />
+            <Logo3 style={{ padding: '0 10px 0 10px', height: '150px' }} />
           </Box>
           <Card sx={styles.bodyRight}>
             <IconButton
@@ -62,5 +62,5 @@ export default function Footer() {
         </Card>
       </Card>
     </Card>
-  );
+  )
 }

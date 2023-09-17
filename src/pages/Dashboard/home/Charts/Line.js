@@ -1,49 +1,49 @@
-import React, { useState } from "react";
-import Chart from "react-apexcharts";
-import { Card, Typography, Box } from "@mui/material";
-import { LINE_DATA } from "./data";
-import styles from "../style";
-import colors from "../../../../colors";
+import { Box, Card, Typography } from '@mui/material'
+import React from 'react'
+import Chart from 'react-apexcharts'
+import colors from '../../../../styles/colors'
+import styles from '../style'
+import { LINE_DATA } from './data'
 
-var pt = require("apexcharts/dist/locales/pt.json");
+const pt = require('apexcharts/dist/locales/pt.json')
 
 export default function App() {
-  const [line, setLine] = useState({
-    consultas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    adocoes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  });
+  // const [line, setLine] = useState({
+  //   consultas: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  //   adocoes: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  // })
 
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
+  const currentDate = new Date()
+  const year = currentDate.getFullYear()
   const labels = Array.from({ length: 12 }, (_, index) => {
-    const month = index + 1;
-    const formattedDate = `${("0" + month).slice(-2)}/01/${year}`;
-    return formattedDate;
-  });
+    const month = index + 1
+    const formattedDate = `${('0' + month).slice(-2)}/01/${year}`
+    return formattedDate
+  })
 
   const options = {
     colors: [colors.green[0], colors.green[4]],
     chart: {
-      id: "chart",
-      type: "line",
-      fontFamily: "Public Sans",
+      id: 'chart',
+      type: 'line',
+      fontFamily: 'Public Sans',
       locales: [pt],
-      defaultLocale: "pt",
+      defaultLocale: 'pt',
       toolbar: {
         show: true,
         offsetX: 0,
         offsetY: -25,
       },
     },
-    labels: labels,
+    labels,
     xaxis: {
-      type: "datetime",
+      type: 'datetime',
       labels: {
-        format: "MM/yyyy",
+        format: 'MM/yyyy',
       },
       title: {
-        text: "Meses",
-        align: "center",
+        text: 'Meses',
+        align: 'center',
       },
       tooltip: {
         enabled: false,
@@ -51,8 +51,8 @@ export default function App() {
     },
     yaxis: {
       title: {
-        text: "Contagem",
-        align: "left",
+        text: 'Contagem',
+        align: 'left',
       },
     },
     grid: {
@@ -64,21 +64,21 @@ export default function App() {
       followCursor: true,
       y: {
         formatter: (y) => {
-          if (typeof y !== "undefined") {
-            return `${y.toFixed(0)}`;
+          if (typeof y !== 'undefined') {
+            return `${y.toFixed(0)}`
           }
-          return y;
+          return y
         },
       },
       borderRadius: 4,
-      backdropFilter: "blur(6px)",
-      WebkitBackdropFilter: "blur(6px)",
-      backgroundColor: "rgba(255,255,255,0.3)",
+      backdropFilter: 'blur(6px)',
+      WebkitBackdropFilter: 'blur(6px)',
+      backgroundColor: 'rgba(255,255,255,0.3)',
     },
     legend: {
       show: true,
-      position: "top",
-      horizontalAlign: "left",
+      position: 'top',
+      horizontalAlign: 'left',
       offsetY: 5,
     },
     dataLabels: {
@@ -87,16 +87,16 @@ export default function App() {
     stroke: {
       colors: [colors.green[0], colors.green[4]],
       width: 2,
-      curve: "smooth",
+      curve: 'smooth',
     },
-  };
+  }
 
   return (
     <Card sx={styles.chart_card}>
       <Typography
-        fontFamily={"Public Sans"}
+        fontFamily={'Public Sans'}
         fontWeight={700}
-        sx={{ fontSize: 18, color: "#212B36" }}
+        sx={{ fontSize: 18, color: '#212B36' }}
       >
         Uso do Site
       </Typography>
@@ -112,5 +112,5 @@ export default function App() {
         <Chart options={options} series={LINE_DATA} type="line" height={320} />
       </Box>
     </Card>
-  );
+  )
 }

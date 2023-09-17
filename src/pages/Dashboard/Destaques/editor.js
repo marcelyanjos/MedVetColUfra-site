@@ -1,217 +1,165 @@
-import React, { useState, useEffect } from "react";
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
-  Container,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
+  Snackbar,
   TextField,
   Typography,
-} from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { useAuthContext } from "../../../CMS/Context/AuthContext";
-import { getToken } from "../../../CMS/Helpers";
-import { API, Host } from "../../../CMS/constant";
+} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getDestaqueId, populateDestaque } from '../../../services/cms'
+import { stylesEditor } from './style'
 
 export default function Article() {
-  const [category, setCategory] = useState("");
-  const [publishedAtDate, setPublishedAtDate] = useState(null);
-  const { id } = useParams();
-  const { user } = useAuthContext();
-  const [files, setFiles] = useState([]);
-  const [newImage, setNewImage] = useState(true);
-  const [isLoading, setIsLoading] = useState(!id);
-  const [conteudoFilePreview, setConteudoFilePreview] = useState(null);
+  const [publishedAtDate, setPublishedAtDate] = useState(null)
+  const { id } = useParams()
+  const [isLoading, setIsLoading] = useState(!id)
   const [formData, setFormData] = useState({
-    titulo: "",
+    titulo: '',
     imagem: null,
     imagemPreview: null,
     conteudo: null,
     conteudoPreview: null,
-    link: "",
-    ordem: "",
-    publishedAt: "",
-  });
-  const history = useNavigate();
+    link: '',
+    ordem: '',
+    publishedAt: '',
+  })
+  const navigate = useNavigate()
+
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const response = await axios.get(
-          `${API}/destaques/${id}?populate=imagem,conteudo`
-        );
-
-        const articleData = response.data?.data?.attributes || {};
-
-        setFormData((prevData) => ({
-          ...prevData,
-          titulo: articleData.titulo || "",
-          imagem: articleData.imagem || null,
-          imagemPreview:
-            articleData.imagem &&
-            articleData.imagem.data &&
-            articleData.imagem.data.attributes &&
-            articleData.imagem.data.attributes.url
-              ? `${Host}${articleData.imagem.data.attributes.url}`
-              : null,
-          link: articleData.link || "",
-          conteudo: articleData.conteudo || null,
-          conteudoPreview:
-            articleData.conteudo &&
-            articleData.conteudo.data &&
-            articleData.conteudo.data.attributes &&
-            articleData.conteudo.data.attributes.url
-              ? `${Host}${articleData.conteudo.data.attributes.url}`
-              : null,
-          ordem: articleData.ordem || "",
-          publishedAt: articleData.publishedAt || "",
-        }));
-        setPublishedAtDate(
-          articleData.publishedAt ? new Date(articleData.publishedAt) : null
-        );
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching article:", error);
-      }
-    };
-console.log('veio',formData)
     if (id) {
-      fetchArticle();
+      getDestaqueId(
+        setFormData,
+        id,
+        setIsLoading,
+        setPublishedAtDate,
+        setOpenSnackbar,
+        setSnackbarMessage,
+        setSnackbarSeverity,
+      )
     } else {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [id]);
+  }, [id])
 
   const handleFormChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
-    }));
-  };
+    }))
+  }
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const droppedFiles = e.dataTransfer.files;
-    setFiles(droppedFiles);
-  };
+  // Use o hook useDropzone para criar a área de dropzone para a imagem
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*', // Aceita apenas arquivos de imagem
+    onDrop: (acceptedFiles) => {
+      // Quando o arquivo é solto na área de dropzone
+      const file = acceptedFiles[0] // Pega o primeiro arquivo
 
-  const handleFileChange = (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (type === "imagem" && file.type.startsWith("image/")) {
+      if (file) {
         setFormData((prevData) => ({
           ...prevData,
           imagem: file,
-        }));
+        }))
 
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = () => {
           setFormData((prevData) => ({
             ...prevData,
             imagemPreview: reader.result,
-          }));
-        };
-        reader.readAsDataURL(file);
-      } else if (type === "conteudo") {
+          }))
+        }
+        reader.readAsDataURL(file)
+      }
+    },
+  })
+
+  const handleFileChange = (e, type) => {
+    const file = e.target.files[0]
+    if (file) {
+      if (type === 'imagem' && file.type.startsWith('image/')) {
+        setFormData((prevData) => ({
+          ...prevData,
+          imagem: file,
+        }))
+
+        const reader = new FileReader()
+        reader.onload = () => {
+          setFormData((prevData) => ({
+            ...prevData,
+            imagemPreview: reader.result,
+          }))
+        }
+        reader.readAsDataURL(file)
+      } else if (type === 'conteudo') {
         setFormData((prevData) => ({
           ...prevData,
           conteudo: file,
-        }));
-        setConteudoFilePreview(URL.createObjectURL(file));
+          conteudoPreview: URL.createObjectURL(file), // Atualiza conteudoPreview
+        }))
       } else {
-        console.error("Tipo de arquivo não suportado.");
+        setOpenSnackbar(true)
+        setSnackbarMessage('Tipo de arquivo não suportado.')
+        setSnackbarSeverity('warning')
       }
     }
-  };
+  }
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    try {
-      const form = new FormData();
-      form.append("files.imagem", formData.imagem);
-      if (formData.conteudo) {
-        form.append("files.conteudo", formData.conteudo);
-      }
-      form.append(
-        "data",
-        JSON.stringify({
-          titulo: formData.titulo,
-          link: formData.link,
-          publishedAt: publishedAtDate,
-        })
-      );
-
-      const authToken = getToken();
-      const headers = {
-        Authorization: `Bearer ${authToken}`,
-        "Content-Type": "multipart/form-data",
-      };
-
-      const config = {
-        headers: headers,
-      };
-
-      if (id) {
-        await axios.put(`${API}/destaques/${id}?populate=imagem,conteudo`, form, config);
-        console.log("Seção editada com sucesso!");
-      } else {
-        await axios.post(`${API}/destaques`, form, config);
-        console.log("Seção adicionada com sucesso!");
-      }
-
-      setFormData({
-        titulo: "",
-        link: "",
-        imagem: null,
-        imagemPreview: null,
-        conteudo: null,
-        conteudoPreview: null,
-        publishedAt: "",
-      });
-
-      history("/admin/dashboard/destaque");
-    } catch (error) {
-      console.error("Erro ao enviar a seção:", error);
-    }
-  };
+    await populateDestaque(
+      formData,
+      setFormData,
+      publishedAtDate,
+      id,
+      navigate,
+      setOpenSnackbar,
+      setSnackbarMessage,
+      setSnackbarSeverity,
+    )
+  }
 
   return (
     <div>
       {isLoading ? (
-        <div
-          style={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div style={stylesEditor.loading}>
           <CircularProgress />
           <Typography variant="h3">Loading...</Typography>
         </div>
       ) : (
         <Box>
-          <Box sx={{ pb: 5, display: "flex", justifyContent: "space-between" }}>
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={5000}
+            onClose={() => setOpenSnackbar(false)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          >
+            <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
+          <Box sx={{ pb: 5, display: 'flex', justifyContent: 'space-between' }}>
             <Typography
-              fontFamily={"Public Sans"}
+              fontFamily={'Public Sans'}
               fontWeight={700}
               color="#212B36"
               variant="h5"
             >
-              {id ? "Editar" : "Adicionar"} Seção
+              {id ? 'Editar' : 'Adicionar'} Seção
             </Typography>
           </Box>
-          <Paper sx={{ p: 3, height: "100%" }}>
+          <Paper sx={{ p: 3, height: '100%' }}>
             <form onSubmit={handleSubmit}>
               <Box
-                sx={{ mb: 1, display: "flex", justifyContent: "space-between" }}
+                sx={{ mb: 1, display: 'flex', justifyContent: 'space-between' }}
               >
                 <TextField
                   id="standard-basic"
@@ -226,25 +174,22 @@ console.log('veio',formData)
               <Box>
                 <Typography variant="subtitle1">Imagem:</Typography>
                 <div
+                  {...getRootProps()} // Adicione as props do getRootProps à div para criar a área de dropzone
                   onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDrop}
-                  style={{
-                    border: "2px dashed #ccc",
-                    padding: "20px",
-                    textAlign: "center",
-                    cursor: "pointer",
-                  }}
+                  style={stylesEditor.dropzone}
                 >
                   {formData.imagemPreview ? (
                     <img
                       src={formData.imagemPreview}
                       alt="imagem"
-                      style={{ height: "300px", marginBottom: 10 }}
+                      style={{ height: '300px', marginBottom: 10 }}
                     />
                   ) : (
                     <Typography>Arraste e solte a imagem aqui</Typography>
                   )}
                 </div>
+                <input {...getInputProps()} />{' '}
+                {/* Adicione as props do getInputProps ao input para lidar com a seleção de arquivos */}
               </Box>
               <Box>
                 <Typography>Link</Typography>
@@ -259,61 +204,50 @@ console.log('veio',formData)
                 />
               </Box>
               <Box>
-              <Typography>Conteúdo:</Typography>
+                <Typography>Conteúdo:</Typography>
                 <input
                   type="file"
                   name="conteudo"
-                  onChange={(e) => handleFileChange(e, "conteudo")}
+                  onChange={(e) => handleFileChange(e, 'conteudo')}
                 />
-                {conteudoFilePreview && (
+                {formData.conteudoPreview && (
                   <div>
                     <Typography>Conteúdo Pré-visualizado:</Typography>
-                    <iframe
-                      src={conteudoFilePreview}
+                    <embed
+                      src={formData.conteudoPreview}
                       title="Conteúdo Pré-visualizado"
-                      style={{ width: "100%", height: "300px" }}
+                      style={{ width: '100%', height: '500px' }}
                     />
                   </div>
                 )}
               </Box>
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: 'flex' }}>
                 <Box sx={{ pt: 1, flex: 1 }}>
                   <Button
                     onClick={() =>
                       setPublishedAtDate((date) => (date ? null : new Date()))
                     }
                     sx={{
-                      bgcolor: publishedAtDate ? "#38d472" : "#c1c1c1",
+                      bgcolor: publishedAtDate ? '#38d472' : '#c1c1c1',
                       mr: 1,
-                      color: "#ffffff",
+                      color: '#ffffff',
                     }}
                   >
-                    {publishedAtDate ? "Publicar" : "Rascunho"}
+                    {publishedAtDate ? 'Publicar' : 'Rascunho'}
                   </Button>
                 </Box>
                 <Box sx={{ pt: 1 }}>
-                  <Button
-                    type="submit"
-                    sx={{
-                      bgcolor: "rgb(179, 232, 255)",
-                      mr: 1,
-                      color: "#ffffff",
-                    }}
-                  >
+                  <Button type="submit" sx={stylesEditor.submit}>
                     Save
                   </Button>
-                  <Link
-                    style={{
-                      backgroundColor: "#fe163c",
-                      color: "#ffffff",
-                      textDecoration: "none",
-                      padding: 10,
-                      borderRadius: 6,
-                    }}
+                  <Button
+                    component={Link}
+                    variant={`outlined`}
+                    sx={stylesEditor.link}
                     to=".."
                   >
                     Cancel
-                  </Link>
+                  </Button>
                 </Box>
               </Box>
             </form>
@@ -321,5 +255,5 @@ console.log('veio',formData)
         </Box>
       )}
     </div>
-  );
+  )
 }

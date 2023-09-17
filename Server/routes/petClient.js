@@ -4,38 +4,45 @@ const router = express.Router();
 const pool = require("../db");
 
 // todos os animais do cliente
-router.get("/", async (req, res) => {
-  const { id_cliente, nome, especie, sexo } = req.query;
+router.post("/", async (req, res) => {
+  const { id_cliente, nome, especie, sexo } = req.body;
   try {
-    let query = "SELECT * FROM pet_cliente WHERE 1 = 1";
-    const values = [];
+    let query = "SELECT * FROM pet_cliente";
+    let values = [];
 
     if (id_cliente) {
       const index = values.length + 1;
-      query += ` AND id_cliente = $${index}`;
+      query += ` WHERE id_cliente = $${index}`;
       values.push(id_cliente);
     }
 
     if (nome) {
       const index = values.length + 1;
-      query += ` AND nome = $${index}`;
-      values.push(nome);
+      query += values.length
+        ? " AND nome = $" + index
+        : " WHERE nome = $" + index;
+      values.push(nome.toUpperCase());
     }
 
     if (especie) {
       const index = values.length + 1;
-      query += ` AND especie = $${index}`;
-      values.push(especie);
+      query += values.length
+        ? " AND especie = $" + index
+        : " WHERE especie = $" + index;
+      values.push(especie.toUpperCase());
     }
 
     if (sexo) {
       const index = values.length + 1;
-      query += ` AND sexo = $${index}`;
-      values.push(sexo);
+      query += values.length
+        ? " AND sexo = $" + index
+        : " WHERE sexo = $" + index;
+      values.push(sexo.toUpperCase());
     }
 
     const { rows } = await pool.query(query, values);
-    res.send(rows);
+    console.log("🚀", query, values, rows)
+    res.send(rows[0]);
   } catch (error) {
     console.error(error);
     res.status(500).send("Erro ao buscar os pets dos clientes.");
@@ -83,7 +90,7 @@ router.get("/:id_cliente", async (req, res) => {
 });
 
 // Rota para cadastrar um novo pet de um cliente
-router.post("/", async (req, res) => {
+router.post("/addpet", async (req, res) => {
   const { id_cliente, nome, idade, especie, peso, sexo } = req.body;
   try {
     const { rows: petRows } = await pool.query(
@@ -91,7 +98,7 @@ router.post("/", async (req, res) => {
       [
         id_cliente,
         nome.toUpperCase(),
-        idade.toUpperCase(),
+        idade,
         especie.toUpperCase(),
         peso,
         sexo.toUpperCase(),

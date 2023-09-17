@@ -1,85 +1,86 @@
 import {
-  TextField,
+  Alert,
   Box,
+  Button,
   Grid,
   Link,
-  Typography,
-  Button,
   MenuItem,
-} from "@mui/material";
-import { decode } from "base-64";
-import React, { useCallback, useEffect, useState } from "react";
-import { format, parseISO } from "date-fns";
-import styles from "../style";
-import api from "../../../../api";
-import { useParams } from "react-router-dom";
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material'
+import { decode } from 'base-64'
+import { format, parseISO } from 'date-fns'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import api from '../../../../services/api'
+import colors from '../../../../styles/colors'
+import styles from '../style'
 
 const card1 = {
-  border: "1px solid #CFD0D7",
-  maxHeight: "95%",
-  borderRadius: "4px",
+  border: '1px solid #CFD0D7',
+  maxHeight: '95%',
+  borderRadius: '4px',
   p: 1,
-};
+}
 
 export default function Card1() {
   const [client, setClient] = useState({
-    nome: "",
-    data_nasc: "",
-    email: "",
-    moradia: "",
-    ocupacao: "",
-  });
+    nome: '',
+    data_nasc: '',
+    email: '',
+    moradia: '',
+    ocupacao: '',
+  })
 
   const [animal, setAnimal] = useState({
-    id_animal: "",
-    nome: "",
-    especie: "",
-    sexo: "",
-    idade: "",
-    peso: "",
-    imagem: "",
-  });
+    id_animal: '',
+    nome: '',
+    especie: '',
+    sexo: '',
+    idade: '',
+    peso: '',
+    imagem: '',
+  })
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-  const [animalsList, setAnimalsList] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
+  const [animalsList, setAnimalsList] = useState([])
 
-  const { id } = useParams();
+  const { id } = useParams()
 
   useEffect(() => {
-    // Fetch the list of animals from your API endpoint
-    api.get("/api/animals").then((response) => {
-      setAnimalsList(response.data);
-    });
-  }, []);
+    api.get('/api/animals').then((response) => {
+      setAnimalsList(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     if (id) {
-      // Fetch adoption form data by ID
-      api.get(`/api/adoption-forms/formulario/${id}`).then((response) => {
-        const adoptionFormData = response.data;
-        // console.log("veio", adoptionFormData);
+      // Caso editar formulario
+      api.get(`/api/formularios-adocao/formulario/${id}`).then((response) => {
+        const adoptionFormData = response.data
 
-        // Fetch client data using id_cliente
+        // Fetch client data com id_cliente
         api
           .get(`/api/clientes/${adoptionFormData.id_cliente}`)
           .then((clientResponse) => {
-            const clientData = clientResponse.data;
+            const clientData = clientResponse.data
             setClient({
               nome: clientData.nome,
-              data_nasc: format(new Date(clientData.data_nasc), "yyyy-MM-dd"),
+              data_nasc: format(new Date(clientData.data_nasc), 'yyyy-MM-dd'),
               email: clientData.email,
               moradia: adoptionFormData.tipo_moradia,
               ocupacao: adoptionFormData.ocupacao,
-            });
-          });
+            })
+          })
 
-        // Fetch animal data using id_animal
+        // Fetch animal data com id_animal
         api
           .get(`/api/animals/${adoptionFormData.id_animal}`)
           .then((animalResponse) => {
-            const animalData = animalResponse.data;
+            const animalData = animalResponse.data
             setAnimal({
               id_animal: animalData.id,
               nome: animalData.nome,
@@ -88,142 +89,161 @@ export default function Card1() {
               idade: animalData.idade,
               peso: animalData.peso,
               imagem: animalData.imagem,
-            });
-          });
-      });
+            })
+          })
+      })
     }
-  }, [id]);
+  }, [id])
 
+  // Caso selecionado um animal do formulario
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    // Find the selected animal from the animalsList based on its id
-    const selectedAnimal = animalsList.find(
-      (animalOption) => animalOption.id === value
-    );
-    setAnimal((prevAnimal) => ({
-      ...prevAnimal,
-      [name]: value,
-      id_animal: value,
-      nome: selectedAnimal.nome,
-      especie: selectedAnimal.especie,
-      sexo: selectedAnimal.sexo,
-      idade: selectedAnimal.idade,
-      peso: selectedAnimal.peso,
-      imagem: selectedAnimal.imagem,
-    }));
-  };
+    const { name, value } = event.target
+
+    if (animalsList.length > 0) {
+      const selectedValue = parseInt(value)
+
+      const selectedAnimal = animalsList.find(
+        (animalOption) => animalOption.id_animal === selectedValue,
+      )
+
+      if (selectedAnimal) {
+        setAnimal((prevAnimal) => ({
+          ...prevAnimal,
+          [name]: selectedValue,
+          id_animal: selectedAnimal.id_animal,
+          nome: selectedAnimal.nome,
+          especie: selectedAnimal.especie,
+          sexo: selectedAnimal.sexo,
+          idade: selectedAnimal.idade,
+          peso: selectedAnimal.peso,
+          imagem: selectedAnimal.imagem,
+        }))
+      }
+    }
+  }
 
   const handleClientChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
     setClient((prevClient) => ({
       ...prevClient,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const generateProtocol = () => {
-    const randomString = Math.random().toString(36).substring(2, 8);
-    return randomString.toUpperCase();
-  };
+    const randomString = Math.random().toString(36).substring(2, 8)
+    return randomString.toUpperCase()
+  }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
       if (id) {
         // Fetch adoption form data by ID
-        const response = await api.get(`/api/adoption-forms/formulario/${id}`);
-        const adoptionFormData = response.data;
+        const response = await api.get(
+          `/api/formularios-adocao/formulario/${id}`,
+        )
+        const adoptionFormData = response.data
 
         // Check if the client exists
         const clientResponse = await api.get(
-          `/api/clientes/${adoptionFormData.id_cliente}`
-        );
+          `/api/clientes/${adoptionFormData.id_cliente}`,
+        )
         if (clientResponse.status === 404) {
           // Client does not exist, create a new one
-          const newClientResponse = await api.post("/api/clientes", {
+          const newClientResponse = await api.post('/api/clientes', {
             nome: client.nome,
             data_nasc: client.data_nasc,
             email: client.email,
-          });
+          })
 
           // Update the adoption form with the newly created client ID
-          await api.put(`/api/adoption-forms/${id}`, {
+          await api.put(`/api/formularios-adocao/${id}`, {
             id_cliente: newClientResponse.data.id_cliente,
             id_animal: animal.id_animal,
-            situacao: "Em andamento",
+            situacao: 'Em andamento',
             tipo_moradia: client.moradia,
             ocupacao: client.ocupacao,
-          });
+          })
         } else {
           // Update existing client data
           await api.put(`/api/clientes/${adoptionFormData.id_cliente}`, {
             nome: client.nome,
-            data_nasc: format(parseISO(client.data_nasc), "yyyy-MM-dd"),
+            data_nasc: format(parseISO(client.data_nasc), 'yyyy-MM-dd'),
             email: client.email,
-          });
+          })
 
           // Update existing adoption form data
-          await api.put(`/api/adoption-forms/${id}`, {
+          await api.put(`/api/formularios-adocao/${id}`, {
             id_cliente: adoptionFormData.id_cliente,
             id_animal: animal.id_animal,
-            situacao: "Em andamento",
+            situacao: 'Em andamento',
             tipo_moradia: client.moradia,
             ocupacao: client.ocupacao,
-          });
+          })
         }
       } else {
         // Submit client data to the client API endpoint
-        const clientResponse = await api.post("/api/clientes", {
+        const clientResponse = await api.post('/api/clientes', {
           nome: client.nome,
           data_nasc: client.data_nasc,
           email: client.email,
-        });
+        })
 
-        const createdClientId = clientResponse.data.id_cliente;
-        const currentDate = format(new Date(), "yyyy-MM-dd");
+        const createdClientId = clientResponse.data.id_cliente
+        const currentDate = format(new Date(), 'yyyy-MM-dd')
         // Submit adoption form data to the adoption-forms API endpoint
-        await api.post("/api/adoption-forms", {
+        await api.post('/api/formularios-adocao', {
           id_cliente: createdClientId,
           id_animal: animal.id_animal,
           protocolo: generateProtocol(),
-          situacao: "Em andamento",
+          situacao: 'Em andamento',
           tipo_moradia: client.moradia,
           ocupacao: client.ocupacao,
           data_envio: currentDate,
-        });
+        })
       }
 
-      setOpenSnackbar(true);
-      setSnackbarMessage("Dados enviados com sucesso!");
-      setSnackbarSeverity("success");
+      setOpenSnackbar(true)
+      setSnackbarMessage('Dados enviados com sucesso!')
+      setSnackbarSeverity('success')
       setClient({
-        nome: "",
-        data_nasc: "",
-        email: "",
-        moradia: "",
-        ocupacao: "",
-      });
+        nome: '',
+        data_nasc: '',
+        email: '',
+        moradia: '',
+        ocupacao: '',
+      })
       setAnimal({
-        id_animal: "",
-        nome: "",
-        especie: "",
-        sexo: "",
-        idade: "",
-        peso: "",
-        imagem: "",
-      });
+        id_animal: '',
+        nome: '',
+        especie: '',
+        sexo: '',
+        idade: '',
+        peso: '',
+        imagem: '',
+      })
     } catch (error) {
-      console.error(error);
-      setOpenSnackbar(true);
-      setSnackbarMessage("Erro ao enviar dados. Tente novamente.");
-      setSnackbarSeverity("error");
+      console.error(error)
+      setOpenSnackbar(true)
+      setSnackbarMessage('Erro ao enviar dados. Tente novamente.')
+      setSnackbarSeverity('error')
     }
-  };
-  
+  }
+
   return (
-    <Box sx={{ height: "100%", minHeight: "360px", p: 2 }}>
-      {/* <Box > */}
+    <Box sx={{ height: '100%', minHeight: '360px', p: 2 }}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid sx={styles.modal_box} container>
         <Grid xs={12} sm={6} ls={12} sx={card1} item>
           <Typography variant="h4">Adotante</Typography>
@@ -260,7 +280,7 @@ export default function Card1() {
           <Grid item xs={12} sm={12} lg={12}>
             <TextField
               sx={{
-                width: "100%",
+                width: '100%',
               }}
               size="small"
               type="text"
@@ -274,7 +294,7 @@ export default function Card1() {
           <Grid item xs={12} sm={12} lg={12}>
             <TextField
               sx={{
-                width: "100%",
+                width: '100%',
               }}
               size="small"
               type="text"
@@ -288,7 +308,7 @@ export default function Card1() {
           <Grid item xs={12} sm={12} lg={12}>
             <TextField
               sx={{
-                width: "100%",
+                width: '100%',
               }}
               size="small"
               type="text"
@@ -306,13 +326,13 @@ export default function Card1() {
             <TextField
               select
               sx={{
-                width: "100%",
+                width: '100%',
               }}
               size="small"
               name="id_animal"
               label="Animal"
               margin="normal"
-              value={animal.id_animal ?? ""}
+              value={animal.id_animal ?? ''}
               onChange={handleChange}
             >
               {animalsList.map((animalOption) => (
@@ -334,7 +354,7 @@ export default function Card1() {
             <Typography>Peso: {animal.peso}kg</Typography>
             {animal.imagem && (
               <img
-                style={{ width: "100%", objectFit: "contain" }}
+                style={{ width: '100%', objectFit: 'contain' }}
                 src={`data:image/jpeg;base64,${decode(animal.imagem)}`}
                 alt="Animal"
               />
@@ -342,20 +362,28 @@ export default function Card1() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container>
-        <Button variant="contained" onClick={handleSubmit}>
-          Enviar
-        </Button>
-        <Button
-          variant="contained"
-          component={Link}
-          href="/admin/dashboard/adocoes"
-          color="secondary"
-        >
-          Cancelar
-        </Button>
+      <Grid container spacing={2}>
+        <Grid item>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{ bgcolor: colors.green[7] }}
+          >
+            Enviar
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="outlined"
+            component={Link}
+            href="/admin/dashboard/adocoes"
+            sx={{ color: colors.green[4], borderColor: colors.green[4] }}
+          >
+            Cancelar
+          </Button>
+        </Grid>
       </Grid>
       {/* </Box> */}
     </Box>
-  );
+  )
 }

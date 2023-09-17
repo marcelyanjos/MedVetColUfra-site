@@ -1,60 +1,60 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import CloseIcon from '@mui/icons-material/Close'
+import FilterAltIcon from '@mui/icons-material/FilterAlt'
+import InfoIcon from '@mui/icons-material/Info'
 import {
-  CircularProgress,
-  Grid,
   Box,
-  Card,
-  CardMedia,
-  CardContent,
   Button,
-  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
   Drawer,
-  MenuItem,
-  TextField,
-  Slider,
+  Grid,
   IconButton,
+  MenuItem,
   Pagination,
   PaginationItem,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import InfoIcon from "@mui/icons-material/Info";
-import { decode } from "base-64";
-import api from "../../../api";
-import colors from "../../../colors";
+  Slider,
+  TextField,
+  Typography,
+} from '@mui/material'
+import { decode } from 'base-64'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import api from '../../../services/api'
+import colors from '../../../styles/colors'
 
 function AnimalList() {
-  const [animals, setAnimals] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [filteredAnimals, setFilteredAnimals] = useState([]);
+  const [animals, setAnimals] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [filteredAnimals, setFilteredAnimals] = useState([])
   const [filterOptions, setFilterOptions] = useState({
-    species: "",
+    species: '',
     minAge: 0,
     maxAge: 20,
-    gender: "",
-  });
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+    gender: '',
+  })
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 8
 
   useEffect(() => {
     api
-      .get("/api/animals")
+      .get('/api/animals')
       .then((response) => {
-        setAnimals(response.data);
-        setIsLoading(false);
+        setAnimals(response.data)
+        setIsLoading(false)
       })
       .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  }, []);
+        console.error(error)
+        setIsLoading(false)
+      })
+  }, [])
 
   const handleFilter = () => {
-    const { species, minAge, maxAge, gender } = filterOptions;
+    const { species, minAge, maxAge, gender } = filterOptions
     api
-      .get("/api/animals", {
+      .get('/api/animals', {
         params: {
           species,
           minAge,
@@ -63,39 +63,39 @@ function AnimalList() {
         },
       })
       .then((response) => {
-        setFilteredAnimals(response.data);
+        setFilteredAnimals(response.data)
       })
       .catch((error) => {
-        console.error(error);
-      });
-  };
+        console.error(error)
+      })
+  }
 
   const handleFilterDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+    setDrawerOpen(!drawerOpen)
+  }
 
   const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-  };
+    setCurrentPage(page)
+  }
 
   const animalsToRender = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const indexOfLastItem = currentPage * itemsPerPage
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage
     return filteredAnimals.length > 0
       ? filteredAnimals.slice(indexOfFirstItem, indexOfLastItem)
-      : animals.slice(indexOfFirstItem, indexOfLastItem);
-  }, [currentPage, filteredAnimals, animals]);
+      : animals.slice(indexOfFirstItem, indexOfLastItem)
+  }, [currentPage, filteredAnimals, animals])
 
   return (
     <div>
       {isLoading ? (
         <div
           style={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <CircularProgress />
@@ -108,15 +108,15 @@ function AnimalList() {
               sx={{
                 width: 300,
                 p: 4,
-                display: "flex",
-                flexDirection: "column",
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
                 <Typography variant="h6" sx={{ mb: 2 }}>
@@ -183,15 +183,15 @@ function AnimalList() {
                   step={0.5}
                   sx={{
                     ml: 0.5,
-                    width: "96%",
-                    display: "flex",
+                    width: '96%',
+                    display: 'flex',
                     color: colors.green[5],
                   }}
                 />
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
+                    display: 'flex',
+                    justifyContent: 'space-between',
                     marginTop: -5,
                   }}
                 >
@@ -203,8 +203,8 @@ function AnimalList() {
                 variant="contained"
                 sx={{
                   bgcolor: colors.green[4],
-                  boxShadow: "none",
-                  "&:hover": { bgcolor: colors.green[5], boxShadow: "none" },
+                  boxShadow: 'none',
+                  '&:hover': { bgcolor: colors.green[5], boxShadow: 'none' },
                 }}
                 onClick={handleFilter}
               >
@@ -218,21 +218,21 @@ function AnimalList() {
               container
               rowSpacing={1}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ justifyContent: "space-between" }}
+              sx={{ justifyContent: 'space-between' }}
             >
               <Grid
                 item
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Typography
                   variant="h4"
                   sx={{
-                    fontFamily: "Open Sans, sans-serif",
-                    fontWeight: "bold",
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontWeight: 'bold',
                     color: colors.green[3],
                   }}
                 >
@@ -242,7 +242,7 @@ function AnimalList() {
                   href="/adocao/info"
                   sx={{
                     color: colors.black[3],
-                    "&:hover": { bgcolor: "transparent" },
+                    '&:hover': { bgcolor: 'transparent' },
                   }}
                 >
                   <InfoIcon />
@@ -251,20 +251,20 @@ function AnimalList() {
               <Grid
                 item
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Button
                   variant="contained"
                   sx={{
-                    boxShadow: "none",
+                    boxShadow: 'none',
                     bgcolor: colors.green[3],
-                    "&:hover": {
+                    '&:hover': {
                       bgcolor: colors.green[4],
-                      boxShadow: "none",
-                      fontWeight: "bold",
+                      boxShadow: 'none',
+                      fontWeight: 'bold',
                     },
                   }}
                   href="adocao/my-adoptions"
@@ -276,9 +276,9 @@ function AnimalList() {
                   sx={{
                     ml: 2,
                     color: colors.green[3],
-                    "&:hover": {
+                    '&:hover': {
                       color: colors.green[4],
-                      bgcolor: "transparent",
+                      bgcolor: 'transparent',
                     },
                   }}
                 >
@@ -290,21 +290,21 @@ function AnimalList() {
               {animalsToRender.map((animal) => (
                 <Grid item key={animal.id_animal} xs={12} sm={6} md={3.5}>
                   <Link
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: 'none' }}
                     to={`${animal.id_animal}`}
                   >
-                    <Card sx={{ height: "100%" }}>
+                    <Card sx={{ height: '100%' }}>
                       <CardMedia
                         component="img"
                         height="75%"
                         image={`data:image/jpg;base64,${decode(animal.imagem)}`}
                         alt={animal.nome}
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: 'cover' }}
                       />
                       <CardContent>
                         <Typography
                           variant="h5"
-                          sx={{ textTransform: "capitalize" }}
+                          sx={{ textTransform: 'capitalize' }}
                         >
                           {animal.nome}
                         </Typography>
@@ -322,15 +322,15 @@ function AnimalList() {
               onChange={handlePageChange}
               // color="success"
               sx={{
-                "& .Mui-selected": {
+                '& .Mui-selected': {
                   bgcolor: colors.green[3],
-                  "&:hover": {
+                  '&:hover': {
                     bgcolor: colors.green[4],
                   },
                 },
-                marginTop: "1rem",
-                display: "flex",
-                justifyContent: "center",
+                marginTop: '1rem',
+                display: 'flex',
+                justifyContent: 'center',
               }}
               renderItem={(item) => (
                 <PaginationItem
@@ -339,8 +339,8 @@ function AnimalList() {
                     bgcolor:
                       item.page === currentPage
                         ? colors.green[3]
-                        : "transparent",
-                    "&:hover": {
+                        : 'transparent',
+                    '&:hover': {
                       bgcolor: colors.green[4],
                     },
                   }}
@@ -351,6 +351,6 @@ function AnimalList() {
         </Box>
       )}
     </div>
-  );
+  )
 }
-export default AnimalList;
+export default AnimalList

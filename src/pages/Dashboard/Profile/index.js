@@ -1,24 +1,14 @@
-import * as React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-import Card1 from './Card1';
-import Card2 from './Card2';
-import Card3 from './Card3';
-import styles from './style'
+import { Box, Container, Grid, Typography } from '@mui/material'
+import * as React from 'react'
+import Card1 from './Card1'
+import Card2 from './Card2'
 export default function Profile() {
   return (
     <div style={{ marginBottom: 10 }}>
       <Container maxWidth="x1">
         <Box>
           <Typography
-            fontFamily={"Public Sans"}
+            fontFamily={'Public Sans'}
             fontWeight={700}
             color="#212B36"
             variant="h5"
@@ -44,5 +34,5 @@ export default function Profile() {
         </Box>
       </Container>
     </div>
-  );
+  )
 }
