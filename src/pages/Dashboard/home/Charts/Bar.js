@@ -66,7 +66,7 @@ export default function App() {
     const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     try {
-      const response = await api.get('/api/adoption-forms')
+      const response = await api.get('/api/formularios-adocao')
       const forms = response.data
 
       forms.forEach((form) => {

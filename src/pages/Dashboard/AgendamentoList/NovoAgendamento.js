@@ -14,14 +14,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 import React, { useEffect, useState } from 'react'
 import {
-  addClient,
-  addPet,
-  checkClient,
-  checkPet,
   fetchServices,
   getAvailability,
   schedule,
 } from '../../../services/agendamento'
+import {
+  addClient,
+  addPet,
+  checkClient,
+  checkPet,
+} from '../../../services/clientes'
 
 const AgendamentoConsulta = () => {
   const [formState, setFormState] = useState({

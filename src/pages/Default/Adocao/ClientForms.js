@@ -1,12 +1,12 @@
 import EditIcon from '@mui/icons-material/Edit'
 import InfoIcon from '@mui/icons-material/Info'
 import {
-  Button,
-  Container,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
+    Button,
+    Container,
+    Grid,
+    Paper,
+    TextField,
+    Typography,
 } from '@mui/material'
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import { format, parseISO } from 'date-fns'
@@ -78,7 +78,7 @@ function ClientForms(props) {
   const loadAgendamentos = (id_cliente) => {
     setIsLoading(true)
     api
-      .get(`/api/adoption-forms/${id_cliente}`)
+      .get(`/api/formularios-adocao/${id_cliente}`)
       .then(async (response) => {
         const adocoes = await Promise.all(
           response.data.map(async (adocao) => {

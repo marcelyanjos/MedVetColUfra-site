@@ -1,11 +1,11 @@
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    Typography,
 } from '@mui/material'
 import { decode } from 'base-64'
 import { format } from 'date-fns'
@@ -42,7 +42,7 @@ export default function FormAdoptionInfo() {
   const printRef = useRef()
   const { id } = useParams()
   useEffect(() => {
-    api.get(`/api/adoption-forms/formulario/${id}`).then((response) => {
+    api.get(`/api/formularios-adocao/formulario/${id}`).then((response) => {
       const adoptionFormData = response.data
 
       api

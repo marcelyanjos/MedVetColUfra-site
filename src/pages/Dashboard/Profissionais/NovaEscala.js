@@ -7,28 +7,39 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
+// import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { ptBR } from 'date-fns/locale'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
+import { DateRangePicker } from 'react-date-range'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 import { useParams } from 'react-router-dom'
 import api from '../../../services/api'
+import './DatePicker.css'
 import styles from './style'
 
 const card1 = {
   border: '1px solid #CFD0D7',
-  maxHeight: '95%',
+  // maxHeight: '95%',
   borderRadius: '4px',
   p: 1,
 }
 
 export default function NovaEscala() {
   const { id } = useParams()
-  const [dia, setDia] = useState(null)
+  // const [dia, setDia] = useState(null)
   // const [openSnackbar, setOpenSnackbar] = useState(false)
   // const [snackbarMessage, setSnackbarMessage] = useState('')
   // const [snackbarSeverity, setSnackbarSeverity] = useState('success')
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ])
+
   const [profissional, setProfissional] = useState({
     matricula: '',
     dia: '',
@@ -55,14 +66,6 @@ export default function NovaEscala() {
     }))
   }
 
-  const handleDateChange = (date) => {
-    setDia(date)
-    setProfissional((prevProfissional) => ({
-      ...prevProfissional,
-      dia: date ? dayjs(date).format('YYYY-MM-DD') : '', // If "date" is null, set an empty string
-    }))
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -72,17 +75,25 @@ export default function NovaEscala() {
         await api.put(`/api/escala/${id}`, {
           ...profissional,
         })
-        // setOpenSnackbar(true)
-        // setSnackbarMessage('Dados do profissional atualizado com sucesso!')
-        // setSnackbarSeverity('success')
       } else {
         // Envia os dados do profissional para o servidor
-        await api.post('/api/escala', {
-          ...profissional,
-        })
-        // setOpenSnackbar(true)
-        // setSnackbarMessage('Dados do profissional salvo com sucesso!')
-        // setSnackbarSeverity('success')
+        const { startDate, endDate } = dateRange[0]
+
+        // Cria um array de datas entre startDate e endDate
+        const datesArray = []
+        let currentDate = dayjs(startDate)
+        while (currentDate.isBefore(endDate + 1)) {
+          datesArray.push(currentDate.format('YYYY-MM-DD'))
+          currentDate = currentDate.add(1, 'day')
+        }
+
+        // Faz um loop para enviar dados para cada data no intervalo
+        for (const date of datesArray) {
+          await api.post('/api/escala', {
+            ...profissional,
+            dia: date,
+          })
+        }
 
         // Limpa os dados do profissional
         setProfissional({
@@ -92,11 +103,7 @@ export default function NovaEscala() {
       }
     } catch (error) {
       console.error(error)
-      // setOpenSnackbar(true)
-      // setSnackbarMessage(
-      //   'Erro ao salvar dados do profissional. Tente novamente.',
-      // )
-      // setSnackbarSeverity('error')
+      // Trate erros adequadamente
     }
   }
 
@@ -133,18 +140,25 @@ export default function NovaEscala() {
                 </Grid>
               </Grid>
               <Grid xs={12} sm={6} ls={12} sx={card1}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale={'pt-br'}
-                >
-                  <DateCalendar
+                {/* <DateCalendar
                     label="Data"
                     value={dia}
                     onChange={handleDateChange}
                     renderInput={(params) => <TextField {...params} />}
                     sx={{ marginTop: 2, bgcolor: '#ffff' }}
-                  />
-                </LocalizationProvider>
+                  /> */}
+                <DateRangePicker
+                  inputRanges={[]}
+                  staticRanges={[]}
+                  locale={ptBR}
+                  onChange={(item) => setDateRange([item.selection])}
+                  showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  ranges={dateRange}
+                  preventSnapRefocus={true}
+                  editableDateInputs={false}
+                  months={1}
+                />
               </Grid>
             </Grid>
             <Grid container>

@@ -1,0 +1,7 @@
+.rdr-buttons-position{
+    bottom: 1rem;
+}
+
+.rdrDefinedRangrsWrapper, .rdrDateDisplayWrapper{
+    display: none;
+}

@@ -10,10 +10,16 @@ import {
   Typography,
 } from '@mui/material'
 import { decode } from 'base-64'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { addAdoptionForm, editAdoptionForm } from '../../../../services/adocao'
 import api from '../../../../services/api'
+import {
+  addClient,
+  getClientById,
+  updateClient,
+} from '../../../../services/clientes'
 import colors from '../../../../styles/colors'
 import styles from '../style'
 
@@ -147,62 +153,56 @@ export default function Card1() {
         const adoptionFormData = response.data
 
         // Check if the client exists
-        const clientResponse = await api.get(
-          `/api/clientes/${adoptionFormData.id_cliente}`,
-        )
+        const clientResponse = await getClientById(adoptionFormData.id_cliente)
+
         if (clientResponse.status === 404) {
           // Client does not exist, create a new one
-          const newClientResponse = await api.post('/api/clientes', {
-            nome: client.nome,
-            data_nasc: client.data_nasc,
-            email: client.email,
-          })
+          const newClientResponse = await addClient(
+            client.nome,
+            client.data_nasc,
+            client.email,
+          )
 
           // Update the adoption form with the newly created client ID
-          await api.put(`/api/formularios-adocao/${id}`, {
-            id_cliente: newClientResponse.data.id_cliente,
-            id_animal: animal.id_animal,
-            situacao: 'Em andamento',
-            tipo_moradia: client.moradia,
-            ocupacao: client.ocupacao,
-          })
+          await editAdoptionForm(
+            id,
+            newClientResponse.id_cliente,
+            animal.id_animal,
+            client.moradia,
+            client.ocupacao,
+          )
         } else {
           // Update existing client data
-          await api.put(`/api/clientes/${adoptionFormData.id_cliente}`, {
-            nome: client.nome,
-            data_nasc: format(parseISO(client.data_nasc), 'yyyy-MM-dd'),
-            email: client.email,
-          })
+          await updateClient(id, client)
 
           // Update existing adoption form data
-          await api.put(`/api/formularios-adocao/${id}`, {
-            id_cliente: adoptionFormData.id_cliente,
-            id_animal: animal.id_animal,
-            situacao: 'Em andamento',
-            tipo_moradia: client.moradia,
-            ocupacao: client.ocupacao,
-          })
+          await editAdoptionForm(
+            id,
+            adoptionFormData.id_cliente,
+            animal.id_animal,
+            client.moradia,
+            client.ocupacao,
+          )
         }
       } else {
         // Submit client data to the client API endpoint
-        const clientResponse = await api.post('/api/clientes', {
-          nome: client.nome,
-          data_nasc: client.data_nasc,
-          email: client.email,
-        })
+        const clientResponse = await addClient(
+          client.nome,
+          client.data_nasc,
+          client.email,
+        )
 
-        const createdClientId = clientResponse.data.id_cliente
+        const createdClientId = clientResponse.id_cliente
         const currentDate = format(new Date(), 'yyyy-MM-dd')
-        // Submit adoption form data to the adoption-forms API endpoint
-        await api.post('/api/formularios-adocao', {
-          id_cliente: createdClientId,
-          id_animal: animal.id_animal,
-          protocolo: generateProtocol(),
-          situacao: 'Em andamento',
-          tipo_moradia: client.moradia,
-          ocupacao: client.ocupacao,
-          data_envio: currentDate,
-        })
+        // Submit adoption form data to the formularios-adocao API endpoint
+        await addAdoptionForm(
+          createdClientId,
+          animal.id_animal,
+          generateProtocol(),
+          client.moradia,
+          client.ocupacao,
+          currentDate,
+        )
       }
 
       setOpenSnackbar(true)

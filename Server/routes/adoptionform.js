@@ -29,6 +29,22 @@ router.get("/:id_cliente", async (req, res) => {
   }
 });
 
+// Rota para listar todos os formularios de adoção
+router.post("/verificacliente", async (req, res) => {
+  const {  id_animal, id_cliente } = req.body;
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM formularios_adocao WHERE id_animal = $1 AND id_cliente = $2",
+      [id_animal, id_cliente]
+    );
+    console.log("🚀 ~ file: adoptionform.js:40 ~ router.post ~ rows:", rows)
+    res.send(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao listar formularios.");
+  }
+});
+
 // Por formulario
 router.get("/formulario/:id_formulario", async (req, res) => {
   const { id_formulario } = req.params;
@@ -79,9 +95,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id_formulario", async (req, res) => {
-  const { id_formulario } = req.params;
+router.put("/", async (req, res) => {
   const {
+    id_formulario,
     id_cliente,
     id_animal,
     tipo_moradia,

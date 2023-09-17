@@ -3,6 +3,10 @@
 # fix
 Manter scroll quando drawer fechar por conta de tamanho de tela
 
+Mostrar lista de escalas com react-date-range
+
+verificar post form associando id cliente criado em default checkandadopt
+
 ## ------------ Default Home -----------------
 
 Key de slider
@@ -17,12 +21,8 @@ bgcolor de pagination
 cadastro: get matricula and nome from matriculas cms
 set username: nome+'.'+sobrenome
 
-## ------------ Destaque -----------------
-Adicionar if else, para prioridade de new page = documento
-
 ## ------------ Editar/Adicionar Profissionais -----------------
 Limpar campos quando post
-Verificar porque está postando e exibindo axios error
 
 ## ------------ Card3 de perfil -----------------
 Substituir permissões por calendario de escala do profissional
@@ -31,6 +31,8 @@ Substituir permissões por calendario de escala do profissional
 procurar calendario para selecionar multiplas datas
 
 # Falta
+[ ] mudar lista de escala em dashboard para react-date-range
+
 [X] adicionar novo serviço
 
 [X] adicionar e tabela de escala
@@ -45,12 +47,12 @@ procurar calendario para selecionar multiplas datas
 
 [X] adicionar novo formulario de adoção
 
-[ ] modificar novo para novo/editar formulario de adoção
+[x] modificar novo para novo/editar formulario de adoção
 
 [ ] Adicionar editar "situação" a novo/editar formulario de adoçao de dashboard
 
-[ ] Verificar se cliente já não possui formulario de adoção para animal
+[x] Verificar se cliente já não possui formulario de adoção para animal
 
-[ ] Verificar se cliente e animal do cliente já não existem no banco em caso de agendamento
+[x] Verificar se cliente e animal do cliente já não existem no banco em caso de agendamento
 
 [ ] editar perfil (profile)

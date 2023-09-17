@@ -12,9 +12,12 @@ import { decode } from 'base-64'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { checkAdoption } from '../../../services/adocao'
+import { getPetById } from '../../../services/animaisCanil'
 import api from '../../../services/api'
+import { addClient, checkClient } from '../../../services/clientes'
 
-function CheckAndAdopt(props) {
+function CheckAndAdopt() {
   const [animal, setAnimal] = useState(null)
   const { id } = useParams() // id do animal
   const [client, setClient] = useState(null)
@@ -31,40 +34,23 @@ function CheckAndAdopt(props) {
   const [snackbarMessage, setSnackbarMessage] = useState('')
   const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
-  useEffect(() => {
-    api
-      .get(`/api/animals/${id}`)
-      .then((animalResponse) => {
-        setAnimal(animalResponse.data)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [id])
-
-  useEffect(() => {
-    if (client && animal) {
-      api
-        .get(
-          `/api/adoption-forms?animal_id=${animal.id_animal}&cliente_id=${client.id_cliente}`,
+  async function check(animal, client) {
+    try {
+      const adoptionForms = await checkAdoption(animal, client)
+      console.log(adoptionForms.length)
+      if (adoptionForms.length === 1) {
+        setOpenSnackbar(true)
+        setSnackbarMessage(
+          'O cliente já possui um formulário de adoção para esse animal.',
         )
-        .then((response) => {
-          const adoptionForms = response.data
-          if (adoptionForms.length > 0) {
-            setOpenSnackbar(true)
-            setSnackbarMessage(
-              'O cliente já possui um formulário de adoção para esse animal.',
-            )
-            setSnackbarSeverity('warning')
-          } else {
-            setShowTable(true)
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+        setSnackbarSeverity('warning')
+      } else if (adoptionForms.length === 0) {
+        setShowTable(true)
+      }
+    } catch (error) {
+      console.error(error)
     }
-  }, [client, animal])
+  }
 
   const handleClientInfoChange = (event) => {
     setClientInfo({
@@ -78,18 +64,11 @@ function CheckAndAdopt(props) {
     return randomString.toUpperCase()
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (!client) {
       // Criar novo cliente
-      const newClient = {
-        nome: clientInfo.nome,
-        data_nasc: clientInfo.data_nasc,
-        email: clientInfo.email,
-      }
-
-      api
-        .post('/api/clientes', newClient)
+      await addClient(clientInfo.nome, clientInfo.data_nasc, clientInfo.email)
         .then((clientResponse) => {
           const adoptionForm = {
             id_cliente: clientResponse.data.id_cliente,
@@ -131,7 +110,7 @@ function CheckAndAdopt(props) {
 
   const submitAdoptionForm = (adoptionForm) => {
     api
-      .post('/api/adoption-forms', adoptionForm)
+      .post('/api/formularios-adocao', adoptionForm)
       .then(() => {
         setOpenSnackbar(true)
         setSnackbarMessage('Formulario enviado com sucesso.')
@@ -152,40 +131,37 @@ function CheckAndAdopt(props) {
       })
   }
 
-  const handleSearchClient = (event) => {
+  const handleSearchClient = async (event) => {
     event.preventDefault()
     const dateOfBirth = new Date(clientInfo.data_nasc)
-    api
-      .get(
-        `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${
-          clientInfo.email
-        }`,
-      )
-      .then((clientResponse) => {
-        const clients = clientResponse.data
-        if (clients.length === 1) {
-          setClient(clients[0])
-          // console.log("Cliente encontrado:", clients[0]);
-        } else {
-          setClient(null)
-          setShowTable(true)
-          // console.log("Cliente não encontrado");
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    const cliente = await checkClient(
+      clientInfo.nome,
+      dateOfBirth,
+      clientInfo.email,
+    )
+    setClient(cliente)
+    check(animal.id_animal, cliente.id_cliente)
+  }
+
+  async function fillPetInfo(id) {
+    try {
+      const animal = await getPetById(id)
+      console.log('fliter', animal)
+
+      if (animal) {
+        setAnimal(animal)
+        setClientInfo((prevClientInfo) => ({
+          ...prevClientInfo,
+          id_animal: animal.id_animal,
+        }))
+      }
+    } catch (e) {}
   }
 
   useEffect(() => {
-    if (animal) {
-      setClientInfo((prevClientInfo) => ({
-        ...prevClientInfo,
-        id_animal: animal.id_animal,
-      }))
-    }
-  }, [animal])
-
+    fillPetInfo(id)
+  }, [id])
+  console.log('animal', animal)
   return (
     <Box
       sx={{

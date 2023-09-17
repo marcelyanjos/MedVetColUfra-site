@@ -109,9 +109,8 @@ router.post("/addclient", async (req, res) => {
 });
 
 // Rota para atualizar um cliente
-router.put("/:id_cliente", async (req, res) => {
-  const { id_cliente } = req.params;
-  const { nome, data_nasc, email } = req.body;
+router.put("/", async (req, res) => {
+  const { id_cliente, nome, data_nasc, email } = req.body;
 
   try {
     const { rows } = await pool.query(
