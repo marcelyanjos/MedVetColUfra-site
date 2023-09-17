@@ -70,8 +70,9 @@ function CheckAndAdopt() {
       // Criar novo cliente
       await addClient(clientInfo.nome, clientInfo.data_nasc, clientInfo.email)
         .then((clientResponse) => {
+          console.log('resposta', clientResponse.id_cliente)
           const adoptionForm = {
-            id_cliente: clientResponse.data.id_cliente,
+            id_cliente: clientResponse.id_cliente,
             id_animal: clientInfo.id_animal,
             ocupacao: clientInfo.ocupacao,
             tipo_moradia: clientInfo.tipo_moradia,
