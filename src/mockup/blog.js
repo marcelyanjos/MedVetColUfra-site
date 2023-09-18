@@ -1,10 +1,10 @@
 const data = [
   {
     id: 1,
-    titulo: "8 motivos para adotar um animal",
+    titulo: '8 motivos para adotar um animal',
     image:
-      "https://www3.al.sp.gov.br/repositorio/noticia/N-12-2019/fg245895.jpg",
-      categoria:['adoção'],
+      'https://www3.al.sp.gov.br/repositorio/noticia/N-12-2019/fg245895.jpg',
+    categoria: ['adoção'],
     descricao: `Os dados sobre o abandono de pets no Brasil são comoventes. De acordo com uma pesquisa realizada pela Organização Mundial da Saúde (OMS), somente aqui no país existem mais de 30 milhões de cães abandonados em abrigos e nas ruas, esperando somente por um lar. Por outro lado, 44,13% dos lares brasileiros possui ao menos um cão, segundo o Instituto Brasileiro de Geografia e Estatística (IBGE).
 
     Essas informações mostram que, apesar do número alto de animais abandonados, os lares brasileiros são povoados por nada menos do que 52,2 milhões de pets.
@@ -44,14 +44,15 @@ const data = [
     O mercado que negocia a vida dos pets pode ser muito cruel com eles, infelizmente. Na maioria das vezes, os criadores (donos das fábricas de filhotes) exploram os animais de raça forçando que eles se reproduzem incessantemente para gerar os filhotes que são comercializados.
     
     Na maioria dos casos, nesses criadouros, os animais não recebem nenhum atendimento médico e vivem em ambiente com pouca ou nenhuma higiene, submetidos a situações degradantes. Ao adotar, você não corre o risco de financiar este tipo de crueldade.`,
-    datapub:'01/01/2023'
+    datapub: '01/01/2023',
   },
   {
-    id:2,
-    titulo:'cuidados com cachorros - dicas de saude',
-    image:'https://blog.cobasi.com.br/wp-content/webpc-passthru.php?src=https://blog.cobasi.com.br/wp-content/uploads/2020/07/Cuidados-com-cachorros-capa.png&nocache=1',
-    categoria:['bem-estar'],
-    descricao:`Você sabe quais são os cuidados com cachorros mais importantes quando falamos de saúde e bem-estar? Separamos 10 dicas para ajudar você a cuidar do seu cãozinho. Continue a leitura e confira!
+    id: 2,
+    titulo: 'cuidados com cachorros - dicas de saude',
+    image:
+      'https://blog.cobasi.com.br/wp-content/webpc-passthru.php?src=https://blog.cobasi.com.br/wp-content/uploads/2020/07/Cuidados-com-cachorros-capa.png&nocache=1',
+    categoria: ['bem-estar'],
+    descricao: `Você sabe quais são os cuidados com cachorros mais importantes quando falamos de saúde e bem-estar? Separamos 10 dicas para ajudar você a cuidar do seu cãozinho. Continue a leitura e confira!
 
     Alimentação e cuidados com cachorro
     A alimentação do pet é um cuidado que deve começar quando ele ainda é um filhote. Entre 6 e 8 semanas de vida o processo de desmame deve ser iniciado e a ração sólida introduzida gradativamente na alimentação do animal. Ofereça apenas ração de filhote para cães até 1 ano de idade.
@@ -122,14 +123,15 @@ O bem-estar físico e mental compõem os cuidados com cachorros que todo tutor d
 Para cuidar da saúde mental do pet, é importante entender o comportamento do animal e organizar a rotina para que ele se sinta bem e tenha suas necessidades atendidas. Por exemplo, animais agitados precisam de exercício e atenção. Isso pode ser compreendido com passeios longos, dias em creches ou escolinhas, momentos de brincadeira antes do período sozinho e brinquedos interativos.
 
 Os brinquedos interativos têm o intuito de entreter o pet enquanto o tutor não está em casa ou não pode brincar. Além de distrair, eles colaboram para a prática de atividade física do seu pet.`,
-datapub:'14/01/2023'  
-},
+    datapub: '14/01/2023',
+  },
   {
-    id:3,
-    titulo:'Cuidados essenciais para você viajar com seu pet',
-    image:'https://wicar.com.br/wp-content/uploads/2021/08/viajar-com-cachorro-1050x650.jpg',
-    categoria:['viagem', 'bem-estar'],
-    descricao:`Com a rotina ficando cada vez mais corrida, nada melhor do que tirar uns dias de férias do trabalho e viajar para espairecer a mente, não é mesmo? Fazer uma excursão e recarregar as energias faz parte do bem-estar das pessoas e, seja para onde for, geralmente sempre tem um bichinho, seja cachorro ou gato, para acompanhar o dono nas aventuras.
+    id: 3,
+    titulo: 'Cuidados essenciais para você viajar com seu pet',
+    image:
+      'https://wicar.com.br/wp-content/uploads/2021/08/viajar-com-cachorro-1050x650.jpg',
+    categoria: ['viagem', 'bem-estar'],
+    descricao: `Com a rotina ficando cada vez mais corrida, nada melhor do que tirar uns dias de férias do trabalho e viajar para espairecer a mente, não é mesmo? Fazer uma excursão e recarregar as energias faz parte do bem-estar das pessoas e, seja para onde for, geralmente sempre tem um bichinho, seja cachorro ou gato, para acompanhar o dono nas aventuras.
 
     Normalmente, os roteiros mais apreciados pelos tutores costumam ser aqueles que permitem a 'roadtrip', o clássico trajeto de carro. Mas além da saúde dos ocupantes do veículo, é importantíssimo prezar pela segurança do animal em longos passeios de estrada.
     
@@ -196,13 +198,15 @@ Rota aérea
 No caso das viagens de avião, é importante entrar em contato com a companhia aérea para saber quais são as exigências para o transporte do pet, visto que cada companhia tem o seu protocolo de transporte animal.
 
 De acordo com Fleming, caso o tutor pretenda fazer uma viagem internacional com o pet, é importante verificar as exigências do país de destino e das empresas aéreas.`,
-datapub:'26/02/2023'
-},
-{id:4,
-titulo:'Vacinação de cães e gatos: o que é preciso saber',
-image:'https://www.zoetis.com.br/prevencaocaesegatos/_assets/img/texto-3-programa-de-vacina-c%C3%A3es.jpg',
-categoria:['saúde'],
-descricao:`Você sabia que existem outras vacinas além da antirrábica? Ela é oferecida gratuitamente pelas prefeituras, mas não é a única essencial à saúde do seu animal de estimação. Para aprender um pouco mais sobre como proteger seu bichinho das diversas doenças virais, continue nessa postagem!
+    datapub: '26/02/2023',
+  },
+  {
+    id: 4,
+    titulo: 'Vacinação de cães e gatos: o que é preciso saber',
+    image:
+      'https://www.zoetis.com.br/prevencaocaesegatos/_assets/img/texto-3-programa-de-vacina-c%C3%A3es.jpg',
+    categoria: ['saúde'],
+    descricao: `Você sabia que existem outras vacinas além da antirrábica? Ela é oferecida gratuitamente pelas prefeituras, mas não é a única essencial à saúde do seu animal de estimação. Para aprender um pouco mais sobre como proteger seu bichinho das diversas doenças virais, continue nessa postagem!
 
 VACINAÇÃO DE CÃES:
 
@@ -257,7 +261,7 @@ V5 (Quíntupla):
 Antirrábica:
 
 – Idem à Raiva Canina`,
-datapub:'14/02/2023'
-}
-];
-export default data;
+    datapub: '14/02/2023',
+  },
+]
+export default data

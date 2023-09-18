@@ -1,25 +1,38 @@
-import React, { useState } from "react";
-import { Box, Paper, Button } from "@mui/material";
-import Carousel from "react-material-ui-carousel";
+import { Box } from '@mui/material'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import Carousel from 'react-material-ui-carousel'
+import { API, Host } from '../../../../CMS/constant'
 
-export default function Example(){
-  const [currentItem, setCurrentItem] = useState(0);
+export default function Destaque() {
+  const [currentItem, setCurrentItem] = useState(0) // Inicializado em 0
+  const [articles, setArticles] = useState([])
 
-  var items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!"
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!"
+  useEffect(() => {
+    fetchArticles()
+  }, [])
+
+  const fetchArticles = async () => {
+    try {
+      const response = await axios.get(
+        `${API}/destaques?populate=imagem,conteudo`,
+      )
+      setArticles(response.data.data)
+    } catch (error) {
+      console.error('Error fetching articles:', error)
     }
-  ];
+  }
 
-  console.log("currentItem: ", currentItem);
+  const handleImageClick = (link, conteudo) => {
+    if (conteudo && conteudo.data && conteudo.data.attributes.url) {
+      window.open(`${Host}${conteudo.data.attributes.url}`, '_blank') // Abre o conteúdo (PDF, CSV, etc.) em uma nova aba
+    } else if (link) {
+      window.open(link, '_blank') // Abre o link em uma nova aba
+    }
+  }
 
   return (
-    <Box sx={{width:'95%'}}>
+    <Box sx={{ width: '95%' }}>
       <Carousel
         timeout={0}
         animation
@@ -31,36 +44,36 @@ export default function Example(){
         indicators
         height={'60vh'}
       >
-        {items.map((item, i) => (
-          <Item key={i} item={item} />
+        {articles.map((article, i) => (
+          <Box
+            sx={{
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+            key={i}
+          >
+            {article.attributes.imagem && article.attributes.imagem.data && (
+              <img
+                src={`${Host}${article.attributes.imagem.data.attributes.url}`}
+                alt="Ilustração"
+                style={{
+                  height: '100%',
+                  objectFit: 'contain',
+                  cursor: 'pointer', // Adiciona um cursor de mão ao passar o mouse
+                }}
+                onClick={() =>
+                  handleImageClick(
+                    article.attributes.link,
+                    article.attributes.conteudo,
+                  )
+                } // Chama a função de clique com link e conteúdo
+              />
+            )}
+          </Box>
         ))}
       </Carousel>
-
-      {/* <Box display="flex" flexDirection="row">
-        {items.map((item, i) => (
-          <Item
-            key={i}
-            item={item}
-            bg={currentItem === i ? "red" : "grey"}
-            onClick={() => setCurrentItem(i)}
-          />
-        ))}
-      </Box> */}
     </Box>
-  );
-};
-
-function Item({ item, bg, ...rest }) {
-  return (
-    <Paper
-      elevation={0}
-      sx={{ p:3, backgroundColor: bg }}
-      {...rest}
-    >
-      <h2>{item.name}</h2>
-      <p>{item.description}</p>
-
-      <Button className="CheckButton">Check it out!</Button>
-    </Paper>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Card, Typography } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import Avatar from "@mui/material/Avatar";
-import EventIcon from "@mui/icons-material/Event";
-import { ReactComponent as StethoscopeIcon } from "../../../assets/stethoscope_icon.svg";
-import styles from "./style";
-import profile from "../../../mockup/profile";
+import * as React from 'react'
+import { Card, Typography } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import EditIcon from '@mui/icons-material/Edit'
+import Avatar from '@mui/material/Avatar'
+import EventIcon from '@mui/icons-material/Event'
+import { ReactComponent as StethoscopeIcon } from '../../../assets/stethoscope_icon.svg'
+import styles from './style'
+import profile from '../../../mockup/profile'
 
 export default function Card1() {
   return (
@@ -35,10 +35,10 @@ export default function Card1() {
             fontWeight={400}
             sx={{ fontSize: 20, mb: -1 }}
           >
-            {profile.name + " " + profile.surname}
+            {profile.name + ' ' + profile.surname}
           </Typography>
           <Typography color="#212B36" sx={{ fontSize: 14 }}>
-            {" "}
+            {' '}
             {profile.username}
           </Typography>
           <Typography color="#212B36" sx={{ fontSize: 14 }}>
@@ -47,8 +47,8 @@ export default function Card1() {
           <div
             style={{
               marginTop: 10,
-              display: "flex",
-              justifyContent: "space-between",
+              display: 'flex',
+              justifyContent: 'space-between',
               marginLeft: -20,
             }}
           >
@@ -61,8 +61,8 @@ export default function Card1() {
           <div
             style={{
               marginTop: 30,
-              display: "flex",
-              justifyContent: "space-between",
+              display: 'flex',
+              justifyContent: 'space-between',
               marginLeft: -20,
             }}
           >
@@ -74,5 +74,5 @@ export default function Card1() {
         </div>
       </Card>
     </div>
-  );
+  )
 }

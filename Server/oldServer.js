@@ -164,7 +164,7 @@ app.put('/api/animals/:id_animal', async (req, res) => {
 });
 
 // Rota para listar todos os formularios de adoção
-app.get('/api/adoption-forms/:id_cliente', async (req, res) => {
+app.get('/api/formularios-adocao/:id_cliente', async (req, res) => {
   const { id_cliente } = req.params;
   try {
     const { rows } = await pool.query('SELECT * FROM formularios_adocao WHERE id_cliente = $1', [id_cliente]);
@@ -176,7 +176,7 @@ app.get('/api/adoption-forms/:id_cliente', async (req, res) => {
 });
 
 // Rota para listar todos os formularios de adoção
-app.get('/api/adoption-forms', async (req, res) => {
+app.get('/api/formularios-adocao', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM formularios_adocao');
     res.send(rows);
@@ -187,7 +187,7 @@ app.get('/api/adoption-forms', async (req, res) => {
 });
 
 // Rota para cadastrar um novo formulário de adoção
-app.post('/api/adoption-forms', async (req, res) => {
+app.post('/api/formularios-adocao', async (req, res) => {
   const { id_cliente, id_animal, tipo_moradia, ocupacao, protocolo, situacao, data_envio } = req.body;
   try {
     const { rows } = await pool.query(

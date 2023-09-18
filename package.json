@@ -28,19 +28,23 @@
     "quill": "^1.3.7",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-material-ui-carousel": "^3.4.2",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "react-to-print": "^2.14.13",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "nodemon Server/server.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +65,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.22.15",
+    "@rocketseat/eslint-config": "^2.1.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "nodemon": "^3.0.1"
   }
 }

@@ -1,5 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
+import CloseIcon from '@mui/icons-material/Close'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
   Box,
@@ -13,35 +14,33 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Outlet } from "react-router-dom";
-import { ReactComponent as FacebookIcon } from "../../assets/facebook.svg";
-import { ReactComponent as LogoIcon } from "../../assets/Logos/Logo.svg";
-import theme from "../theme";
-import styles from "./styles";
-import Footer from "../Footer";
-import colors from "../../colors";
+} from '@mui/material'
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import { ReactComponent as LogoIcon } from '../../assets/Logos/Logo.svg'
+import { ReactComponent as FacebookIcon } from '../../assets/facebook.svg'
+import colors from '../../styles/colors'
+import Footer from '../Footer'
+import theme from '../theme'
+import styles from './styles'
 // import routes from '../../App'
 
 // const drawerWidth = 240;
 const navItems = [
-  { titulo: "HOVET", route: "/hovet" },
-  { titulo: "Canil/Gatil", route: "/canil" },
-  { titulo: "Consultas", route: "/agendamento" },
-  { titulo: "Quero Adotar", route: "/adocao" },
-  { titulo: "Blog", route: "/blog" },
-];
+  { titulo: 'HOVET', route: '/hovet' },
+  { titulo: 'Canil/Gatil', route: '/canil' },
+  { titulo: 'Consultas', route: '/agendamento' },
+  { titulo: 'Quero Adotar', route: '/adocao' },
+  { titulo: 'Blog', route: '/blog' },
+]
 
 function DrawerAppBar(props) {
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { window } = props
+  const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+    setMobileOpen(!mobileOpen)
+  }
   // Menu Lateral
   const drawer = (
     <Box sx={styles.drawerBody}>
@@ -52,14 +51,14 @@ function DrawerAppBar(props) {
       </div>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Link href="/" sx={styles.drawerLogo} noWrap>
-          <LogoIcon style={{ height: "128px" }} />
+          <LogoIcon style={{ height: '128px' }} />
         </Link>
         <List sx={{ mt: -1, mb: -1 }}>
           {navItems.map((item) => (
@@ -68,26 +67,26 @@ function DrawerAppBar(props) {
                 href={item.route}
                 sx={{
                   color: colors.green[10],
-                  "&:hover": {
+                  '&:hover': {
                     color: colors.green[7],
-                    backgroundColor: "transparent",
+                    backgroundColor: 'transparent',
                   },
                 }}
               >
                 <ListItemText
                   primary={item.titulo}
                   primaryTypographyProps={{
-                    fontSize: "18px",
-                    textAlign: "center",
-                    fontFamily: "Open Sans, sans-serif",
-                    fontWeight: "400",
+                    fontSize: '18px',
+                    textAlign: 'center',
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontWeight: '400',
                   }}
                 />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-        <div style={{ display: "flex", paddingTop: 10 }}>
+        <div style={{ display: 'flex', paddingTop: 10 }}>
           <IconButton
             sx={styles.medias}
             aria-label="facebook"
@@ -105,29 +104,29 @@ function DrawerAppBar(props) {
         </div>
       </div>
     </Box>
-  );
+  )
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window().document.body : undefined
 
   return (
-    <Box theme={theme} sx={{ display: "flex" }}>
+    <Box theme={theme} sx={{ display: 'flex' }}>
       <AppBar position="absolute" component="nav" style={styles.appbar}>
         <Toolbar sx={styles.toolbar}>
           <Box component="div" sx={styles.titleLogo}>
             <Link href="/" sx={styles.appbarLogo} noWrap>
-              <LogoIcon style={{ height: "48px" }} />
+              <LogoIcon style={{ height: '48px' }} />
             </Link>
             <Typography
               sx={{
-                [theme.breakpoints.down("sd")]: { display: "none" },
+                [theme.breakpoints.down('sd')]: { display: 'none' },
                 ml: 1.5,
-                fontFamily: "Roboto Mono",
-                fontWeight: "bold",
-                fontSize: "1.6vw",
+                fontFamily: 'Roboto Mono',
+                fontWeight: 'bold',
+                fontSize: '1.6vw',
               }}
             >
-              Medicina Veterinária do Coletivo da Ufra
+              VetHub UFRA
             </Typography>
           </Box>
           <IconButton
@@ -140,11 +139,11 @@ function DrawerAppBar(props) {
           </IconButton>
           <Box
             sx={{
-              [theme.breakpoints.down("lg")]: {
-                display: "none",
+              [theme.breakpoints.down('lg')]: {
+                display: 'none',
               },
-              [theme.breakpoints.up("lg")]: {
-                display: "flex",
+              [theme.breakpoints.up('lg')]: {
+                display: 'flex',
                 // mr: "-3%",
               },
             }}
@@ -155,7 +154,9 @@ function DrawerAppBar(props) {
             <Button sx={styles.button} href="/canil">
               Canil/Gatil
             </Button>
-            <Button sx={styles.button} href="/agendamento">Consultas</Button>
+            <Button sx={styles.button} href="/agendamento">
+              Consultas
+            </Button>
             <Button sx={styles.button} href="/adocao">
               Quero Adotar
             </Button>
@@ -175,13 +176,13 @@ function DrawerAppBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block" },
-            [theme.breakpoints.up("lg")]: { display: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: "100%",
-              "&.hide": {
-                display: "none",
+            display: { xs: 'block' },
+            [theme.breakpoints.up('lg')]: { display: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: '100%',
+              '&.hide': {
+                display: 'none',
               },
             },
           }}
@@ -192,9 +193,9 @@ function DrawerAppBar(props) {
       <Box
         sx={{
           pt: 7.5,
-          width: "100%",
-          height: "100%",
-          overflow: mobileOpen ? "hidden" : "auto",
+          width: '100%',
+          height: '100%',
+          overflow: mobileOpen ? 'hidden' : 'auto',
         }}
       >
         {/* <Toolbar /> */}
@@ -204,7 +205,7 @@ function DrawerAppBar(props) {
         <Footer />
       </Box>
     </Box>
-  );
+  )
 }
 
 // DrawerAppBar.propTypes = {
@@ -215,4 +216,4 @@ function DrawerAppBar(props) {
 //   window: PropTypes.func,
 // };
 
-export default DrawerAppBar;
+export default DrawerAppBar

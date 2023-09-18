@@ -83,11 +83,11 @@ router.get("/:id_animal", async (req, res) => {
 
 // Rota para cadastrar um novo animal
 router.post("/", async (req, res) => {
-  const { nome, especie, sexo, idade, peso, imagem } = req.body;
+  const { nome, especie, sexo, idade, peso, adotado, imagem } = req.body;
   try {
     const { rows } = await pool.query(
-      "INSERT INTO animais_canil (nome, especie, sexo, idade, peso, imagem) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_animal",
-      [nome.toUpperCase(), especie.toUpperCase(), sexo.toUpperCase(), idade, peso, imagem],
+      "INSERT INTO animais_canil (nome, especie, sexo, idade, peso, adotado, imagem) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_animal",
+      [nome.toUpperCase(), especie.toUpperCase(), sexo.toUpperCase(), idade, peso, adotado, imagem],
     );
     const id_animal = rows[0].id_animal;
     res.send({ id_animal });

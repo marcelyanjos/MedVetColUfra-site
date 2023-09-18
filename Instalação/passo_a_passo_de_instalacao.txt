@@ -36,7 +36,7 @@ Mesma coisa para o Strapi
 ------------------------ Clonando pacotes --------------------------------------
 
 Baixe o zip ou clone o repositório desejado
-Caso algum erro seja apresentado verifique o .env, se form preciso crie um novo projeto e faça a clonagem do .env desse projeto
+Para o strapi é necessário um arquivo .env, clone do projeto teste strapi
 
 ------------------------ Configurando Strapi -----------------------------------
 

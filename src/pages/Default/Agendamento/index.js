@@ -1,20 +1,20 @@
-import { Link, Box, Button, Container, Typography } from "@mui/material";
-import React from "react";
-import { Outlet } from "react-router-dom";
-import colors from "../../../colors";
+import { Box, Button, Link, Typography } from '@mui/material'
+import React from 'react'
+import { Outlet } from 'react-router-dom'
+import colors from '../../../styles/colors'
 
 function IndexAgendamento() {
-  return <Outlet />;
+  return <Outlet />
 }
 
 function MenuAgendamento() {
   return (
-    <Box sx={{ pl: 5, pr: 5, pt: 3, pb: 3, minHeight: "42vh" }}>
+    <Box sx={{ pl: 5, pr: 5, pt: 3, pb: 3, minHeight: '42vh' }}>
       <Typography
         variant="h4"
         sx={{
-          fontFamily: "Open Sans, sans-serif",
-          fontWeight: "bold",
+          fontFamily: 'Open Sans, sans-serif',
+          fontWeight: 'bold',
           color: colors.green[3],
         }}
       >
@@ -38,8 +38,13 @@ function MenuAgendamento() {
           ou durante a consulta.
         </Typography>
       </Box>
-      <Box sx={{ flex: 1, mt:2 }}>
-        <Button sx={{mr:3}} variant="outlined" component={Link} href="/agendamento/new">
+      <Box sx={{ flex: 1, mt: 2 }}>
+        <Button
+          sx={{ mr: 3 }}
+          variant="outlined"
+          component={Link}
+          href="/agendamento/new"
+        >
           Agendar nova consulta
         </Button>
         <Button
@@ -51,7 +56,7 @@ function MenuAgendamento() {
         </Button>
       </Box>
     </Box>
-  );
+  )
 }
 
-export { IndexAgendamento, MenuAgendamento };
+export { IndexAgendamento, MenuAgendamento }

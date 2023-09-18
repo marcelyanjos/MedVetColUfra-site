@@ -1,349 +1,320 @@
-import React, { useState, useEffect } from "react";
 import {
   Alert,
-  Container,
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Typography,
   Box,
+  Button,
+  Grid,
+  MenuItem,
   Snackbar,
-} from "@mui/material";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import api from "../../../api";
-import { format } from "date-fns";
-import dayjs from 'dayjs';
-import "dayjs/locale/pt-br";
+  TextField,
+  Typography,
+} from '@mui/material'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+
+import React, { useEffect, useState } from 'react'
+import {
+  fetchServices,
+  getAvailability,
+  schedule,
+} from '../../../services/agendamento'
+import {
+  addClient,
+  addPet,
+  checkClient,
+  checkPet,
+} from '../../../services/clientes'
 
 const AgendamentoConsulta = () => {
-  const [servico, setServico] = useState("");
-  const [dia, setDia] = useState(null);
-  const [hora, setHora] = useState("");
-  const [nomeCliente, setNomeCliente] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
-  const [email, setEmail] = useState("");
-  const [nomeAnimal, setNomeAnimal] = useState("");
-  const [idade, setIdade] = useState("");
-  const [especie, setEspecie] = useState("");
-  const [peso, setPeso] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [motivoConsulta, setMotivoConsulta] = useState("");
-  const [listaServicos, setListaServicos] = useState([]);
-  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
-  const [horarioSelecionado, setHorarioSelecionado] = useState(false);
-  const id_cliente = "";
+  const [formState, setFormState] = useState({
+    servico: '',
+    dia: new Date(),
+    hora: '',
+    nomeCliente: '',
+    dataNascimento: '',
+    email: '',
+    nomeAnimal: '',
+    idade: '',
+    especie: '',
+    peso: '',
+    sexo: '',
+    motivoConsulta: '',
+  })
+  // console.log("🚀 ~ file: NovoAgendamento.js:41 ~ AgendamentoConsulta ~ formState:", formState)
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [listaServicos, setListaServicos] = useState([])
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([])
+  const [horarioSelecionado, setHorarioSelecionado] = useState(false)
 
-  useEffect(() => {
-    async function fetchServicos() {
-      try {
-        const response = await api.get("/api/servicos");
-        setListaServicos(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchServicos();
-  }, []);
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   useEffect(() => {
-    const horarios = [];
+    fetchServices(setListaServicos)
+  }, [])
+
+  useEffect(() => {
+    const horarios = []
     for (let hour = 8; hour <= 16; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
         if (
           !(hour === 11 && minute === 30) &&
           !(hour === 13 && minute === 30)
         ) {
-          const time = `${hour.toString().padStart(2, "0")}:${minute
+          const time = `${hour.toString().padStart(2, '0')}:${minute
             .toString()
-            .padStart(2, "0")}`;
-          horarios.push(time);
+            .padStart(2, '0')}`
+          horarios.push(time)
         }
       }
     }
-    setHorariosDisponiveis(horarios);
-  }, []);
+    setHorariosDisponiveis(horarios)
+  }, [])
 
-  const handleServicoChange = (event) => {
-    setServico(event.target.value);
-    setDia(null);
-    setHora("");
-  };
+  const handleServices = (event) => {
+    setFormState({
+      ...formState,
+      servico: event.target.value,
+      dia: null,
+      hora: '',
+    })
+  }
+  const handleDate = (date) => {
+    setFormState((state) => ({ ...state, dia: date }))
+    setFormState((state) => ({ ...state, hora: '' }))
+  }
 
-  const handleDateChange = (date) => {
-    setDia(date);
-    setHora("");
-  };
-
-  const handleHoraChange = (event) => {
-    setHora(event.target.value);
-  };
-
-  const handleAgendarClick = async () => {
-    if (!dia) {
-      setOpenSnackbar(true);
-      setSnackbarMessage("Por favor, escolha uma data.");
-      setSnackbarSeverity("warning");
-      return;
+  const handleSubmit = async () => {
+    if (!formState.dia) {
+      setOpenSnackbar(true)
+      setSnackbarMessage('Por favor, escolha uma data.')
+      setSnackbarSeverity('warning')
+      return
     }
 
-    const dataObj = new Date(dia); // Converter a string de data em um objeto Date
-    const formattedDia = dayjs(dia).format("MM-dd-YYYY");
+    const dataObj = new Date(formState.dia.format('MM-dd-YYYY')) // Converter a string de data em um objeto Date
     if (dataObj.getDay() === 0 || dataObj.getDay() === 6) {
-      setOpenSnackbar(true);
-      setSnackbarMessage("Por favor, escolha uma data durante a semana.");
-      setSnackbarSeverity("warning");
-      return;
+      setOpenSnackbar(true)
+      setSnackbarMessage('Por favor, escolha uma data durante a semana.')
+      setSnackbarSeverity('warning')
+      return
     }
 
     if (dataObj < new Date()) {
-      setOpenSnackbar(true);
-      setSnackbarMessage("Por favor escolher uma data futura");
-      setSnackbarSeverity("warning");
-      return;
+      setOpenSnackbar(true)
+      setSnackbarMessage('Por favor escolher uma data futura')
+      setSnackbarSeverity('warning')
+      return
     }
 
-    const agendamentoExistente = await verificarAgendamentoExistente(
-      servico,
-      formattedDia,
-      hora
-    );
+    const agendamento = await getAvailability(
+      formState.servico,
+      formState.dia,
+      formState.hora,
+    )
+    const agendamentoExistente = agendamento.disponibilidade !== 'disponivel'
+
     if (agendamentoExistente) {
-      setOpenSnackbar(true);
+      setOpenSnackbar(true)
       setSnackbarMessage(
-        "Agendamento indisponivel para o horario. Selecione outra data ou um novo horario"
-      );
-      setSnackbarSeverity("warning");
-      return;
+        'Agendamento indisponivel para o horario. Selecione outra data ou um novo horario',
+      )
+      setSnackbarSeverity('warning')
+      return
     }
 
     const clienteExistente = await verificarClienteExistente(
-      nomeCliente,
-      dataNascimento,
-      email
-    );
+      formState.nomeCliente,
+      formState.dataNascimento,
+      formState.email,
+    )
+    console.log(
+      '🚀 ~ file: NovoAgendamento.js:119 ~ handleSubmit ~ clienteExistente:',
+      clienteExistente,
+    )
+
     if (clienteExistente) {
-      id_cliente = clienteExistente.id_cliente;
-      console.log('velho id_cliente', id_cliente)
+      const id_cliente = clienteExistente.id_cliente
       const petExistente = await verificarPetExistente(
         id_cliente,
-        nomeAnimal,
-        especie,
-        sexo
-      );
+        formState.nomeAnimal,
+        formState.especie,
+        formState.sexo,
+      )
+      console.log(
+        '🚀 ~ file: NovoAgendamento.js:129 ~ handleSubmit ~ petExistente:',
+        petExistente,
+      )
       if (petExistente) {
-        const id_pet = petExistente.id_pet;
-        salvarAgendamento(servico, formattedDia, hora, id_cliente, id_pet);
+        const id_pet = petExistente.id_pet
+        salvarAgendamento(
+          formState.servico,
+          formState.dia,
+          formState.hora,
+          id_cliente,
+          id_pet,
+        )
       } else {
-        const id_pet = await cadastrarPetCliente(id_cliente);
+        const id_pet = await cadastrarPetCliente(id_cliente)
         if (!id_pet) {
-          setOpenSnackbar(true);
-          setSnackbarMessage(
-            "Erro ao salvar dados do animal. Tente novamente."
-          );
-          setSnackbarSeverity("error");
-          return;
+          setOpenSnackbar(true)
+          setSnackbarMessage('Erro ao salvar dados do animal. Tente novamente.')
+          setSnackbarSeverity('error')
         }
       }
     } else {
-      id_cliente = await cadastrarCliente();
+      const id_cliente = await cadastrarCliente()
       if (id_cliente) {
-        const id_pet = await cadastrarPetCliente(id_cliente);
+        const id_pet = await cadastrarPetCliente(id_cliente)
         if (id_pet) {
-          salvarAgendamento(servico, formattedDia, hora, id_cliente, id_pet);
+          salvarAgendamento(
+            formState.servico,
+            formState.dia,
+            formState.hora,
+            id_cliente,
+            id_pet,
+          )
         } else {
-          setOpenSnackbar(true);
-          setSnackbarMessage(
-            "Erro ao salvar dados do animal. Tente novamente."
-          );
-          setSnackbarSeverity("error");
+          setOpenSnackbar(true)
+          setSnackbarMessage('Erro ao salvar dados do animal. Tente novamente.')
+          setSnackbarSeverity('error')
         }
       } else {
-        setOpenSnackbar(true);
-        setSnackbarMessage("Erro ao salvar dados do cliente. Tente novamente.");
-        setSnackbarSeverity("error");
+        setOpenSnackbar(true)
+        setSnackbarMessage('Erro ao salvar dados do cliente. Tente novamente.')
+        setSnackbarSeverity('error')
       }
     }
-  };
+  }
 
   useEffect(() => {
-    if (!hora) {
-      setHorarioSelecionado(false);
+    if (!formState.hora) {
+      setHorarioSelecionado(false)
     } else {
-      setHorarioSelecionado(true);
+      setHorarioSelecionado(true)
     }
-  }, [hora]);
+  }, [formState.hora])
 
-  const verificarAgendamentoExistente = async (servico, data, horario) => {
+  const verificarClienteExistente = async (
+    nomeCliente,
+    dataNascimento,
+    email,
+  ) => {
     try {
-      const response = await api.get("/api/disponibilidade", {
-        params: {
-          id_servicos: servico,
-          dia: dayjs(dia).format("DD-MM-YYYY"),
-          hora: horario,
-        },
-      });
-      const { disponibilidade } = response.data;
-      return disponibilidade !== "disponivel";
+      const clientes = await checkClient(nomeCliente, dataNascimento, email)
+      return clientes
     } catch (error) {
-      console.error(error);
-      return false;
+      console.error(error)
+      return null
     }
-  };
+  }
 
-  const verificarClienteExistente = async (nomeCliente, dataNascimento, email) => {
-    try {
-      const response = await api.get("/api/clientes", {
-        params: {
-          nome: nomeCliente,
-          data_nasc: dataNascimento,
-          email: email,
-        },
-      });
-  
-      const clientes = response.data;
-      return clientes.length > 0 ? clientes[0] : null;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
-  
   const verificarPetExistente = async (id_cliente, nome, especie, sexo) => {
     try {
-      const response = await api.get("/api/petCliente", {
-        params: {
-          id_cliente: id_cliente,
-          nome: nome,
-          especie: especie,
-          sexo: sexo,
-        },
-      });
-  
-      const pets = response.data;
-      return pets.length > 0 ? pets[0] : null;
+      const pets = await checkPet(id_cliente, nome, especie, sexo)
+      return pets
     } catch (error) {
-      console.error(error);
-      return null;
+      console.error(error)
+      return null
     }
-  };
-  
+  }
 
   const cadastrarCliente = async () => {
     try {
-      const response = await api.post("/api/clientes", {
-        nome: nomeCliente,
-        data_nasc: dataNascimento,
-        email: email,
-      });
-      setOpenSnackbar(true);
-      setSnackbarMessage("Dados cliente adicionados com sucesso!");
-      setSnackbarSeverity("success");
-      return response.data.id_cliente;
+      const response = await addClient(
+        formState.nomeCliente,
+        formState.dataNascimento,
+        formState.email,
+      )
+
+      setOpenSnackbar(true)
+      setSnackbarMessage('Dados cliente adicionados com sucesso!')
+      setSnackbarSeverity('success')
+      return response.id_cliente
     } catch (error) {
-      setOpenSnackbar(true);
-      setSnackbarMessage("Erro ao salvar dados do cliente. Tente novamente.");
-      setSnackbarSeverity("error");
-      return null;
+      setOpenSnackbar(true)
+      setSnackbarMessage('Erro ao salvar dados do cliente. Tente novamente.')
+      setSnackbarSeverity('error')
+      return null
     }
-  };
+  }
 
   const cadastrarPetCliente = async (id_cliente) => {
     try {
-      console.log("ID do cliente para pet:", id_cliente); // Verifica se o ID do cliente está correto
-      console.log("Dados do pet:", {
-        id_cliente: id_cliente,
-        nome: nomeAnimal,
-        idade,
-        especie,
-        peso,
-        sexo,
-      }); // Verifica se os dados do pet estão corretos
+      const response = await addPet(
+        id_cliente,
+        formState.nomeAnimal,
+        formState.idade,
+        formState.especie,
+        formState.peso,
+        formState.sexo,
+      )
 
-      const response = await api.post("/api/petCliente", {
-        id_cliente: id_cliente,
-        nome: nomeAnimal,
-        idade: idade.replace(/\D/g, ""),
-        especie,
-        peso: peso.replace(/\D/g, ""),
-        sexo,
-      });
-
-      setOpenSnackbar(true);
-      setSnackbarMessage("Dados do animal salvo com sucesso!");
-      setSnackbarSeverity("success");
-      return response.data.id_pet;
+      setOpenSnackbar(true)
+      setSnackbarMessage('Dados do animal salvo com sucesso!')
+      setSnackbarSeverity('success')
+      return response.id_pet
     } catch (error) {
-      setOpenSnackbar(true);
-      setSnackbarMessage("Erro ao salvar dados do animal. Tente novamente.");
-      setSnackbarSeverity("error");
-      return null;
+      setOpenSnackbar(true)
+      setSnackbarMessage('Erro ao salvar dados do animal. Tente novamente.')
+      setSnackbarSeverity('error')
+      return null
     }
-  };
+  }
 
   const salvarAgendamento = async (
     servico,
     data,
     horario,
     id_cliente,
-    id_pet
+    id_pet,
   ) => {
     try {
-      await api.post("/api/agendamentos", {
-        id_servicos: servico,
-        id_cliente: id_cliente,
-        id_pet: id_pet,
-        dia: dayjs(dia).format("DD-MM-YYYY"),
-        hora: horario,
-        motivo: motivoConsulta,
-        situacao: "Agendado",
-      });
-      setOpenSnackbar(true);
-      setSnackbarMessage("Agendamento salvo com sucesso!");
-      setSnackbarSeverity("success");
+      schedule(
+        servico,
+        id_cliente,
+        id_pet,
+        data,
+        horario,
+        formState.motivoConsulta,
+      )
+
+      setOpenSnackbar(true)
+      setSnackbarMessage('Agendamento salvo com sucesso!')
+      setSnackbarSeverity('success')
     } catch (error) {
-      console.error(error);
-      setOpenSnackbar(true);
-      setSnackbarMessage("Erro ao agendar consulta. Tente novamente.");
-      setSnackbarSeverity("error");
+      console.error(error)
+      setOpenSnackbar(true)
+      setSnackbarMessage('Erro ao agendar consulta. Tente novamente.')
+      setSnackbarSeverity('error')
     }
-  };
+  }
 
   const isFormComplete = () => {
     return (
-      nomeCliente &&
-      dataNascimento &&
-      email &&
-      nomeAnimal &&
-      idade &&
-      especie &&
-      peso &&
-      sexo &&
-      motivoConsulta &&
-      servico &&
-      dia &&
-      hora
-    );
-  };
+      formState.nomeCliente &&
+      formState.dataNascimento &&
+      formState.email &&
+      formState.nomeAnimal &&
+      formState.idade &&
+      formState.especie &&
+      formState.sexo &&
+      formState.servico &&
+      formState.dia &&
+      formState.hora
+    )
+  }
 
   const isHorarioSelecionado = (horario) => {
-    return hora === horario && horarioSelecionado;
-  };
+    return formState.hora === horario && horarioSelecionado
+  }
 
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         pt: 3,
         pb: 3,
         pl: 5,
@@ -354,16 +325,16 @@ const AgendamentoConsulta = () => {
         open={openSnackbar}
         autoHideDuration={5000}
         onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
-        <Alert severity={snackbarSeverity} sx={{ width: "100%" }}>
+        <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
       <Typography variant="h6">Agendamento de Consulta</Typography>
-      <Box sx={{ display: "flex", mt: 2 }}>
+      <Box sx={{ display: 'flex', mt: 2 }}>
         <Box
-          sx={{ display: "flex", flexDirection: "column", width: "40%", mr: 1 }}
+          sx={{ display: 'flex', flexDirection: 'column', width: '40%', mr: 1 }}
         >
           <TextField
             select
@@ -371,8 +342,8 @@ const AgendamentoConsulta = () => {
             size="small"
             label="Serviço"
             name="serviço"
-            value={servico}
-            onChange={handleServicoChange}
+            value={formState.servico}
+            onChange={handleServices}
           >
             {listaServicos.map((servico) => (
               <MenuItem key={servico.id_servicos} value={servico.id_servicos}>
@@ -385,8 +356,10 @@ const AgendamentoConsulta = () => {
             label="Nome completo"
             name="Nome completo"
             size="small"
-            value={nomeCliente}
-            onChange={(e) => setNomeCliente(e.target.value)}
+            value={formState.nomeCliente}
+            onChange={(e) =>
+              setFormState({ ...formState, nomeCliente: e.target.value })
+            }
             sx={{ marginTop: 2 }}
           />
 
@@ -396,8 +369,10 @@ const AgendamentoConsulta = () => {
             size="small"
             label="Data de Nascimento"
             name="dataNascimento"
-            value={dataNascimento}
-            onChange={(e) => setDataNascimento(e.target.value)}
+            value={formState.dataNascimento}
+            onChange={(e) =>
+              setFormState({ ...formState, dataNascimento: e.target.value })
+            }
             InputLabelProps={{
               shrink: true,
             }}
@@ -409,118 +384,155 @@ const AgendamentoConsulta = () => {
             label="Email"
             size="small"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formState.email}
+            onChange={(e) =>
+              setFormState({ ...formState, email: e.target.value })
+            }
             sx={{ marginTop: 2 }}
           />
+          <p />
 
-          <TextField
-            required
-            label="Nome do Animal"
-            size="small"
-            name="nomeAnimal"
-            value={nomeAnimal}
-            onChange={(e) => setNomeAnimal(e.target.value)}
-            sx={{ marginTop: 2 }}
-          />
+          <Grid spacing={2}>
+            <TextField
+              required
+              fullWidth
+              label="Nome do Animal"
+              size="small"
+              name="nomeAnimal"
+              value={formState.nomeAnimal}
+              onChange={(e) =>
+                setFormState({ ...formState, nomeAnimal: e.target.value })
+              }
+              sx={{ marginTop: 2 }}
+            />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  required
+                  fullWidth
+                  select
+                  label="Espécie"
+                  size="small"
+                  name="especie"
+                  value={formState.especie}
+                  onChange={(e) =>
+                    setFormState({ ...formState, especie: e.target.value })
+                  }
+                  sx={{ marginTop: 2 }}
+                >
+                  <MenuItem value="canino">Cachorro</MenuItem>
+                  <MenuItem value="felino">Gato</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  select
+                  fullWidth
+                  required
+                  label="Sexo"
+                  size="small"
+                  name="sexo"
+                  value={formState.sexo}
+                  onChange={(e) =>
+                    setFormState({ ...formState, sexo: e.target.value })
+                  }
+                  sx={{ marginTop: 2 }}
+                >
+                  <MenuItem value="Macho">Macho</MenuItem>
+                  <MenuItem value="Fêmea">Fêmea</MenuItem>
+                </TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Idade"
+                  size="small"
+                  name="idade"
+                  value={formState.idade}
+                  onChange={(e) =>
+                    setFormState({ ...formState, idade: e.target.value })
+                  }
+                  sx={{ marginTop: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <TextField
+                  fullWidth
+                  label="Peso"
+                  size="small"
+                  name="peso"
+                  value={formState.peso}
+                  onChange={(e) =>
+                    setFormState({ ...formState, peso: e.target.value })
+                  }
+                  sx={{ marginTop: 2 }}
+                />
+              </Grid>
+            </Grid>
 
-          <TextField
-            required
-            label="Idade"
-            size="small"
-            name="idade"
-            value={idade}
-            onChange={(e) => setIdade(e.target.value)}
-            sx={{ marginTop: 2 }}
-          />
-
-          <TextField
-            required
-            label="Espécie"
-            size="small"
-            name="especie"
-            value={especie}
-            onChange={(e) => setEspecie(e.target.value)}
-            sx={{ marginTop: 2 }}
-          />
-          <TextField
-            select
-            required
-            label="Sexo"
-            size="small"
-            name="sexo"
-            value={sexo}
-            onChange={(e) => setSexo(e.target.value)}
-            sx={{ marginTop: 2 }}
-          >
-            <MenuItem value="Macho">Macho</MenuItem>
-            <MenuItem value="Fêmea">Fêmea</MenuItem>
-          </TextField>
-
-          <TextField
-            label="Peso"
-            size="small"
-            name="peso"
-            value={peso}
-            onChange={(e) => setPeso(e.target.value)}
-            sx={{ marginTop: 2 }}
-          />
-
-          <TextField
-            label="Motivo da Consulta"
-            size="small"
-            name="motivoConsulta"
-            value={motivoConsulta}
-            onChange={(e) => setMotivoConsulta(e.target.value)}
-            multiline
-            rows={4}
-            sx={{ marginTop: 2 }}
-          />
-
+            <TextField
+              fullWidth
+              label="Motivo da Consulta"
+              size="small"
+              name="motivoConsulta"
+              value={formState.motivoConsulta}
+              onChange={(e) =>
+                setFormState({ ...formState, motivoConsulta: e.target.value })
+              }
+              multiline
+              rows={4}
+              sx={{ marginTop: 2 }}
+            />
+          </Grid>
           <Button
             variant="contained"
             color="primary"
-            onClick={handleAgendarClick}
+            onClick={handleSubmit}
             disabled={!isFormComplete()}
             sx={{ marginTop: 2 }}
           >
             Agendar
           </Button>
         </Box>
-        {servico && (
-          <Box sx={{ width: "60%", ml: 1 }}>
+        {formState.servico && (
+          <Box sx={{ width: '60%', ml: 1 }}>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
-              adapterLocale={"pt-br"}
+              adapterLocale={'pt-br'}
             >
               <DateCalendar
                 label="Data"
-                value={dia}
-                onChange={handleDateChange}
+                value={formState.dia}
+                onChange={handleDate}
                 renderInput={(params) => <TextField {...params} />}
                 sx={{ marginTop: 2 }}
               />
 
               {horariosDisponiveis.map((horario) => (
-              <Button
-                variant={isHorarioSelecionado(horario) ? "contained" : "outlined"}
-                disabled={!horariosDisponiveis}
-                key={horario}
-                value={horario}
-                onClick={() => {
-                  setHora(horario);
-                  setHorarioSelecionado(true);
-                }}
-              >
-                {horario}
-              </Button>
-            ))}
+                <Button
+                  variant={
+                    isHorarioSelecionado(horario) ? 'contained' : 'outlined'
+                  }
+                  disabled={!horariosDisponiveis}
+                  key={horario}
+                  value={horario}
+                  onClick={() => {
+                    setFormState({ ...formState, hora: horario })
+                    setHorarioSelecionado(true)
+                  }}
+                >
+                  {horario}
+                </Button>
+              ))}
             </LocalizationProvider>
           </Box>
         )}
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default AgendamentoConsulta;
+export default AgendamentoConsulta

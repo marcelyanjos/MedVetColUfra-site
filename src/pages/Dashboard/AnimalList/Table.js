@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from "react";
+import AddIcon from '@mui/icons-material/Add'
+import EditIcon from '@mui/icons-material/Edit'
+import InfoIcon from '@mui/icons-material/Info'
+import { Box, Button, Link, Paper, Typography } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarQuickFilter,
-} from "@mui/x-data-grid";
-import {
-  Toolbar,
-  Paper,
-  Box,
-  Container,
-  Button,
-  Typography,
-  Link,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import InfoIcon from "@mui/icons-material/Info";
-import { decode } from "base-64";
-import styles from "./style";
-import api from "../../../api";
-import { useNavigate } from "react-router-dom";
+} from '@mui/x-data-grid'
+import { decode } from 'base-64'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../../../services/api'
+import styles from './style'
 
 export default function ColumnTypesGrid() {
-  const navigate = useNavigate();
-  const [pageSize, setPageSize] = useState(5);
-  const [isLoading, setIsLoading] = useState(true);
-  const [rows, setRows] = useState([]);
+  const navigate = useNavigate()
+  const [pageSize, setPageSize] = useState(5)
+  // const [isLoading, setIsLoading] = useState(true)
+  const [rows, setRows] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/animals");
-        const animais = response.data;
+        const response = await api.get('/api/animals')
+        const animais = response.data
 
         const updatedFormularios = animais.map((animal) => ({
           id: animal.id_animal,
@@ -46,74 +37,76 @@ export default function ColumnTypesGrid() {
           vacinado: animal.vacinado,
           castrado: animal.castrado,
           adotado: animal.adotado,
-        }));
+        }))
 
-        setRows(updatedFormularios);
-        setIsLoading(false);
+        setRows(updatedFormularios)
+        // setIsLoading(false)
       } catch (error) {
-        console.error(error);
-        setIsLoading(false);
+        console.error(error)
+        // setIsLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
-  const details = React.useCallback(
-    (id) => () => {
-      console.log(
-        "details: ",
-        rows.find((row) => row.id === id)
-      );
-    },
-    []
-  );
+  // const details = React.useCallback(
+  //   (id) => () => {
+  //     console.log(
+  //       'details: ',
+  //       rows.find((row) => row.id === id),
+  //     )
+  //   },
+  //   [],
+  // )
 
   const edit = React.useCallback(
     (id) => () => {
-      console.log("edit: ", id);
-      navigate(`/admin/dashboard/animais/new/${id}`);
+      console.log('edit: ', id)
+      navigate(`/admin/dashboard/animais/new/${id}`)
     },
-    [navigate]
-  );
+    [navigate],
+  )
 
   const columns = React.useMemo(
     () => [
-      { field: "id", type: "number", flex: 0.6 },
+      { field: 'id', type: 'number', flex: 0.6 },
       {
-        field: "avatar",
-        headerName: "Avatar",
+        field: 'avatar',
+        headerName: 'Avatar',
         renderCell: (params) => (
           <img
             src={`data:image/jpg;base64,${decode(params.row.avatar)}`}
             alt="Avatar"
             style={{
-              borderRadius: "30px",
-              objectFit: "cover",
-              width: "50px",
-              height: "50px",
+              borderRadius: '30px',
+              objectFit: 'cover',
+              width: '50px',
+              height: '50px',
             }}
           />
         ),
       },
-      { field: "nome", type: "string", flex: 1 },
-      { field: "especie", type: "string", flex: 0.6 },
-      { field: "sexo", type: "string", flex: 0.6 },
-      { field: "idade", type: "number", flex: 0.6 },
-      { field: "vacinado", type: "boolean", flex: 0.6 },
-      { field: "castrado", type: "boolean", flex: 0.6 },
-      { field: "adotado", type: "boolean", flex: 0.6 },
+      { field: 'nome', type: 'string', flex: 1 },
+      { field: 'especie', type: 'string', flex: 0.6 },
+      { field: 'sexo', type: 'string', flex: 0.6 },
+      { field: 'idade', type: 'number', flex: 0.6 },
+      { field: 'vacinado', type: 'boolean', flex: 0.6 },
+      { field: 'castrado', type: 'boolean', flex: 0.6 },
+      { field: 'adotado', type: 'boolean', flex: 0.6 },
       {
-        field: "actions",
-        type: "actions",
+        field: 'actions',
+        type: 'actions',
         width: 90,
         getActions: (params) => [
           <GridActionsCellItem
+            key={params.id}
             icon={<InfoIcon />}
             label="Details"
-            onClick={details(params.id)}
+            // onClick={details(params.id)}
           />,
           <GridActionsCellItem
+            key={params.id}
             icon={<EditIcon />}
             label="Edit"
             onClick={edit(params.id)}
@@ -122,38 +115,38 @@ export default function ColumnTypesGrid() {
         ],
       },
     ],
-    [details, edit]
-  );
+    [edit],
+  )
 
   function CustomToolbar() {
     return (
-      <GridToolbarContainer sx={{ justifyContent: "space-between" }}>
+      <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
         {/* <GridToolbarFilterButton /> */}
         <GridToolbarExport
           printOptions={{
             hideFooter: true,
             hideToolbar: true,
-            fileName: "customerDataBase",
-            pageStyle: ".MuiDataGrid-root .MuiDataGrid-main {flex: 1}",
+            fileName: 'customerDataBase',
+            pageStyle: '.MuiDataGrid-root .MuiDataGrid-main {flex: 1}',
           }}
         />
         <GridToolbarQuickFilter />
       </GridToolbarContainer>
-    );
+    )
   }
 
   const sortModel = [
     {
-      field: "id",
-      sort: "asc",
+      field: 'id',
+      sort: 'asc',
     },
-  ];
+  ]
 
   return (
     <Box>
       <Box sx={styles.index_box}>
         <Typography
-          fontFamily={"Public Sans"}
+          fontFamily={'Public Sans'}
           fontWeight={700}
           color="#212B36"
           variant="h5"
@@ -197,5 +190,5 @@ export default function ColumnTypesGrid() {
         </Paper>
       </Box>
     </Box>
-  );
+  )
 }

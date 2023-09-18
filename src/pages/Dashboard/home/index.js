@@ -1,21 +1,19 @@
-import React from "react";
-import { Box, Grid, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import Card1 from "./Cards/Card1";
-import Card2 from "./Cards/Card2";
-import Card3 from "./Cards/Card3";
-import Bar from "./Charts/Bar";
-import Pie from "./Charts/Pie";
-import Line from "./Charts/Line";
-import { useAuthContext } from "../../../CMS/Context/AuthContext";
+import React from 'react'
+import { Box, Grid, Container, Typography } from '@mui/material'
+import Card1 from './Cards/Card1'
+import Card2 from './Cards/Card2'
+import Bar from './Charts/Bar'
+import Pie from './Charts/Pie'
+import Line from './Charts/Line'
+import { useAuthContext } from '../../../CMS/Context/AuthContext'
 export default function Home() {
-  const { user } = useAuthContext();
+  const { user } = useAuthContext()
   return (
     <div style={{ marginBottom: 10 }}>
       <Container maxWidth="x1">
         <Box sx={{ pb: 5 }}>
           <Typography
-            fontFamily={"Public Sans"}
+            fontFamily={'Public Sans'}
             fontWeight={700}
             color="#212B36"
             variant="h5"
@@ -45,5 +43,5 @@ export default function Home() {
         </Grid>
       </Container>
     </div>
-  );
+  )
 }

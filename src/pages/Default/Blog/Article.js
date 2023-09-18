@@ -1,57 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Container, Typography, Divider, Button } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Box } from '@mui/system';
-import { API, Host } from '../../../CMS/constant';
+import { Divider, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { Host } from '../../../CMS/constant'
+import { fetchArticleId } from '../../../services/cms'
 
 const Article = () => {
-  const { id } = useParams();
-  const [article, setArticle] = useState(null);
-  const navigate = useNavigate();
+  const { id } = useParams()
+  const [article, setArticle] = useState(null)
+  // const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const response = await axios.get(`${API}/artigos/${id}?populate=ilustracao`);
-        const articleData = response.data.data.attributes;
-
-        // Obtém a URL correta da ilustração
-        const imageUrl = articleData.ilustracao && articleData.ilustracao.data
-          ? getArticleImageUrl(articleData.ilustracao.data.attributes)
-          : null;
-
-        setArticle({ ...articleData, ilustracao: imageUrl });
-      } catch (error) {
-        console.error('Error fetching article:', error);
-      }
-    };
-
-    fetchArticle();
-  }, [id]);
+    fetchArticleId(setArticle, id, getArticleImageUrl)
+  }, [id])
 
   const getArticleImageUrl = (imageAttributes) => {
-    if (imageAttributes && imageAttributes.formats && imageAttributes.formats.thumbnail) {
-      const thumbnailUrl = imageAttributes.formats.thumbnail.url;
-      const finalImageUrl = thumbnailUrl.replace('/thumbnail_', '/');
-      const imageUrl = `${Host}${finalImageUrl}`;
-      return imageUrl;
+    if (
+      imageAttributes &&
+      imageAttributes.formats &&
+      imageAttributes.formats.thumbnail
+    ) {
+      const thumbnailUrl = imageAttributes.formats.thumbnail.url
+      const finalImageUrl = thumbnailUrl.replace('/thumbnail_', '/')
+      const imageUrl = `${Host}${finalImageUrl}`
+      return imageUrl
     }
 
-    return null;
-  };
-
-  if (!article) {
-    return <div>Carregando...</div>;
+    return null
   }
 
-  const bodyWithImageUrl = article.body.replace(/\/uploads/g, `${Host}/uploads`);
+  if (!article) {
+    return <div>Carregando...</div>
+  }
 
   return (
-    <Box sx={{pl:5, pr:5}}>
+    <Box sx={{ pl: 5, pr: 5, pt: 8, pb: 4 }}>
       <Typography variant="h3">{article.titulo}</Typography>
       {article.ilustracao && (
-        <img src={article.ilustracao} alt="Ilustração" style={{ width: '100%', marginBottom: 10 }} />
+        <img
+          src={article.ilustracao}
+          alt="Ilustração"
+          style={{
+            width: '100%',
+            maxHeight: '380px',
+            objectFit: 'cover',
+            marginBottom: 10,
+          }}
+        />
       )}
       <Typography variant="body2" color="text.secondary">
         Data de Publicação: {article.data_pub}
@@ -63,9 +58,9 @@ const Article = () => {
         Autor: {article.autor}
       </Typography>
       <Divider />
-      <div dangerouslySetInnerHTML={{ __html: bodyWithImageUrl }} />
+      <div dangerouslySetInnerHTML={{ __html: article.body }} />
     </Box>
-  );
-};
+  )
+}
 
-export default Article;
+export default Article

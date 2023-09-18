@@ -1,10 +1,28 @@
-import * as React from "react";
-import {Card, Typography } from "@mui/material";
-import colors from "../../../../colors";
+import { Card, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import colors from '../../../../styles/colors'
+import api from '../../../../services/api'
 
-const totalCaesAdotados = 45;
-const totalCaespAdocao = 86;
+const totalCaesAdotados = 45
+// const totalCaespAdocao = 86
 export default function Card2() {
+  const [caespAdocao, setCaesAdocao] = useState(0)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const caesResponse = await api.get('/api/chart', {
+          params: { especie: 'CANINO', adotado: 'false' },
+        })
+        const caesIds = caesResponse.data
+        console.log('aqui cao', caesResponse.data.length)
+        setCaesAdocao(caesIds.length)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
   return (
     <Card
       sx={{
@@ -20,48 +38,60 @@ export default function Card2() {
       <Typography
         component={'span'}
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           marginLeft: 2,
           marginRight: 2,
         }}
       >
         <Typography
           variant="subtitle2"
-          fontFamily={"Public Sans"}
+          fontFamily={'Public Sans'}
           fontWeight={600}
           sx={{ opacity: 0.72 }}
         >
           Cães Adotados
         </Typography>
-        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
+        <Typography
+          sx={{
+            fontFamily: 'Public Sans',
+            fontSize: '30px',
+            fontWeight: 'bold',
+          }}
+        >
           {totalCaesAdotados}
         </Typography>
       </Typography>
       <Typography
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           marginLeft: 2,
           marginRight: 2,
         }}
       >
         <Typography
           variant="subtitle2"
-          fontFamily={"Public Sans"}
+          fontFamily={'Public Sans'}
           fontWeight={600}
           sx={{ opacity: 0.72 }}
         >
           Cães para Adoção
         </Typography>
-        <Typography sx={{fontFamily:"Public Sans", fontSize:'30px', fontWeight:'bold'}}>
-          {totalCaespAdocao}
+        <Typography
+          sx={{
+            fontFamily: 'Public Sans',
+            fontSize: '30px',
+            fontWeight: 'bold',
+          }}
+        >
+          {caespAdocao}
         </Typography>
       </Typography>
     </Card>
-  );
+  )
 }

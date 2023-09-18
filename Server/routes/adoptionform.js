@@ -4,7 +4,7 @@ const router = express.Router();
 const pool = require("../db");
 
 // Rota para listar todos os formularios de adoção
-router.get("/", async (req, res) => {
+router.get("/", async (_, res) => {
   try {
     const { rows } = await pool.query("SELECT * FROM formularios_adocao WHERE data_envio IS NOT NULL");
     res.send(rows);
@@ -22,6 +22,22 @@ router.get("/:id_cliente", async (req, res) => {
       "SELECT * FROM formularios_adocao WHERE id_cliente = $1",
       [id_cliente]
     );
+    res.send(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao listar formularios.");
+  }
+});
+
+// Rota para listar todos os formularios de adoção
+router.post("/verificacliente", async (req, res) => {
+  const {  id_animal, id_cliente } = req.body;
+  try {
+    const { rows } = await pool.query(
+      "SELECT * FROM formularios_adocao WHERE id_animal = $1 AND id_cliente = $2",
+      [id_animal, id_cliente]
+    );
+    console.log("🚀 ~ file: adoptionform.js:40 ~ router.post ~ rows:", rows)
     res.send(rows);
   } catch (error) {
     console.error(error);
@@ -79,9 +95,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id_formulario", async (req, res) => {
-  const { id_formulario } = req.params;
+router.put("/", async (req, res) => {
   const {
+    id_formulario,
     id_cliente,
     id_animal,
     tipo_moradia,

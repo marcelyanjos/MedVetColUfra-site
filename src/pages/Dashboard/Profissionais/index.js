@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import styles from "./style";
-import Table from "./Table";
-import { Link, Outlet } from "react-router-dom";
+import React from 'react'
+import { Container } from '@mui/material'
+import { Outlet } from 'react-router-dom'
 
 export default function Article() {
   return (
@@ -12,5 +9,5 @@ export default function Article() {
         <Outlet />
       </Container>
     </div>
-  );
+  )
 }
