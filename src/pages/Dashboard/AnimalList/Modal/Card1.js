@@ -31,14 +31,8 @@ const card2 = {
   p: 1,
 }
 export default function Card1() {
-  // const [checked, setChecked] = React.useState([0])
-  // const [files, setFiles] = useState([])
-
   // const navigate = useNavigate()
   const [newImage, setNewImage] = useState(true)
-  // const [openSnackbar, setOpenSnackbar] = useState(false)
-  // const [snackbarMessage, setSnackbarMessage] = useState('')
-  // const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   const { id } = useParams()
 
@@ -48,6 +42,7 @@ export default function Card1() {
     sexo: '',
     idade: '',
     peso: '',
+    adotado: false,
     imagem: '',
   })
 
@@ -63,6 +58,7 @@ export default function Card1() {
           sexo: animalData.sexo,
           idade: animalData.idade,
           peso: animalData.peso,
+          adotado: animalData.adotado,
           imagem: animalData.imagem,
         })
       })
@@ -74,6 +70,7 @@ export default function Card1() {
         sexo: '',
         idade: '',
         peso: '',
+        adotado: false,
         imagem: '',
       })
     }
@@ -108,9 +105,6 @@ export default function Card1() {
         }
 
         await api.put(`/api/animals/${id}`, updateData)
-        // setOpenSnackbar(true)
-        // setSnackbarMessage('Dados do animal atualizado com sucesso!')
-        // setSnackbarSeverity('success')
       } else {
         // If adding a new animal
         await api.post('/api/animals', {
@@ -118,9 +112,6 @@ export default function Card1() {
           newImage: !!base64, // Set newImage to true only if there is a new image
           imagem: base64 || undefined, // Include imagem property only if there is a new image
         })
-        // setOpenSnackbar(true)
-        // setSnackbarMessage('Dados do animal salvo com sucesso!')
-        // setSnackbarSeverity('success')
         // Limpa os dados do animal
         setAnimal({
           nome: '',
@@ -128,14 +119,12 @@ export default function Card1() {
           sexo: '',
           idade: '',
           peso: '',
+          adotado: '',
           imagem: '',
         })
       }
     } catch (error) {
       console.error(error)
-      // setOpenSnackbar(true)
-      // setSnackbarMessage('Erro ao salvar dados do animal. Tente novamente.')
-      // setSnackbarSeverity('error')
     }
   }
 
@@ -158,14 +147,6 @@ export default function Card1() {
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-
-  // clean up
-  // useEffect(
-  //   () => () => {
-  //     files.forEach((file) => URL.revokeObjectURL(file.preview))
-  //   },
-  //   [files],
-  // )
 
   return (
     <Box sx={{ height: '100%', minHeight: '360px', p: 2 }}>

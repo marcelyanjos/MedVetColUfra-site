@@ -5,7 +5,6 @@ Manter scroll quando drawer fechar por conta de tamanho de tela
 
 Mostrar lista de escalas com react-date-range
 
-verificar post form associando id cliente criado em default checkandadopt
 
 ## ------------ Default Home -----------------
 
@@ -32,6 +31,8 @@ procurar calendario para selecionar multiplas datas
 
 # Falta
 [ ] mudar lista de escala em dashboard para react-date-range
+
+[ ] editar api para service de adoção dashboard
 
 [X] adicionar novo serviço
 

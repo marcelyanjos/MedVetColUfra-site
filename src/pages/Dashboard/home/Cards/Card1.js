@@ -1,10 +1,29 @@
 import { Card, Typography } from '@mui/material'
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import colors from '../../../../styles/colors'
+import api from '../../../../services/api'
 
-const totalGatospAdocao = 86
+// const totalGatospAdocao = 86
 const totalGatosAdotados = 45
 export default function Card1() {
+  const [gatospAdocao, setGatosAdocao] = useState(0)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const gatosResponse = await api.get('/api/chart', {
+          params: { especie: 'felino', adotado: 'false' },
+        })
+        const gatosIds = gatosResponse.data
+        console.log('aqui', gatosResponse.data.length)
+        setGatosAdocao(gatosIds.length)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <Card
       sx={{
@@ -71,7 +90,7 @@ export default function Card1() {
             fontWeight: 'bold',
           }}
         >
-          {totalGatospAdocao}
+          {gatospAdocao}
         </Typography>
       </Typography>
     </Card>

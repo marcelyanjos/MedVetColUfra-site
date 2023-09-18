@@ -5,3 +5,8 @@ export async function getPetById(id) {
 
   return response.data
 }
+
+export async function getPet() {
+  const response = await api.get('/api/animals')
+  return response.data
+}

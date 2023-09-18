@@ -22,6 +22,7 @@ import {
 } from '../../../../services/clientes'
 import colors from '../../../../styles/colors'
 import styles from '../style'
+import { getPet } from '../../../../services/animaisCanil'
 
 const card1 = {
   border: '1px solid #CFD0D7',
@@ -57,9 +58,15 @@ export default function Card1() {
   const { id } = useParams()
 
   useEffect(() => {
-    api.get('/api/animals').then((response) => {
-      setAnimalsList(response.data)
-    })
+    async function fetchData() {
+      try {
+        const response = await getPet()
+        setAnimalsList(response)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
