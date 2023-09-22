@@ -8,18 +8,17 @@ import {
 import { decode } from 'base-64'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import api from '../../../services/api'
+import { getPetById } from '../../../services/animaisCanil'
 import colors from '../../../styles/colors'
 
-function AnimalDetails(props) {
+function AnimalDetails() {
   const [animal, setAnimal] = useState(null)
   const { id } = useParams()
 
   useEffect(() => {
-    api
-      .get(`/api/animals/${id}`)
+    getPetById(id)
       .then((response) => {
-        setAnimal(response.data)
+        setAnimal(response)
       })
       .catch((error) => {
         console.error(error)

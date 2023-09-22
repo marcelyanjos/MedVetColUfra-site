@@ -10,3 +10,16 @@ export async function getPet() {
   const response = await api.get('/api/animals')
   return response.data
 }
+
+export async function getDetailedPetInfo(species, minAge, maxAge, gender) {
+  const body = {
+    species,
+    minAge,
+    maxAge,
+    gender,
+  }
+
+  const response = await api.post('/api/animals/', body)
+
+  return response.data
+}

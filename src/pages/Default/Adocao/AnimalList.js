@@ -21,7 +21,7 @@ import {
 import { decode } from 'base-64'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from '../../../services/api'
+import { getDetailedPetInfo, getPet } from '../../../services/animaisCanil'
 import colors from '../../../styles/colors'
 
 function AnimalList() {
@@ -39,10 +39,9 @@ function AnimalList() {
   const itemsPerPage = 8
 
   useEffect(() => {
-    api
-      .get('/api/animals')
+    getPet()
       .then((response) => {
-        setAnimals(response.data)
+        setAnimals(response)
         setIsLoading(false)
       })
       .catch((error) => {
@@ -53,15 +52,8 @@ function AnimalList() {
 
   const handleFilter = () => {
     const { species, minAge, maxAge, gender } = filterOptions
-    api
-      .get('/api/animals', {
-        params: {
-          species,
-          minAge,
-          maxAge,
-          gender,
-        },
-      })
+
+    getDetailedPetInfo(species, minAge, maxAge, gender)
       .then((response) => {
         setFilteredAnimals(response.data)
       })

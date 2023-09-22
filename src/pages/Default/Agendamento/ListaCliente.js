@@ -12,9 +12,13 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import { format } from 'date-fns'
 import { useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
-import api from '../../../services/api'
+import {
+  fetchServiceById,
+  getSchedulesByClientId,
+} from '../../../services/agendamento'
+import { checkClient, getPetClientByPetId } from '../../../services/clientes'
 
-function CheckClient(props) {
+function CheckClient() {
   // const navigate = useNavigate()
   const [clientInfo, setClientInfo] = useState({
     nome: '',
@@ -36,12 +40,8 @@ function CheckClient(props) {
   const handleSearchClient = (event) => {
     event.preventDefault()
     const dateOfBirth = new Date(clientInfo.data_nasc)
-    api
-      .get(
-        `/api/clientes?nome=${
-          clientInfo.nome
-        }&data_nasc=${dateOfBirth.toISOString()}&email=${clientInfo.email}`,
-      )
+
+    checkClient(clientInfo.nome, dateOfBirth.toISOString(), clientInfo.email)
       .then((clientResponse) => {
         const clients = clientResponse.data
         console.log('resposta de busca', clients)
@@ -79,23 +79,18 @@ function CheckClient(props) {
 
   const loadAgendamentos = (id_cliente) => {
     setIsLoading(true)
-    console.log('id em tabela', id_cliente)
-    api
-      .get(`/api/agendamentos/${id_cliente}`)
+
+    getSchedulesByClientId(id_cliente)
       .then(async (response) => {
-        const agendamentosData = response.data
+        const agendamentosData = response
         const agendamentos = await Promise.all(
           agendamentosData.map(async (agendamento) => {
             const { id_agendamento, id_pet, id_servicos } = agendamento
             const dia = format(new Date(agendamento.dia), 'dd/MM/yyyy')
 
-            const petResponse = await api.get(`/api/petCliente/${id_pet}`)
-            const pet = petResponse.data[0]
+            const pet = getPetClientByPetId(id_pet)[0]
 
-            const serviceResponse = await api.get(
-              `/api/servicos/${id_servicos}`,
-            )
-            const service = serviceResponse.data[0]
+            const service = fetchServiceById(id_servicos).data[0]
 
             return {
               id: id_agendamento,

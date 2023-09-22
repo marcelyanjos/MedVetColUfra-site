@@ -12,7 +12,9 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import { format, parseISO } from 'date-fns'
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../services/api'
+import { getAdoptionFormByClientId } from '../../../services/adocao'
+import { getPetById } from '../../../services/animaisCanil'
+import { checkClient } from '../../../services/clientes'
 
 function ClientForms(props) {
   const navigate = useNavigate()
@@ -36,12 +38,7 @@ function ClientForms(props) {
   const handleSearchClient = (event) => {
     event.preventDefault()
     const dateOfBirth = new Date(clientInfo.data_nasc)
-    api
-      .get(
-        `/api/clientes?nome=${clientInfo.nome.toUpperCase()}&data_nasc=${dateOfBirth.toISOString()}&email=${
-          clientInfo.email
-        }`,
-      )
+    checkClient(clientInfo.nome, dateOfBirth.toISOString(), clientInfo.email)
       .then((clientResponse) => {
         const clients = clientResponse.data
 
@@ -77,16 +74,14 @@ function ClientForms(props) {
 
   const loadAgendamentos = (id_cliente) => {
     setIsLoading(true)
-    api
-      .get(`/api/formularios-adocao/${id_cliente}`)
+    getAdoptionFormByClientId(id_cliente)
       .then(async (response) => {
         const adocoes = await Promise.all(
-          response.data.map(async (adocao) => {
+          response.map(async (adocao) => {
             const { id_formulario, id_animal } = adocao
-            console.log('ids:', id_formulario, id_animal)
+
             const dia = format(new Date(adocao.data_envio), 'dd/MM/yyyy')
-            const petResponse = await api.get(`/api/animals/${id_animal}`)
-            const pet = petResponse.data
+            const pet = await getPetById(id_animal)
 
             return {
               id: id_formulario,

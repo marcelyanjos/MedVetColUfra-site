@@ -69,6 +69,12 @@ export async function addPet(
   return response.data
 }
 
+export async function getPetClientByPetId(petId) {
+  const response = await api.get(`/api/petCliente/${petId}`)
+
+  return response.data
+}
+
 export async function getClientById(clientId) {
   const response = await api.get(`/api/clientes/${clientId}`)
 

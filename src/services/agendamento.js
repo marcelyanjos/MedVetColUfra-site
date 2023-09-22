@@ -77,3 +77,15 @@ export async function schedule(service, clientId, petId, day, time, reason) {
 
   return response
 }
+
+export async function getSchedulesByClientId(clientId) {
+  const response = await api.get(`/api/agendamentos/${clientId}`)
+
+  return response.data
+}
+
+export async function fetchServiceById(serviceId) {
+  const response = await api.get(`/api/servicos/${serviceId}`)
+
+  return response.data
+}

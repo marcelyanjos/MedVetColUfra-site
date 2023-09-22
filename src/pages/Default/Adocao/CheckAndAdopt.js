@@ -12,9 +12,8 @@ import { decode } from 'base-64'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { checkAdoption } from '../../../services/adocao'
+import { addAdoptionForm, checkAdoption } from '../../../services/adocao'
 import { getPetById } from '../../../services/animaisCanil'
-import api from '../../../services/api'
 import { addClient, checkClient } from '../../../services/clientes'
 
 function CheckAndAdopt() {
@@ -110,8 +109,14 @@ function CheckAndAdopt() {
   }
 
   const submitAdoptionForm = (adoptionForm) => {
-    api
-      .post('/api/formularios-adocao', adoptionForm)
+    addAdoptionForm(
+      adoptionForm.id_cliente,
+      adoptionForm.id_animal,
+      adoptionForm.protocolo,
+      adoptionForm.tipo_moradia,
+      adoptionForm.ocupacao,
+      adoptionForm.data_envio,
+    )
       .then(() => {
         setOpenSnackbar(true)
         setSnackbarMessage('Formulario enviado com sucesso.')

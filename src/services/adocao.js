@@ -57,3 +57,9 @@ export async function checkAdoption(animalId, clientId) {
 
   return response.data
 }
+
+export async function getAdoptionFormByClientId(clientId) {
+  const response = await api.get(`/api/formularios-adocao/${clientId}`)
+
+  return response.data
+}

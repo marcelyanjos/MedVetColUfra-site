@@ -5,8 +5,8 @@ const pool = require("../db");
 const { Buffer } = require("buffer");
 
 // Rota para listar todos os animais
-router.get("/", async (req, res) => {
-  const { species, minAge, maxAge, gender } = req.query;
+router.post("/", async (req, res) => {
+  const { species, minAge, maxAge, gender } = req.body;
 
   try {
     let query = "SELECT * FROM animais_canil";

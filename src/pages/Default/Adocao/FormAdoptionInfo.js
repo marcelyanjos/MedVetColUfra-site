@@ -12,7 +12,9 @@ import { format } from 'date-fns'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useReactToPrint } from 'react-to-print'
-import api from '../../../services/api'
+import { getAdoptionFormByClientId } from '../../../services/adocao'
+import { getPetById } from '../../../services/animaisCanil'
+import { getClientById } from '../../../services/clientes'
 import colors from '../../../styles/colors'
 import theme from '../../theme'
 export default function FormAdoptionInfo() {
@@ -42,45 +44,43 @@ export default function FormAdoptionInfo() {
   const printRef = useRef()
   const { id } = useParams()
   useEffect(() => {
-    api.get(`/api/formularios-adocao/formulario/${id}`).then((response) => {
-      const adoptionFormData = response.data
+    getAdoptionFormByClientId(id).then((response) => {
+      const adoptionFormData = response
 
-      api
-        .get(`/api/clientes/${adoptionFormData.id_cliente}`)
-        .then((clientResponse) => {
-          const clientData = clientResponse.data
-          setClient({
-            nome: clientData.nome,
-            data_nasc: format(new Date(clientData.data_nasc), 'dd-MM-yyyy'),
-            email: clientData.email,
-          })
-          setForm({
-            moradia: adoptionFormData.tipo_moradia,
-            ocupacao: adoptionFormData.ocupacao,
-            protocolo: adoptionFormData.protocolo,
-            situacao: adoptionFormData.situacao,
-            data_envio: format(
-              new Date(adoptionFormData.data_envio),
-              'dd/MM/yyyy',
-            ),
-          })
+      getClientById(adoptionFormData.id_cliente).then((clientResponse) => {
+        const clientData = clientResponse.data
+
+        setClient({
+          nome: clientData.nome,
+          data_nasc: format(new Date(clientData.data_nasc), 'dd-MM-yyyy'),
+          email: clientData.email,
         })
+
+        setForm({
+          moradia: adoptionFormData.tipo_moradia,
+          ocupacao: adoptionFormData.ocupacao,
+          protocolo: adoptionFormData.protocolo,
+          situacao: adoptionFormData.situacao,
+          data_envio: format(
+            new Date(adoptionFormData.data_envio),
+            'dd/MM/yyyy',
+          ),
+        })
+      })
 
       // Fetch animal data using id_animal
-      api
-        .get(`/api/animals/${adoptionFormData.id_animal}`)
-        .then((animalResponse) => {
-          const animalData = animalResponse.data
-          setAnimal({
-            id_animal: animalData.id,
-            nome: animalData.nome,
-            especie: animalData.especie,
-            sexo: animalData.sexo,
-            idade: animalData.idade,
-            peso: animalData.peso,
-            imagem: animalData.imagem,
-          })
+      getPetById(adoptionFormData.id_animal).then((animalResponse) => {
+        const animalData = animalResponse.data
+        setAnimal({
+          id_animal: animalData.id,
+          nome: animalData.nome,
+          especie: animalData.especie,
+          sexo: animalData.sexo,
+          idade: animalData.idade,
+          peso: animalData.peso,
+          imagem: animalData.imagem,
         })
+      })
     })
   }, [id])
 
