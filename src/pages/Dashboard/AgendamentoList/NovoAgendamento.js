@@ -73,15 +73,7 @@ const AgendamentoConsulta = () => {
       // Caso editar formulario
       getEditSchedulesByClientId(clientId).then((response) => {
         const agendamentoFormData = response[0]
-
-        setFormState((state) => ({
-          ...state,
-          ...agendamentoFormData,
-          dia: new Date(agendamentoFormData.dia),
-        }))
-
-        // Fetch client data com id_cliente
-        getClientById(clientId).then((clientResponse) => {
+        getClientById(agendamentoFormData.id_cliente).then((clientResponse) => {
           const clientData = clientResponse.data
 
           setFormState((state) => ({
@@ -94,6 +86,11 @@ const AgendamentoConsulta = () => {
             email: clientData.email,
           }))
         })
+        setFormState((state) => ({
+          ...state,
+          ...agendamentoFormData,
+          dia: new Date(agendamentoFormData.dia),
+        }))
 
         // Fetch animal data com id_animal
         getPetClientByPetId(agendamentoFormData.id_pet).then(
@@ -159,7 +156,10 @@ const AgendamentoConsulta = () => {
       return
     }
 
-    const dataObj = new Date(formState.dia.format('MM-dd-YYYY')) // Converter a string de data em um objeto Date
+    const dataFormatada = format(formState.dia, 'MM-dd-yyyy')
+    // Converta a data formatada de volta para um objeto Date
+    const dataObj = new Date(dataFormatada)
+
     if (dataObj.getDay() === 0 || dataObj.getDay() === 6) {
       setOpenSnackbar(true)
       setSnackbarMessage('Por favor, escolha uma data durante a semana.')
