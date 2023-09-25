@@ -89,3 +89,9 @@ export async function fetchServiceById(serviceId) {
 
   return response.data
 }
+
+export async function getEditSchedulesByClientId(clientId) {
+  const response = await api.get(`/api/agendamentos/edit/${clientId}`)
+
+  return response.data
+}

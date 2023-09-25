@@ -8,16 +8,18 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { format } from 'date-fns'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import api from '../../../services/api'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   fetchServices,
   getAvailability,
+  getEditSchedulesByClientId,
   schedule,
 } from '../../../services/agendamento'
 import {
@@ -25,8 +27,9 @@ import {
   addPet,
   checkClient,
   checkPet,
+  getClientById,
+  getPetClientByPetId,
 } from '../../../services/clientes'
-import { useParams } from 'react-router-dom'
 
 const AgendamentoConsulta = () => {
   const [formState, setFormState] = useState({
@@ -44,7 +47,10 @@ const AgendamentoConsulta = () => {
     sexo: '',
     motivoConsulta: '',
   })
-  // console.log("🚀 ~ file: NovoAgendamento.js:41 ~ AgendamentoConsulta ~ formState:", formState)
+  console.log(
+    '🚀 ~ file: NovoAgendamento.js:49 ~ AgendamentoConsulta ~ formState:',
+    formState,
+  )
 
   const [listaServicos, setListaServicos] = useState([])
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([])
@@ -55,57 +61,61 @@ const AgendamentoConsulta = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
   const id = useParams()
-  console.log('id', id)
 
   useEffect(() => {
     fetchServices(setListaServicos)
   }, [])
 
   useEffect(() => {
-    if (id) {
+    const clientId = id.id
+
+    if (clientId) {
       // Caso editar formulario
-      api.get(`/api/agendamentos/edit/${id.id}`).then((response) => {
-        const agendamentoFormData = response.data[0]
-        console.log('formulario', agendamentoFormData)
+      getEditSchedulesByClientId(clientId).then((response) => {
+        const agendamentoFormData = response[0]
+
+        setFormState((state) => ({
+          ...state,
+          ...agendamentoFormData,
+          dia: new Date(agendamentoFormData.dia),
+        }))
 
         // Fetch client data com id_cliente
-        api
-          .get(`/api/clientes/${agendamentoFormData.id_cliente}`)
-          .then((clientResponse) => {
-            const clientData = clientResponse.data
-            setFormState({
-              ...formState,
-              nomeCliente: clientData.nome,
-              dataNascimento: format(
-                new Date(clientData.data_nasc),
-                'yyyy-MM-dd',
-              ),
-              email: clientData.email,
-            })
-          })
+        getClientById(clientId).then((clientResponse) => {
+          const clientData = clientResponse.data
+
+          setFormState((state) => ({
+            ...state,
+            nomeCliente: clientData.nome,
+            dataNascimento: format(
+              new Date(clientData.data_nasc),
+              'yyyy-MM-dd',
+            ),
+            email: clientData.email,
+          }))
+        })
 
         // Fetch animal data com id_animal
-        api
-          .get(`/api/petCliente/${agendamentoFormData.id_pet}`)
-          .then((animalResponse) => {
-            const animalData = animalResponse.data[0]
-            console.log(animalData)
-            setFormState({
-              ...formState,
+        getPetClientByPetId(agendamentoFormData.id_pet).then(
+          (animalResponse) => {
+            const animalData = animalResponse[0]
+
+            setFormState((state) => ({
+              ...state,
               id_animal: animalData.id_pet,
               nomeAnimal: animalData.nome,
               especie: animalData.especie,
               sexo: animalData.sexo,
               idade: animalData.idade,
               peso: animalData.peso,
-            })
-          })
-        // api.get(`/api/servicos/${agendamentoFormData.id_servicos}`).then((serviçoResponse))
-        setFormState({
-          ...formState,
+            }))
+          },
+        )
+        setFormState((state) => ({
+          ...state,
           servico: agendamentoFormData.id_servicos,
           motivoConsulta: agendamentoFormData.motivo,
-        })
+        }))
       })
     }
   }, [id])
@@ -185,10 +195,6 @@ const AgendamentoConsulta = () => {
       formState.dataNascimento,
       formState.email,
     )
-    console.log(
-      '🚀 ~ file: NovoAgendamento.js:119 ~ handleSubmit ~ clienteExistente:',
-      clienteExistente,
-    )
 
     if (clienteExistente) {
       const id_cliente = clienteExistente.id_cliente
@@ -198,10 +204,7 @@ const AgendamentoConsulta = () => {
         formState.especie,
         formState.sexo,
       )
-      console.log(
-        '🚀 ~ file: NovoAgendamento.js:129 ~ handleSubmit ~ petExistente:',
-        petExistente,
-      )
+
       if (petExistente) {
         const id_pet = petExistente.id_pet
         salvarAgendamento(
@@ -556,8 +559,8 @@ const AgendamentoConsulta = () => {
         {formState.servico && (
           <Box sx={{ width: '60%', ml: 1 }}>
             <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              adapterLocale={'pt-br'}
+              dateAdapter={AdapterDateFns}
+              adapterLocale={ptBR}
             >
               <DateCalendar
                 label="Data"

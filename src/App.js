@@ -1,3 +1,5 @@
+import { ptBR } from 'date-fns/locale'
+import setDefaultOptions from 'date-fns/setDefaultOptions'
 import {
   Navigate,
   Route,
@@ -64,6 +66,7 @@ import {
 import './styles/App.css'
 
 function App() {
+  setDefaultOptions({ locale: ptBR })
   return (
     <Router>
       <AuthProvider>

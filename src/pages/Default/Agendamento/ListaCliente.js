@@ -43,24 +43,15 @@ function CheckClient() {
 
     checkClient(clientInfo.nome, dateOfBirth.toISOString(), clientInfo.email)
       .then((clientResponse) => {
-        const clients = clientResponse.data
-        console.log('resposta de busca', clients)
-
-        if (clients.length === 1) {
-          const id_cliente = clients[0].id_cliente
+        if (clientResponse) {
+          const id_cliente = clientResponse.id_cliente
           console.log('id cliente', id_cliente)
           loadAgendamentos(id_cliente)
           setShowTable(true)
-        } else if (clients.length === 0) {
+        } else {
           alert('Cliente não encontrado')
           setAgendamentos([])
           setShowTable(false)
-        } else {
-          alert(
-            'Mais de um cliente encontrado com os mesmos dados. Verifique a base de dados.',
-          )
-          setAgendamentos([])
-          setShowTable(true)
         }
       })
       .catch((error) => {
@@ -88,9 +79,9 @@ function CheckClient() {
             const { id_agendamento, id_pet, id_servicos } = agendamento
             const dia = format(new Date(agendamento.dia), 'dd/MM/yyyy')
 
-            const pet = getPetClientByPetId(id_pet)[0]
+            const pet = getPetClientByPetId(id_pet)
 
-            const service = fetchServiceById(id_servicos).data[0]
+            const service = fetchServiceById(id_servicos)
 
             return {
               id: id_agendamento,
