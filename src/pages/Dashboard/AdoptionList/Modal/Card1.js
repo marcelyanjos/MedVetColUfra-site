@@ -13,8 +13,12 @@ import { decode } from 'base-64'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { addAdoptionForm, editAdoptionForm } from '../../../../services/adocao'
-import api from '../../../../services/api'
+import {
+  addAdoptionForm,
+  editAdoptionForm,
+  getAdoptionFormByFormId,
+} from '../../../../services/adocao'
+import { getPet, getPetById } from '../../../../services/animaisCanil'
 import {
   addClient,
   getClientById,
@@ -22,7 +26,6 @@ import {
 } from '../../../../services/clientes'
 import colors from '../../../../styles/colors'
 import styles from '../style'
-import { getPet } from '../../../../services/animaisCanil'
 
 const card1 = {
   border: '1px solid #CFD0D7',
@@ -72,38 +75,31 @@ export default function Card1() {
   useEffect(() => {
     if (id) {
       // Caso editar formulario
-      api.get(`/api/formularios-adocao/formulario/${id}`).then((response) => {
-        const adoptionFormData = response.data
-
+      getAdoptionFormByFormId(id).then((adoptionFormData) => {
         // Fetch client data com id_cliente
-        api
-          .get(`/api/clientes/${adoptionFormData.id_cliente}`)
-          .then((clientResponse) => {
-            const clientData = clientResponse.data
-            setClient({
-              nome: clientData.nome,
-              data_nasc: format(new Date(clientData.data_nasc), 'yyyy-MM-dd'),
-              email: clientData.email,
-              moradia: adoptionFormData.tipo_moradia,
-              ocupacao: adoptionFormData.ocupacao,
-            })
+        getClientById(adoptionFormData.id_cliente).then((clientResponse) => {
+          const clientData = clientResponse.data
+          setClient({
+            nome: clientData.nome,
+            data_nasc: format(new Date(clientData.data_nasc), 'yyyy-MM-dd'),
+            email: clientData.email,
+            moradia: adoptionFormData.tipo_moradia,
+            ocupacao: adoptionFormData.ocupacao,
           })
+        })
 
         // Fetch animal data com id_animal
-        api
-          .get(`/api/animals/${adoptionFormData.id_animal}`)
-          .then((animalResponse) => {
-            const animalData = animalResponse.data
-            setAnimal({
-              id_animal: animalData.id,
-              nome: animalData.nome,
-              especie: animalData.especie,
-              sexo: animalData.sexo,
-              idade: animalData.idade,
-              peso: animalData.peso,
-              imagem: animalData.imagem,
-            })
+        getPetById(adoptionFormData.id_animal).then((animalData) => {
+          setAnimal({
+            id_animal: animalData.id_animal,
+            nome: animalData.nome,
+            especie: animalData.especie,
+            sexo: animalData.sexo,
+            idade: animalData.idade,
+            peso: animalData.peso,
+            imagem: animalData.imagem,
           })
+        })
       })
     }
   }, [id])
@@ -154,11 +150,7 @@ export default function Card1() {
     try {
       if (id) {
         // Fetch adoption form data by ID
-        const response = await api.get(
-          `/api/formularios-adocao/formulario/${id}`,
-        )
-        const adoptionFormData = response.data
-
+        const adoptionFormData = await getAdoptionFormByFormId(id)
         // Check if the client exists
         const clientResponse = await getClientById(adoptionFormData.id_cliente)
 

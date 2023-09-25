@@ -159,7 +159,7 @@ const AgendamentoConsulta = () => {
       return
     }
 
-    const dataObj = new Date(formState.dia.format('MM-dd-YYYY')) // Converter a string de data em um objeto Date
+    const dataObj = formState.dia // Converter a string de data em um objeto Date
     if (dataObj.getDay() === 0 || dataObj.getDay() === 6) {
       setOpenSnackbar(true)
       setSnackbarMessage('Por favor, escolha uma data durante a semana.')

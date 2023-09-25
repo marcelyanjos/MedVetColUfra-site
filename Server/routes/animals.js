@@ -82,7 +82,7 @@ router.get("/:id_animal", async (req, res) => {
 });
 
 // Rota para cadastrar um novo animal
-router.post("/", async (req, res) => {
+router.post("/add_animal", async (req, res) => {
   const { nome, especie, sexo, idade, peso, adotado, imagem } = req.body;
   try {
     const { rows } = await pool.query(
@@ -98,9 +98,8 @@ router.post("/", async (req, res) => {
 });
 
 // Rota para atualizar informações de um animal pelo ID
-router.put('/:id_animal', async (req, res) => {
-  const { id_animal } = req.params;
-  const { nome, especie, sexo, idade, peso, imagem } = req.body;
+router.put('/update_animal', async (req, res) => {
+  const { id_animal, nome, especie, sexo, idade, peso, imagem } = req.body;
   try {
     const { rowCount } = await pool.query(
       'UPDATE animais_canil SET nome=$1, especie=$2, sexo=$3, idade=$4, peso=$5, imagem=$6 WHERE id_animal=$7',

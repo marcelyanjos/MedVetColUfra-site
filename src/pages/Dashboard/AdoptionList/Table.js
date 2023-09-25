@@ -12,7 +12,9 @@ import {
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../services/api'
+import { getAdoptionForms } from '../../../services/adocao'
+import { getPetById } from '../../../services/animaisCanil'
+import { getClientById } from '../../../services/clientes'
 import styles from './style'
 
 export default function ColumnTypesGrid() {
@@ -24,21 +26,18 @@ export default function ColumnTypesGrid() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('/api/formularios-adocao')
-        const adocoes = response.data
-        console.log(adocoes)
+        const adocoes = await getAdoptionForms()
+        console.log('🚀 ~ file: Table.js:30 ~ fetchData ~ adocoes:', adocoes)
 
         const updatedAdocoes = await Promise.all(
           adocoes.map(async (adocao) => {
             const { id_formulario, id_cliente, id_animal } = adocao
             const data_envio = format(new Date(adocao.data_envio), 'dd/MM/yyyy')
 
-            const clientResponse = await api.get(`/api/clientes/${id_cliente}`)
+            const clientResponse = await getClientById(id_cliente)
             const client = clientResponse.data
 
-            const animalResponse = await api.get(`/api/animals/${id_animal}`)
-            const animal = animalResponse.data
-            console.log('pet', animal)
+            const animal = await getPetById(id_animal)
 
             return {
               id: id_formulario,
@@ -65,14 +64,6 @@ export default function ColumnTypesGrid() {
 
     fetchData()
   }, [])
-
-  // Detalhes ainda em console
-  // const details = React.useCallback(
-  //   (id) => () => {
-  //     console.log('details: ', rows[id - 1])
-  //   },
-  //   [],
-  // )
 
   const edit = React.useCallback(
     (id) => () => {

@@ -16,7 +16,11 @@ import { decode } from 'base-64'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useNavigate, useParams } from 'react-router-dom'
-import api from '../../../../services/api'
+import {
+  addAnimal,
+  getPetById,
+  updateAnimal,
+} from '../../../../services/animaisCanil'
 import colors from '../../../../styles/colors'
 import styles from '../style'
 
@@ -54,8 +58,7 @@ export default function Card1() {
   useEffect(() => {
     // Se existe o id, carrega as informações do animal para editar
     if (id) {
-      api.get(`/api/animals/${id}`).then((response) => {
-        const animalData = response.data
+      getPetById(id).then((animalData) => {
         setNewImage(false)
         setAnimal({
           nome: animalData.nome,
@@ -106,17 +109,18 @@ export default function Card1() {
         // Se atualiza os dados do animal
         const updateData = {
           ...animal,
+          id_animal: id,
           imagem: base64 || decode(animal.imagem), // Use the existing image if there is no new image
         }
 
-        await api.put(`/api/animals/${id}`, updateData)
+        await updateAnimal(updateData)
         setOpenSnackbar(true)
         setSnackbarMessage('Dados atualizados com sucesso!')
         setSnackbarSeverity('success')
         navigate('..', 3000)
       } else {
         // Se adiciona novo animal
-        await api.post('/api/animals', {
+        await addAnimal({
           ...animal,
           newImage: !!base64, // se imagem for nova
           imagem: base64 || undefined,
@@ -131,7 +135,7 @@ export default function Card1() {
           sexo: '',
           idade: '',
           peso: '',
-          adotado: '',
+          adotado: false,
           imagem: '',
         })
       }

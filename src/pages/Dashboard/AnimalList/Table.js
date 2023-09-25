@@ -12,7 +12,7 @@ import {
 import { decode } from 'base-64'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../../../services/api'
+import { getPet } from '../../../services/animaisCanil'
 import styles from './style'
 
 export default function ColumnTypesGrid() {
@@ -24,8 +24,7 @@ export default function ColumnTypesGrid() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.post('/api/animals')
-        const animais = response.data
+        const animais = await getPet()
 
         const updatedFormularios = animais.map((animal) => ({
           id: animal.id_animal,

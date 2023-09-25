@@ -23,3 +23,15 @@ export async function getDetailedPetInfo(species, minAge, maxAge, gender) {
 
   return response.data
 }
+
+export async function updateAnimal(body) {
+  const response = await api.put('/api/animals/update_animal', body)
+
+  return response.data
+}
+
+export async function addAnimal(body) {
+  const response = await api.put('/api/animals/add_animal', body)
+
+  return response.data
+}
