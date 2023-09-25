@@ -180,7 +180,7 @@ export default function Card1() {
           )
         } else {
           // Update existing client data
-          await updateClient(id, client)
+          await updateClient(adoptionFormData.id_cliente, client)
 
           // Update existing adoption form data
           await editAdoptionForm(
@@ -190,6 +190,9 @@ export default function Card1() {
             client.moradia,
             client.ocupacao,
           )
+          setOpenSnackbar(true)
+          setSnackbarMessage('Dados atualizados com sucesso!')
+          setSnackbarSeverity('success')
         }
       } else {
         // Submit client data to the client API endpoint
@@ -233,9 +236,6 @@ export default function Card1() {
       })
     } catch (error) {
       console.error(error)
-      setOpenSnackbar(true)
-      setSnackbarMessage('Erro ao enviar dados. Tente novamente.')
-      setSnackbarSeverity('error')
     }
   }
 

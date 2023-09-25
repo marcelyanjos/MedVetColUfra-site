@@ -6,9 +6,6 @@ import styles from './style'
 
 export default function ModalUser() {
   const { id } = useParams()
-  // const [open, setOpen] = React.useState(false)
-  // const handleOpen = () => setOpen(true)
-  // const handleClose = () => setOpen(false)
 
   return (
     <Box sx={styles.index_box2}>

@@ -7,7 +7,7 @@ export async function getPetById(id) {
 }
 
 export async function getPet() {
-  const response = await api.get('/api/animals')
+  const response = await api.post('/api/animals')
   return response.data
 }
 

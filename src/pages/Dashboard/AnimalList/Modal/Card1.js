@@ -1,19 +1,21 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
 import {
+  Alert,
   Box,
   Button,
   Grid,
   IconButton,
   Link,
   MenuItem,
+  Snackbar,
   TextField,
   Typography,
 } from '@mui/material'
 import { decode } from 'base-64'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../../../services/api'
 import colors from '../../../../styles/colors'
 import styles from '../style'
@@ -31,7 +33,10 @@ const card2 = {
   p: 1,
 }
 export default function Card1() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
   const [newImage, setNewImage] = useState(true)
 
   const { id } = useParams()
@@ -63,7 +68,7 @@ export default function Card1() {
         })
       })
     } else {
-      // If there is no "id" in the URL, reset the "animal" state
+      // Se não, reseta estado
       setAnimal({
         nome: '',
         especie: '',
@@ -98,20 +103,27 @@ export default function Card1() {
       }
 
       if (id) {
-        // If updating an existing animal
+        // Se atualiza os dados do animal
         const updateData = {
           ...animal,
           imagem: base64 || decode(animal.imagem), // Use the existing image if there is no new image
         }
 
         await api.put(`/api/animals/${id}`, updateData)
+        setOpenSnackbar(true)
+        setSnackbarMessage('Dados atualizados com sucesso!')
+        setSnackbarSeverity('success')
+        navigate('..', 3000)
       } else {
-        // If adding a new animal
+        // Se adiciona novo animal
         await api.post('/api/animals', {
           ...animal,
-          newImage: !!base64, // Set newImage to true only if there is a new image
-          imagem: base64 || undefined, // Include imagem property only if there is a new image
+          newImage: !!base64, // se imagem for nova
+          imagem: base64 || undefined,
         })
+        setOpenSnackbar(true)
+        setSnackbarMessage('Dados atualizados com sucesso!')
+        setSnackbarSeverity('success')
         // Limpa os dados do animal
         setAnimal({
           nome: '',
@@ -125,6 +137,9 @@ export default function Card1() {
       }
     } catch (error) {
       console.error(error)
+      setOpenSnackbar(true)
+      setSnackbarMessage('Erro ao enviar dados. Tente novamente.')
+      setSnackbarSeverity('error')
     }
   }
 
@@ -150,7 +165,16 @@ export default function Card1() {
 
   return (
     <Box sx={{ height: '100%', minHeight: '360px', p: 2 }}>
-      {/* <Box > */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid sx={styles.modal_box} container>
         <Grid xs={12} sm={6} ls={12} sx={card1}>
           <Grid item xs={12} sm={12} lg={12}>

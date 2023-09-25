@@ -14,7 +14,7 @@ export default function CardCarrousel() {
   // const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     api
-      .get('/api/animals')
+      .post('/api/animals')
       .then((response) => {
         setAnimals(response.data)
         console.log('data: ', response.data)

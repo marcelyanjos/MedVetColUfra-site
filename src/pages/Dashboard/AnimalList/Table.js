@@ -24,7 +24,7 @@ export default function ColumnTypesGrid() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get('/api/animals')
+        const response = await api.post('/api/animals')
         const animais = response.data
 
         const updatedFormularios = animais.map((animal) => ({
