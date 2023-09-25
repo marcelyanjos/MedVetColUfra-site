@@ -8,9 +8,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { format } from 'date-fns'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import api from '../../../services/api'
 
 import React, { useEffect, useState } from 'react'
 import {
@@ -24,6 +26,7 @@ import {
   checkClient,
   checkPet,
 } from '../../../services/clientes'
+import { useParams } from 'react-router-dom'
 
 const AgendamentoConsulta = () => {
   const [formState, setFormState] = useState({
@@ -33,6 +36,7 @@ const AgendamentoConsulta = () => {
     nomeCliente: '',
     dataNascimento: '',
     email: '',
+    id_animal: '',
     nomeAnimal: '',
     idade: '',
     especie: '',
@@ -50,9 +54,61 @@ const AgendamentoConsulta = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('')
   const [snackbarSeverity, setSnackbarSeverity] = useState('success')
 
+  const id = useParams()
+  console.log('id', id)
+
   useEffect(() => {
     fetchServices(setListaServicos)
   }, [])
+
+  useEffect(() => {
+    if (id) {
+      // Caso editar formulario
+      api.get(`/api/agendamentos/edit/${id.id}`).then((response) => {
+        const agendamentoFormData = response.data[0]
+        console.log('formulario', agendamentoFormData)
+
+        // Fetch client data com id_cliente
+        api
+          .get(`/api/clientes/${agendamentoFormData.id_cliente}`)
+          .then((clientResponse) => {
+            const clientData = clientResponse.data
+            setFormState({
+              ...formState,
+              nomeCliente: clientData.nome,
+              dataNascimento: format(
+                new Date(clientData.data_nasc),
+                'yyyy-MM-dd',
+              ),
+              email: clientData.email,
+            })
+          })
+
+        // Fetch animal data com id_animal
+        api
+          .get(`/api/petCliente/${agendamentoFormData.id_pet}`)
+          .then((animalResponse) => {
+            const animalData = animalResponse.data[0]
+            console.log(animalData)
+            setFormState({
+              ...formState,
+              id_animal: animalData.id_pet,
+              nomeAnimal: animalData.nome,
+              especie: animalData.especie,
+              sexo: animalData.sexo,
+              idade: animalData.idade,
+              peso: animalData.peso,
+            })
+          })
+        // api.get(`/api/servicos/${agendamentoFormData.id_servicos}`).then((serviçoResponse))
+        setFormState({
+          ...formState,
+          servico: agendamentoFormData.id_servicos,
+          motivoConsulta: agendamentoFormData.motivo,
+        })
+      })
+    }
+  }, [id])
 
   useEffect(() => {
     const horarios = []
@@ -354,7 +410,7 @@ const AgendamentoConsulta = () => {
           <TextField
             required
             label="Nome completo"
-            name="Nome completo"
+            name="nomeCliente"
             size="small"
             value={formState.nomeCliente}
             onChange={(e) =>
@@ -382,8 +438,8 @@ const AgendamentoConsulta = () => {
           <TextField
             required
             label="Email"
-            size="small"
             name="email"
+            size="small"
             value={formState.email}
             onChange={(e) =>
               setFormState({ ...formState, email: e.target.value })
@@ -420,8 +476,8 @@ const AgendamentoConsulta = () => {
                   }
                   sx={{ marginTop: 2 }}
                 >
-                  <MenuItem value="canino">Cachorro</MenuItem>
-                  <MenuItem value="felino">Gato</MenuItem>
+                  <MenuItem value="CANINO">Cachorro</MenuItem>
+                  <MenuItem value="FELINO">Gato</MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
@@ -438,8 +494,8 @@ const AgendamentoConsulta = () => {
                   }
                   sx={{ marginTop: 2 }}
                 >
-                  <MenuItem value="Macho">Macho</MenuItem>
-                  <MenuItem value="Fêmea">Fêmea</MenuItem>
+                  <MenuItem value="MACHO">Macho</MenuItem>
+                  <MenuItem value="FEMEA">Fêmea</MenuItem>
                 </TextField>
               </Grid>
             </Grid>

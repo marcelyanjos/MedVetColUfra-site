@@ -48,4 +48,21 @@ router.get('/:id_cliente', async (req, res) => {
   }
 })
 
+// Rota para listar agendamentos do cliente
+router.get('/edit/:id', async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    const { rows } = await pool.query('SELECT * FROM agendamento_cliente WHERE id_agendamento = $1',[id]);
+  if (rows.length===0) {
+    res.status(400).send('Parâmetros inválidos.');
+  }else{
+    res.send(rows);
+  }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao buscar agendamento.');
+  }
+})
+
 module.exports = router;

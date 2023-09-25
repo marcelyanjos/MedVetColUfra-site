@@ -12,10 +12,11 @@ import {
 import React, { useEffect, useState } from 'react'
 import { fetchAppointmentsTable } from '../../../services/agendamento'
 import { styles } from './style'
+import { useNavigate } from 'react-router-dom'
 
 export default function ColumnTypesGrid() {
+  const navigate = useNavigate()
   const [pageSize, setPageSize] = useState(5)
-  // const [isLoading, setIsLoading] = useState(true)
   const [rows, setRows] = useState([])
 
   useEffect(() => {
@@ -33,8 +34,9 @@ export default function ColumnTypesGrid() {
   const edit = React.useCallback(
     (id) => () => {
       console.log('edit: ', id)
+      navigate(`/admin/dashboard/agendamentos/new/${id}`)
     },
-    [],
+    [navigate],
   )
 
   const columns = React.useMemo(
